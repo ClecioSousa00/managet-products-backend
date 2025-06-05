@@ -1,7 +1,11 @@
 import { InMemoryUserRepository } from 'test/in-memory-repositories/in-memory-user-repository'
+
 import { RegisterUserUseCase } from './register-user-use-case'
+
 import { InvalidEmail } from '@/core/errors/invalid-email-error'
+
 import { UserAlreadyExistsError } from '../errors/user-already-exists-error'
+import { makeUser } from 'test/factories/makeUser'
 
 let inMemoryUserRepository: InMemoryUserRepository
 let registerUserUseCase: RegisterUserUseCase
@@ -13,15 +17,13 @@ describe('Register Use Use Case', () => {
   })
 
   it('Should be able to register a user', async () => {
-    await registerUserUseCase.execute({
-      email: 'johndoe@gmail.com',
-      username: 'John Doe',
-      password: '12345678',
-    })
+    const user = makeUser()
+
+    await registerUserUseCase.execute(user)
 
     expect(inMemoryUserRepository.items[0]).toEqual(
       expect.objectContaining({
-        email: 'johndoe@gmail.com',
+        email: user.email,
       }),
     )
   })
@@ -35,18 +37,13 @@ describe('Register Use Use Case', () => {
     ).rejects.toBeInstanceOf(InvalidEmail)
   })
   it('Should not be able to register a user with same email', async () => {
-    await registerUserUseCase.execute({
-      email: 'johndoe@gmail.com',
-      username: 'John Doe 1',
-      password: '12345678',
-    })
+    const user1 = makeUser({ username: 'John Doe 1' })
+
+    await registerUserUseCase.execute(user1)
+    const user2 = makeUser({ username: 'John Doe 2' })
 
     await expect(() =>
-      registerUserUseCase.execute({
-        email: 'johndoe@gmail.com',
-        username: 'John Doe 2',
-        password: '12345678',
-      }),
+      registerUserUseCase.execute(user2),
     ).rejects.toBeInstanceOf(UserAlreadyExistsError)
     expect(inMemoryUserRepository.items).toHaveLength(1)
   })
