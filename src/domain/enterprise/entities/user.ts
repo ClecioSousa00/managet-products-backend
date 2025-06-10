@@ -9,6 +9,10 @@ export type UserProps = {
 }
 
 export class User extends Entity<UserProps> {
+  private constructor(props: UserProps, id?: UniqueEntityId) {
+    super(props, id)
+  }
+
   static create(props: UserProps, id?: UniqueEntityId) {
     const user = new User(props, id)
     return user

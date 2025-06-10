@@ -1,0 +1,58 @@
+import { UseCase } from '@/core/use-case'
+import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { Product } from '@/domain/enterprise/entities/Product'
+
+import { ProductRepository } from '../../repositories/product-repository'
+import { UserRepository } from '../../repositories/user-repository'
+
+import { UserNotFoundError } from '../errors/user-not-found-error'
+import { CategoryRepository } from '../../repositories/category-repository'
+import { CategoryNotFoundError } from '../errors/category-not-found-error'
+
+interface InputDto {
+  categoryId: string
+  name: string
+  quantity: number
+  salePrice: number
+  purchasePrice: number
+  userId: string
+}
+
+interface OutputDto {}
+
+export class CreateProductUseCase implements UseCase<InputDto, OutputDto> {
+  constructor(
+    private productRepository: ProductRepository,
+    private userRepository: UserRepository,
+    private categoryRepository: CategoryRepository,
+  ) {}
+
+  async execute(input: InputDto): Promise<OutputDto> {
+    const user = await this.userRepository.findById(input.userId)
+
+    if (!user) {
+      throw new UserNotFoundError()
+    }
+
+    const isCategoryExists = await this.categoryRepository.findById(
+      input.categoryId,
+    )
+
+    if (!isCategoryExists) {
+      throw new CategoryNotFoundError()
+    }
+
+    const product = Product.create({
+      categoryId: input.categoryId,
+      name: input.name,
+      purchasePrice: input.purchasePrice,
+      quantity: input.quantity,
+      salePrice: input.salePrice,
+      userId: new UniqueEntityId(input.userId),
+    })
+
+    await this.productRepository.create(product)
+
+    return {}
+  }
+}
