@@ -8,12 +8,17 @@ export type UserProps = {
   password: string
 }
 
+const MIN_LENGTH_USERNAME = 3
+
 export class User extends Entity<UserProps> {
   private constructor(props: UserProps, id?: UniqueEntityId) {
     super(props, id)
   }
 
   static create(props: UserProps, id?: UniqueEntityId) {
+    if (!props.username || props.username.trim().length < MIN_LENGTH_USERNAME) {
+      throw new Error('Invalid username.')
+    }
     const user = new User(props, id)
     return user
   }

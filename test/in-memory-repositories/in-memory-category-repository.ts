@@ -13,4 +13,8 @@ export class InMemoryCategoryRepository implements CategoryRepository {
 
     return category ?? null
   }
+
+  async findMany() {
+    return this.items
+  }
 }

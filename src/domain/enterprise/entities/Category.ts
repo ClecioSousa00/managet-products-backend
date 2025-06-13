@@ -11,6 +11,9 @@ export class Category extends Entity<CategoryProps> {
   }
 
   static create(props: CategoryProps, id?: UniqueEntityId) {
+    if (!props.category || !props.category.trim().length) {
+      throw new Error('Invalid category name.')
+    }
     const category = new Category(
       {
         category: props.category,
@@ -18,5 +21,9 @@ export class Category extends Entity<CategoryProps> {
       id,
     )
     return category
+  }
+
+  get category() {
+    return this.props.category
   }
 }
