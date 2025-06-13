@@ -3,6 +3,7 @@ import { Product } from '@/domain/enterprise/entities/Product'
 
 export interface ProductRepository {
   create(product: Product): Promise<void>
+  findById(id: string): Promise<Product | null>
   findMany(
     pagination: Pagination,
     userId: string,

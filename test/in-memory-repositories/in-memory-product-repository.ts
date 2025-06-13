@@ -48,4 +48,10 @@ export class InMemoryProductRepository implements ProductRepository {
   async count() {
     return this.items.length
   }
+
+  async findById(id: string): Promise<Product | null> {
+    const product = this.items.find((item) => item.id.toString() === id)
+
+    return product ?? null
+  }
 }

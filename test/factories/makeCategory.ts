@@ -7,7 +7,7 @@ export const makeCategory = (
 ): Category => {
   const user = Category.create(
     {
-      category: 'Eletrônicos',
+      name: 'Eletrônicos',
       ...override,
     },
     id,

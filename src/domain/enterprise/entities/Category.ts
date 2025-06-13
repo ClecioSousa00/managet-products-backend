@@ -2,7 +2,7 @@ import { Entity } from '@/core/entities/entity'
 import { UniqueEntityId } from '@/core/entities/unique-entity-id'
 
 export interface CategoryProps {
-  category: string
+  name: string
 }
 
 export class Category extends Entity<CategoryProps> {
@@ -11,19 +11,19 @@ export class Category extends Entity<CategoryProps> {
   }
 
   static create(props: CategoryProps, id?: UniqueEntityId) {
-    if (!props.category || !props.category.trim().length) {
+    if (!props.name || !props.name.trim().length) {
       throw new Error('Invalid category name.')
     }
     const category = new Category(
       {
-        category: props.category,
+        name: props.name,
       },
       id,
     )
     return category
   }
 
-  get category() {
-    return this.props.category
+  get name() {
+    return this.props.name
   }
 }

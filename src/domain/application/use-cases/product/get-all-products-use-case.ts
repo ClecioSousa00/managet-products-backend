@@ -102,6 +102,6 @@ export class GetAllProductsUseCase implements UseCase<InputDto, OutputDto> {
       (category) => category.id.toString() === categoryId,
     )
 
-    return category ? category.category : ''
+    return category ? category.name : ''
   }
 }
