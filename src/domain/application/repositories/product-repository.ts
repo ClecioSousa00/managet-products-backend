@@ -4,7 +4,7 @@ import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
 
 export interface ProductRepository {
   create(product: Product): Promise<void>
-  findById(id: UniqueEntityId): Promise<Product | null>
+  findById(id: UniqueEntityId, userId: UniqueEntityId): Promise<Product | null>
   findMany(
     pagination: Pagination,
     userId: UniqueEntityId,
@@ -12,5 +12,6 @@ export interface ProductRepository {
     orderDirection?: OrderDirection,
   ): Promise<Product[]>
   count(): Promise<number>
-  delete(userId: UniqueEntityId, productId: UniqueEntityId): Promise<void>
+  delete(userId: UniqueEntityId, id: UniqueEntityId): Promise<void>
+  update(product: Product, userId: UniqueEntityId): Promise<void>
 }

@@ -2,8 +2,8 @@ import { InMemoryUserRepository } from 'test/in-memory-repositories/in-memory-us
 
 import { RegisterUserUseCase } from './register-user-use-case'
 
-import { UserAlreadyExistsError } from '../errors/user-already-exists-error'
 import { InvalidEmailError } from '@/shared/errors/invalid-email-error'
+import { UserAlreadyExistsError } from '@/shared/errors/user-already-exists-error'
 
 let inMemoryUserRepository: InMemoryUserRepository
 let registerUserUseCase: RegisterUserUseCase

@@ -2,8 +2,7 @@ import { InMemoryUserRepository } from 'test/in-memory-repositories/in-memory-us
 import { makeUser } from 'test/factories/makeUser'
 
 import { GetProfileUserUseCase } from './get-profile-user-use-case'
-
-import { ResourceNotFoundError } from '../errors/resource-not-found-error'
+import { ResourceNotFoundError } from '@/shared/errors/resource-not-found-error'
 
 let inMemoryUserRepository: InMemoryUserRepository
 let getUserProfileUseCase: GetProfileUserUseCase

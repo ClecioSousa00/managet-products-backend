@@ -47,8 +47,10 @@ export class InMemoryProductRepository implements ProductRepository {
     return this.items.length
   }
 
-  async findById(id: UniqueEntityId) {
-    const product = this.items.find((item) => item.id.equals(id))
+  async findById(id: UniqueEntityId, userId: UniqueEntityId) {
+    const product = this.items.find(
+      (item) => item.id.equals(id) && item.userId.equals(userId),
+    )
 
     return product ?? null
   }
@@ -63,6 +65,16 @@ export class InMemoryProductRepository implements ProductRepository {
 
     if (index !== -1) {
       this.items.splice(index, 1)
+    }
+  }
+
+  async update(product: Product, userId: UniqueEntityId): Promise<void> {
+    const index = this.items.findIndex(
+      (item) => item.id.equals(product.id) && item.userId.equals(userId),
+    )
+
+    if (index !== -1) {
+      this.items[index] = product
     }
   }
 }

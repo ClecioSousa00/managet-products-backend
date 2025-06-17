@@ -1,10 +1,13 @@
 import { UseCase } from '@/shared/use-case'
+
+import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
+import { UserNotFoundError } from '@/shared/errors/user-not-found-error'
+import { ResourceNotFoundError } from '@/shared/errors/resource-not-found-error'
+
+import { CategoryService } from '@/domain/enterprise/domain-services/category-service'
+
 import { ProductRepository } from '../../repositories/product-repository'
 import { UserRepository } from '../../repositories/user-repository'
-import { UserNotFoundError } from '../errors/user-not-found-error'
-import { ResourceNotFoundError } from '../errors/resource-not-found-error'
-import { CategoryService } from '@/domain/enterprise/domain-services/category-service'
-import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
 
 interface InputDto {
   userId: string
@@ -28,7 +31,7 @@ export class GetProductByIdUseCase implements UseCase<InputDto, OutputDto> {
   ) {}
 
   async execute({ productId, userId }: InputDto): Promise<OutputDto> {
-    const user = await this.userRepository.findById(userId)
+    const user = await this.userRepository.findById(new UniqueEntityId(userId))
 
     if (!user) {
       throw new UserNotFoundError()
@@ -36,6 +39,7 @@ export class GetProductByIdUseCase implements UseCase<InputDto, OutputDto> {
 
     const product = await this.productRepository.findById(
       new UniqueEntityId(productId),
+      user.id,
     )
 
     if (!product) {

@@ -1,10 +1,12 @@
 import { InMemoryProductRepository } from 'test/in-memory-repositories/in-memory-product-repository'
 import { InMemoryUserRepository } from 'test/in-memory-repositories/in-memory-user-repository'
-import { DeleteProductUseCase } from './delete-product-use-case'
 import { makeUser } from 'test/factories/makeUser'
 import { makeProduct } from 'test/factories/makeProduct'
-import { ResourceNotFoundError } from '../errors/resource-not-found-error'
-import { UserNotFoundError } from '../errors/user-not-found-error'
+
+import { DeleteProductUseCase } from './delete-product-use-case'
+
+import { ResourceNotFoundError } from '@/shared/errors/resource-not-found-error'
+import { UserNotFoundError } from '@/shared/errors/user-not-found-error'
 
 let inMemoryUserRepository: InMemoryUserRepository
 let inMemoryProductRepository: InMemoryProductRepository

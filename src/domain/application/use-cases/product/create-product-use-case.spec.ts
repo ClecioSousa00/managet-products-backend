@@ -1,9 +1,10 @@
 import { InMemoryUserRepository } from 'test/in-memory-repositories/in-memory-user-repository'
-import { CreateProductUseCase } from './create-product-use-case'
 import { InMemoryProductRepository } from 'test/in-memory-repositories/in-memory-product-repository'
-import { makeUser } from 'test/factories/makeUser'
 import { InMemoryCategoryRepository } from 'test/in-memory-repositories/in-memory-category-repository'
+import { makeUser } from 'test/factories/makeUser'
 import { makeCategory } from 'test/factories/makeCategory'
+
+import { CreateProductUseCase } from './create-product-use-case'
 
 let inMemoryUserRepository: InMemoryUserRepository
 let inMemoryProductRepository: InMemoryProductRepository

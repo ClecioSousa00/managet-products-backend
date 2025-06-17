@@ -1,5 +1,6 @@
-import { UserRepository } from '@/domain/application/repositories/user.repository'
+import { UserRepository } from '@/domain/application/repositories/user-repository'
 import { User } from '@/domain/enterprise/entities/user'
+import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
 
 export class InMemoryUserRepository implements UserRepository {
   items: User[] = []
@@ -14,8 +15,8 @@ export class InMemoryUserRepository implements UserRepository {
     return user ?? null
   }
 
-  async findById(id: string): Promise<User | null> {
-    const user = this.items.find((item) => item.id.toString() === id)
+  async findById(id: UniqueEntityId): Promise<User | null> {
+    const user = this.items.find((item) => item.id.equals(id))
 
     return user ?? null
   }

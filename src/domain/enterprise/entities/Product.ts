@@ -1,5 +1,7 @@
 import { Entity } from '@/shared/entities/entity'
 import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
+import { InvalidNameError } from '@/shared/errors/invalid-name-error'
+import { InvalidPriceError } from '@/shared/errors/invalid-price-error'
 import { Optional } from '@/shared/types/optional'
 
 export interface ProductProps {
@@ -13,7 +15,7 @@ export interface ProductProps {
   userId: UniqueEntityId
 }
 
-const QUANTITY_CANNOT_BE_LESS_THAN = 1
+const MIN_QUANTITY = 0
 
 export class Product extends Entity<ProductProps> {
   private constructor(props: ProductProps, id?: UniqueEntityId) {
@@ -25,17 +27,15 @@ export class Product extends Entity<ProductProps> {
     id?: UniqueEntityId,
   ) {
     if (!props.name || !props.name.trim().length) {
-      throw new Error('Invalid product name.')
+      throw new InvalidNameError()
     }
 
-    if (props.quantity < QUANTITY_CANNOT_BE_LESS_THAN) {
-      throw new Error(
-        `quantity cannot be less than ${QUANTITY_CANNOT_BE_LESS_THAN}`,
-      )
+    if (props.quantity < MIN_QUANTITY) {
+      throw new Error(`quantity cannot be less than ${MIN_QUANTITY}`)
     }
 
     if (props.salePrice < 0 || props.purchasePrice < 0) {
-      throw new Error('Price cannot be negative')
+      throw new InvalidPriceError()
     }
 
     const product = new Product(
@@ -46,6 +46,50 @@ export class Product extends Entity<ProductProps> {
       id,
     )
     return product
+  }
+
+  updateName(name: string) {
+    if (!name || !name.trim().length) {
+      throw new InvalidNameError()
+    }
+    this.props.name = name
+    this.updatedAt()
+  }
+
+  changeQuantity(quantity: number) {
+    if (quantity < MIN_QUANTITY) {
+      throw new Error(`quantity cannot be less than ${MIN_QUANTITY}`)
+    }
+
+    this.props.quantity = quantity
+    this.updatedAt()
+  }
+
+  changeSalePrice(salePrice: number) {
+    if (salePrice < 0) {
+      throw new InvalidPriceError()
+    }
+
+    this.props.salePrice = salePrice
+    this.updatedAt()
+  }
+
+  changePurchasePrice(purchasePrice: number) {
+    if (purchasePrice < 0) {
+      throw new InvalidPriceError()
+    }
+
+    this.props.purchasePrice = purchasePrice
+    this.updatedAt()
+  }
+
+  reclassifyCategory(categoryId: UniqueEntityId) {
+    this.props.categoryId = categoryId.toString()
+    this.updatedAt()
+  }
+
+  updatedAt() {
+    this.props.updatedAt = new Date()
   }
 
   get name() {
@@ -70,5 +114,13 @@ export class Product extends Entity<ProductProps> {
 
   get userId() {
     return this.props.userId
+  }
+
+  toJSON() {
+    return {
+      id: this.id.toString(),
+      ...this.props,
+      userId: this.props.userId.toString(),
+    }
   }
 }

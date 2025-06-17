@@ -5,9 +5,9 @@ import { Product } from '@/domain/enterprise/entities/Product'
 import { ProductRepository } from '../../repositories/product-repository'
 import { UserRepository } from '../../repositories/user-repository'
 
-import { UserNotFoundError } from '../errors/user-not-found-error'
 import { CategoryRepository } from '../../repositories/category-repository'
-import { CategoryNotFoundError } from '../errors/category-not-found-error'
+import { UserNotFoundError } from '@/shared/errors/user-not-found-error'
+import { CategoryNotFoundError } from '@/shared/errors/category-not-found-error'
 
 interface InputDto {
   categoryId: string
@@ -28,7 +28,9 @@ export class CreateProductUseCase implements UseCase<InputDto, OutputDto> {
   ) {}
 
   async execute(input: InputDto): Promise<OutputDto> {
-    const user = await this.userRepository.findById(input.userId)
+    const user = await this.userRepository.findById(
+      new UniqueEntityId(input.userId),
+    )
 
     if (!user) {
       throw new UserNotFoundError()

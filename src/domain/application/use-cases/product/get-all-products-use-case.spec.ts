@@ -1,11 +1,13 @@
 import { InMemoryCategoryRepository } from 'test/in-memory-repositories/in-memory-category-repository'
 import { InMemoryProductRepository } from 'test/in-memory-repositories/in-memory-product-repository'
 import { InMemoryUserRepository } from 'test/in-memory-repositories/in-memory-user-repository'
-import { GetAllProductsUseCase } from './get-all-products-use-case'
 import { makeUser } from 'test/factories/makeUser'
 import { makeCategory } from 'test/factories/makeCategory'
 import { makeProduct } from 'test/factories/makeProduct'
-import { UserNotFoundError } from '../errors/user-not-found-error'
+
+import { UserNotFoundError } from '@/shared/errors/user-not-found-error'
+
+import { GetAllProductsUseCase } from './get-all-products-use-case'
 
 let inMemoryUserRepository: InMemoryUserRepository
 let inMemoryProductRepository: InMemoryProductRepository

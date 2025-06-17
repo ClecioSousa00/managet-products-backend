@@ -6,8 +6,7 @@ import { AuthenticateUserUseCase } from './authenticate-user-use-case'
 
 import { User } from '@/domain/enterprise/entities/user'
 import { Email } from '@/domain/enterprise/value-objects/Email'
-
-import { WrongCredentialsError } from '../errors/wrong-credentials-error'
+import { WrongCredentialsError } from '@/shared/errors/wrong-credentials-error'
 
 let inMemoryUserRepository: InMemoryUserRepository
 let authenticateUserUseCase: AuthenticateUserUseCase

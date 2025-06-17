@@ -1,7 +1,7 @@
 import { UseCase } from '@/shared/use-case'
-import { WrongCredentialsError } from '../errors/wrong-credentials-error'
 import bcrypt from 'bcryptjs'
 import { UserRepository } from '../../repositories/user-repository'
+import { WrongCredentialsError } from '@/shared/errors/wrong-credentials-error'
 
 interface InputDto {
   email: string

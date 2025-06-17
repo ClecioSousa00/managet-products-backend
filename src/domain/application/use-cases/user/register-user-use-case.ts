@@ -1,9 +1,9 @@
 import { UseCase } from '@/shared/use-case'
 import { User } from '@/domain/enterprise/entities/user'
 import { Email } from '@/domain/enterprise/value-objects/Email'
-import { UserAlreadyExistsError } from '../errors/user-already-exists-error'
 import bcrypt from 'bcryptjs'
 import { UserRepository } from '../../repositories/user-repository'
+import { UserAlreadyExistsError } from '@/shared/errors/user-already-exists-error'
 
 interface InputDto {
   email: string

@@ -1,17 +1,16 @@
 import { UseCase } from '@/shared/use-case'
 import { Category } from '@/domain/enterprise/entities/Category'
-
-import { ProductRepository } from '../../repositories/product-repository'
-import { UserRepository } from '../../repositories/user-repository'
-import { CategoryRepository } from '../../repositories/category-repository'
-
-import { UserNotFoundError } from '../errors/user-not-found-error'
 import {
   OrderBy,
   OrderDirection,
   PaginationProducts,
 } from '@/shared/types/pagination'
 import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
+import { UserNotFoundError } from '@/shared/errors/user-not-found-error'
+
+import { ProductRepository } from '../../repositories/product-repository'
+import { UserRepository } from '../../repositories/user-repository'
+import { CategoryRepository } from '../../repositories/category-repository'
 
 interface ProductProps {
   id: string
@@ -49,7 +48,7 @@ export class GetAllProductsUseCase implements UseCase<InputDto, OutputDto> {
     orderBy,
     orderDirection,
   }: InputDto): Promise<OutputDto> {
-    const user = await this.userRepository.findById(userId)
+    const user = await this.userRepository.findById(new UniqueEntityId(userId))
 
     if (!user) {
       throw new UserNotFoundError()
