@@ -1,6 +1,6 @@
-import { Entity } from '@/core/entities/entity'
+import { Entity } from '@/shared/entities/entity'
 import { Email } from '../value-objects/Email'
-import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
 
 export type UserProps = {
   email: Email

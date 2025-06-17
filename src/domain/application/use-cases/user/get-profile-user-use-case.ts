@@ -1,6 +1,6 @@
-import { UseCase } from '@/core/use-case'
-import { UserRepository } from '../../repositories/user.repository'
+import { UseCase } from '@/shared/use-case'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error'
+import { UserRepository } from '../../repositories/user-repository'
 
 interface InputDto {
   userId: string

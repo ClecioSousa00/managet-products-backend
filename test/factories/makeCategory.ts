@@ -1,4 +1,4 @@
-import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
 import { Category, CategoryProps } from '@/domain/enterprise/entities/Category'
 
 export const makeCategory = (

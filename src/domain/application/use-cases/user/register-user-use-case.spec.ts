@@ -2,14 +2,13 @@ import { InMemoryUserRepository } from 'test/in-memory-repositories/in-memory-us
 
 import { RegisterUserUseCase } from './register-user-use-case'
 
-import { InvalidEmail } from '@/core/errors/invalid-email-error'
-
 import { UserAlreadyExistsError } from '../errors/user-already-exists-error'
+import { InvalidEmailError } from '@/shared/errors/invalid-email-error'
 
 let inMemoryUserRepository: InMemoryUserRepository
 let registerUserUseCase: RegisterUserUseCase
 
-describe('Register Use Use Case', () => {
+describe('Register User Use Case', () => {
   beforeEach(() => {
     inMemoryUserRepository = new InMemoryUserRepository()
     registerUserUseCase = new RegisterUserUseCase(inMemoryUserRepository)
@@ -35,7 +34,7 @@ describe('Register Use Use Case', () => {
         username: 'John Doe',
         password: '12345678',
       }),
-    ).rejects.toBeInstanceOf(InvalidEmail)
+    ).rejects.toBeInstanceOf(InvalidEmailError)
   })
   it('Should not be able to register a user with same email', async () => {
     await registerUserUseCase.execute({

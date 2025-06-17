@@ -1,4 +1,4 @@
-import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
 import { Product, ProductProps } from '@/domain/enterprise/entities/Product'
 import { randomUUID } from 'node:crypto'
 

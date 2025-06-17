@@ -1,4 +1,4 @@
-import { UseCase } from '@/core/use-case'
+import { UseCase } from '@/shared/use-case'
 import { Category } from '@/domain/enterprise/entities/Category'
 
 import { ProductRepository } from '../../repositories/product-repository'
@@ -6,7 +6,21 @@ import { UserRepository } from '../../repositories/user-repository'
 import { CategoryRepository } from '../../repositories/category-repository'
 
 import { UserNotFoundError } from '../errors/user-not-found-error'
-import { OrderBy, OrderDirection } from '@/core/types/pagination'
+import {
+  OrderBy,
+  OrderDirection,
+  PaginationProducts,
+} from '@/shared/types/pagination'
+import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
+
+interface ProductProps {
+  id: string
+  name: string
+  categoryName: string
+  createdAt: Date
+  salePrice: number
+  quantity: number
+}
 
 interface InputDto {
   userId: string
@@ -16,26 +30,9 @@ interface InputDto {
   orderDirection?: OrderDirection
 }
 
-interface ProductDto {
-  id: string
-  name: string
-  categoryName: string
-  createdAt: Date
-  salePrice: number
-  quantity: number
-}
-
-interface PaginationDto {
-  page: number
-  prevPageUrl: number | null
-  nextPageUrl: number | null
-  totalPages: number
-  totalProducts: number
-}
-
 interface OutputDto {
-  products: ProductDto[]
-  pagination: PaginationDto
+  products: ProductProps[]
+  pagination: PaginationProducts
 }
 
 export class GetAllProductsUseCase implements UseCase<InputDto, OutputDto> {
@@ -59,31 +56,36 @@ export class GetAllProductsUseCase implements UseCase<InputDto, OutputDto> {
     }
 
     const offset = (page - 1) * limit
+    const orderField: OrderBy = orderBy ?? 'name'
+    const orderDir: OrderDirection = orderDirection ?? 'asc'
 
     // TODO: ADICIONAR ORDENAÇÃO
     const products = await this.productRepository.findMany(
       { limit, offset },
-      userId,
-      orderBy,
-      orderDirection,
+      user.id,
+      orderField,
+      orderDir,
     )
 
     const totalProducts = await this.productRepository.count()
 
     const categories = await this.categoryRepository.findMany()
 
-    const productsDto: ProductDto[] = products.map((product) => ({
+    const productsDto: ProductProps[] = products.map((product) => ({
       id: product.id.toString(),
       name: product.name,
       quantity: product.quantity,
       salePrice: product.salePrice,
-      categoryName: this.getNameCategory(product.categoryId, categories),
+      categoryName: this.getNameCategory(
+        new UniqueEntityId(product.categoryId),
+        categories,
+      ),
       createdAt: product.createdAt,
     }))
 
     const totalPages = Math.ceil(totalProducts / limit)
 
-    const pagination: PaginationDto = {
+    const pagination: PaginationProducts = {
       page,
       prevPageUrl: page - 1 === 0 ? null : page - 1,
       nextPageUrl: page + 1 > totalPages ? null : page + 1,
@@ -97,9 +99,9 @@ export class GetAllProductsUseCase implements UseCase<InputDto, OutputDto> {
     }
   }
 
-  private getNameCategory(categoryId: string, categories: Category[]) {
-    const category = categories.find(
-      (category) => category.id.toString() === categoryId,
+  private getNameCategory(categoryId: UniqueEntityId, categories: Category[]) {
+    const category = categories.find((category) =>
+      category.id.equals(categoryId),
     )
 
     return category ? category.name : ''

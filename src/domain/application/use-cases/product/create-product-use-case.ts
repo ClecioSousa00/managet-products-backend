@@ -1,5 +1,5 @@
-import { UseCase } from '@/core/use-case'
-import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { UseCase } from '@/shared/use-case'
+import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
 import { Product } from '@/domain/enterprise/entities/Product'
 
 import { ProductRepository } from '../../repositories/product-repository'
@@ -35,7 +35,7 @@ export class CreateProductUseCase implements UseCase<InputDto, OutputDto> {
     }
 
     const isCategoryExists = await this.categoryRepository.findById(
-      input.categoryId,
+      new UniqueEntityId(input.categoryId),
     )
 
     if (!isCategoryExists) {

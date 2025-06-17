@@ -1,6 +1,6 @@
-import { Entity } from '@/core/entities/entity'
-import { UniqueEntityId } from '@/core/entities/unique-entity-id'
-import { Optional } from '@/core/types/optional'
+import { Entity } from '@/shared/entities/entity'
+import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
+import { Optional } from '@/shared/types/optional'
 
 export interface ProductProps {
   name: string
@@ -69,6 +69,6 @@ export class Product extends Entity<ProductProps> {
   }
 
   get userId() {
-    return this.props.userId.toString()
+    return this.props.userId
   }
 }

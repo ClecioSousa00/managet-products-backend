@@ -6,6 +6,7 @@ import { InMemoryCategoryRepository } from 'test/in-memory-repositories/in-memor
 import { makeUser } from 'test/factories/makeUser'
 import { makeProduct } from 'test/factories/makeProduct'
 import { ResourceNotFoundError } from '../errors/resource-not-found-error'
+import { UserNotFoundError } from '../errors/user-not-found-error'
 
 let inMemoryUserRepository: InMemoryUserRepository
 let inMemoryProductRepository: InMemoryProductRepository
@@ -62,5 +63,16 @@ describe('Get Product By Id Use Case', () => {
         productId: 'fake-id',
       }),
     ).rejects.toBeInstanceOf(ResourceNotFoundError)
+  })
+
+  it('should not be able to get product if user id is wrong', async () => {
+    const product = makeProduct()
+
+    await expect(() =>
+      getProductByIdUseCase.execute({
+        userId: 'user-id-not-exists',
+        productId: product.id.toString(),
+      }),
+    ).rejects.toBeInstanceOf(UserNotFoundError)
   })
 })

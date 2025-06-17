@@ -1,4 +1,4 @@
-import { UniqueEntityId } from '@/core/entities/unique-entity-id'
+import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
 import { User, UserProps } from '@/domain/enterprise/entities/user'
 import { Email } from '@/domain/enterprise/value-objects/Email'
 

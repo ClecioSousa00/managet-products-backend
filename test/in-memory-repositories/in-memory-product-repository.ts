@@ -1,29 +1,27 @@
-import { OrderBy, OrderDirection, Pagination } from '@/core/types/pagination'
+import { OrderBy, OrderDirection, Pagination } from '@/shared/types/pagination'
 import { ProductRepository } from '@/domain/application/repositories/product-repository'
 import { Product } from '@/domain/enterprise/entities/Product'
+import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
 
 export class InMemoryProductRepository implements ProductRepository {
   items: Product[] = []
 
-  async create(product: Product): Promise<void> {
+  async create(product: Product) {
     this.items.push(product)
   }
 
   async findMany(
     { limit, offset }: Pagination,
-    userId: string,
+    userId: UniqueEntityId,
     orderBy: OrderBy,
     orderDirection: OrderDirection,
-  ): Promise<Product[]> {
-    const products = this.items.filter((item) => item.userId === userId)
-
-    const orderField: OrderBy = orderBy ?? 'name'
-    const orderDir: OrderDirection = orderDirection ?? 'asc'
+  ) {
+    const products = this.items.filter((item) => item.userId.equals(userId))
 
     const sorted = [...products].sort((a, b) => {
       let comparison = 0
 
-      switch (orderField) {
+      switch (orderBy) {
         case 'name':
           comparison = a.name.localeCompare(b.name)
           break
@@ -38,7 +36,7 @@ export class InMemoryProductRepository implements ProductRepository {
           break
       }
 
-      return orderDir === 'asc' ? comparison : -comparison
+      return orderDirection === 'asc' ? comparison : -comparison
     })
 
     const paginated = sorted.slice(offset, offset + limit)
@@ -49,9 +47,22 @@ export class InMemoryProductRepository implements ProductRepository {
     return this.items.length
   }
 
-  async findById(id: string): Promise<Product | null> {
-    const product = this.items.find((item) => item.id.toString() === id)
+  async findById(id: UniqueEntityId) {
+    const product = this.items.find((item) => item.id.equals(id))
 
     return product ?? null
+  }
+
+  async delete(
+    userId: UniqueEntityId,
+    productId: UniqueEntityId,
+  ): Promise<void> {
+    const index = this.items.findIndex(
+      (item) => item.userId.equals(userId) && item.id.equals(productId),
+    )
+
+    if (index !== -1) {
+      this.items.splice(index, 1)
+    }
   }
 }

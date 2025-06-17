@@ -1,4 +1,4 @@
-export class InvalidEmail extends Error {
+export class InvalidEmailError extends Error {
   constructor() {
     super('Email inválido.')
   }

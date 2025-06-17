@@ -1,4 +1,4 @@
-import { InvalidEmail } from '@/core/errors/invalid-email-error'
+import { InvalidEmailError } from '@/shared/errors/invalid-email-error'
 
 export class Email {
   value: string
@@ -13,7 +13,7 @@ export class Email {
     const isValidEmail = regex.test(value)
 
     if (!isValidEmail) {
-      throw new InvalidEmail()
+      throw new InvalidEmailError()
     }
   }
 
