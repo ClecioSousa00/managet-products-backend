@@ -4,6 +4,7 @@ import { InvalidNameError } from '@/shared/errors/invalid-name-error'
 
 export interface CategoryProps {
   name: string
+  userId: UniqueEntityId
 }
 
 export class Category extends Entity<CategoryProps> {
@@ -12,7 +13,10 @@ export class Category extends Entity<CategoryProps> {
   }
 
   static create(props: CategoryProps, id?: UniqueEntityId) {
-    const category = new Category({ name: props.name }, id)
+    const category = new Category(
+      { name: props.name.trim(), userId: props.userId },
+      id,
+    )
     category.validateName(category.props.name)
     return category
   }
@@ -25,10 +29,22 @@ export class Category extends Entity<CategoryProps> {
 
   updateName(newName: string) {
     this.validateName(newName)
-    this.props.name = newName
+    this.props.name = newName.trim()
   }
 
   get name() {
     return this.props.name
+  }
+
+  get userId() {
+    return this.props.userId
+  }
+
+  toJson() {
+    return {
+      id: this.id.toString(),
+      ...this.props,
+      userId: this.props.userId.toString(),
+    }
   }
 }

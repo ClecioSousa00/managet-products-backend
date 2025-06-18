@@ -38,6 +38,7 @@ export class CreateProductUseCase implements UseCase<InputDto, OutputDto> {
 
     const isCategoryExists = await this.categoryRepository.findById(
       new UniqueEntityId(input.categoryId),
+      user.id,
     )
 
     if (!isCategoryExists) {

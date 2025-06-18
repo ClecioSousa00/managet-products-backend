@@ -8,6 +8,7 @@ export const makeCategory = (
   const user = Category.create(
     {
       name: 'Eletrônicos',
+      userId: new UniqueEntityId(),
       ...override,
     },
     id,

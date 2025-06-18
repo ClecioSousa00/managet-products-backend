@@ -56,6 +56,7 @@ export class UpdateProductUseCase implements UseCase<InputDto, OutputDto> {
     if (input.categoryId) {
       const category = await this.categoryRepository.findById(
         new UniqueEntityId(input.categoryId),
+        user.id,
       )
 
       if (!category) {

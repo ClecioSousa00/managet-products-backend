@@ -1,5 +1,3 @@
-import { CategoryService } from '@/domain/enterprise/domain-services/category-service'
-
 import { InMemoryProductRepository } from 'test/in-memory-repositories/in-memory-product-repository'
 import { InMemoryUserRepository } from 'test/in-memory-repositories/in-memory-user-repository'
 import { InMemoryCategoryRepository } from 'test/in-memory-repositories/in-memory-category-repository'
@@ -10,11 +8,11 @@ import { ResourceNotFoundError } from '@/shared/errors/resource-not-found-error'
 import { UserNotFoundError } from '@/shared/errors/user-not-found-error'
 
 import { GetProductByIdUseCase } from './get-product-by-id-use-case'
+import { makeCategory } from 'test/factories/makeCategory'
 
 let inMemoryUserRepository: InMemoryUserRepository
 let inMemoryProductRepository: InMemoryProductRepository
 let inMemoryCategoryRepository: InMemoryCategoryRepository
-let categoryService: CategoryService
 let getProductByIdUseCase: GetProductByIdUseCase
 
 describe('Get Product By Id Use Case', () => {
@@ -22,11 +20,10 @@ describe('Get Product By Id Use Case', () => {
     inMemoryUserRepository = new InMemoryUserRepository()
     inMemoryProductRepository = new InMemoryProductRepository()
     inMemoryCategoryRepository = new InMemoryCategoryRepository()
-    categoryService = new CategoryService(inMemoryCategoryRepository)
     getProductByIdUseCase = new GetProductByIdUseCase(
       inMemoryProductRepository,
       inMemoryUserRepository,
-      categoryService,
+      inMemoryCategoryRepository,
     )
   })
 
@@ -34,9 +31,15 @@ describe('Get Product By Id Use Case', () => {
     const user = makeUser()
 
     inMemoryUserRepository.items.push(user)
+
+    const category = makeCategory()
+
+    inMemoryCategoryRepository.items.push(category)
+
     const product = makeProduct({
       name: 'product-test',
       userId: user.id,
+      categoryId: category.id.toString(),
     })
 
     inMemoryProductRepository.items.push(product)

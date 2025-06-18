@@ -68,7 +68,7 @@ export class GetAllProductsUseCase implements UseCase<InputDto, OutputDto> {
 
     const totalProducts = await this.productRepository.count()
 
-    const categories = await this.categoryRepository.findMany()
+    const categories = await this.categoryRepository.findMany(user.id)
 
     const productsDto: ProductProps[] = products.map((product) => ({
       id: product.id.toString(),
