@@ -2,8 +2,8 @@ import { InMemoryCategoryRepository } from 'test/in-memory-repositories/in-memor
 import { InMemoryUserRepository } from 'test/in-memory-repositories/in-memory-user-repository'
 import { CreateCategoryUseCase } from './create-category-use-case'
 import { makeUser } from 'test/factories/makeUser'
-import { CategoryNameAlreadyExistsError } from '@/shared/errors/category-name-already-exists-error'
 import { UserNotFoundError } from '@/shared/errors/user-not-found-error'
+import { CategoryAlreadyExistsError } from '@/shared/errors/category-already-exists-error'
 
 let inMemoryCategoryRepository: InMemoryCategoryRepository
 let inMemoryUserRepository: InMemoryUserRepository
@@ -53,7 +53,7 @@ describe('Create Category Use Case', () => {
         categoryName: 'new Category',
         userId: user.id.toString(),
       }),
-    ).rejects.toBeInstanceOf(CategoryNameAlreadyExistsError)
+    ).rejects.toBeInstanceOf(CategoryAlreadyExistsError)
 
     expect(inMemoryCategoryRepository.items).toHaveLength(1)
   })

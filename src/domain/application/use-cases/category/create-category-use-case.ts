@@ -4,7 +4,7 @@ import { UserRepository } from '../../repositories/user-repository'
 import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
 import { UserNotFoundError } from '@/shared/errors/user-not-found-error'
 import { Category } from '@/domain/enterprise/entities/Category'
-import { CategoryNameAlreadyExistsError } from '@/shared/errors/category-name-already-exists-error'
+import { CategoryAlreadyExistsError } from '@/shared/errors/category-already-exists-error'
 
 interface InputDto {
   categoryName: string
@@ -26,13 +26,13 @@ export class CreateCategoryUseCase implements UseCase<InputDto, OutputDto> {
       throw new UserNotFoundError()
     }
 
-    const categoryNameAlreadyExists = await this.categoryRepository.findByName(
+    const categoryAlreadyExists = await this.categoryRepository.findByName(
       categoryName,
       user.id,
     )
 
-    if (categoryNameAlreadyExists) {
-      throw new CategoryNameAlreadyExistsError()
+    if (categoryAlreadyExists) {
+      throw new CategoryAlreadyExistsError()
     }
 
     const category = Category.create({

@@ -21,21 +21,16 @@ export class InMemoryCategoryRepository implements CategoryRepository {
     return this.items
   }
 
-  async findByName(
-    name: string,
-    userId: UniqueEntityId,
-  ): Promise<string | null> {
+  async findByName(name: string, userId: UniqueEntityId) {
     const normalizedCategoryName = name.trim().toLowerCase()
 
-    const categoryName = this.items.find(
+    const category = this.items.find(
       (item) =>
         item.name.trim().toLowerCase() === normalizedCategoryName &&
         item.userId.equals(userId),
     )
 
-    if (!categoryName) return null
-
-    return categoryName.name
+    return category ?? null
   }
 
   async delete(id: UniqueEntityId): Promise<void> {
@@ -43,6 +38,14 @@ export class InMemoryCategoryRepository implements CategoryRepository {
 
     if (index !== -1) {
       this.items.splice(index, 1)
+    }
+  }
+
+  async update(category: Category): Promise<void> {
+    const index = this.items.findIndex((item) => item.id.equals(category.id))
+
+    if (index !== -1) {
+      this.items[index] = category
     }
   }
 }
