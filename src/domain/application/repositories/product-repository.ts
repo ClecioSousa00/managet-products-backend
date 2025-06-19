@@ -12,6 +12,6 @@ export interface ProductRepository {
     orderDirection?: OrderDirection,
   ): Promise<Product[]>
   count(): Promise<number>
-  delete(userId: UniqueEntityId, id: UniqueEntityId): Promise<void>
-  update(product: Product, userId: UniqueEntityId): Promise<void>
+  delete(id: UniqueEntityId): Promise<void>
+  update(product: Product): Promise<void>
 }

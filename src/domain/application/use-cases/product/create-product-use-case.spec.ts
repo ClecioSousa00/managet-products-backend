@@ -28,7 +28,7 @@ describe('Create Product Use Case', () => {
 
     inMemoryUserRepository.items.push(user)
 
-    const category = makeCategory()
+    const category = makeCategory({ userId: user.id })
 
     inMemoryCategoryRepository.items.push(category)
 

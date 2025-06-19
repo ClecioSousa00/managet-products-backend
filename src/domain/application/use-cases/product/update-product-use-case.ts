@@ -65,7 +65,7 @@ export class UpdateProductUseCase implements UseCase<InputDto, OutputDto> {
       product.reclassifyCategory(category.id)
     }
 
-    await this.productRepository.update(product, user.id)
+    await this.productRepository.update(product)
 
     return {}
   }

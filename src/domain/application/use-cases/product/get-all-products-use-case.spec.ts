@@ -127,8 +127,6 @@ it('Should be able to pagination products by name and asc order', async () => {
     userId: user.id.toString(),
   })
 
-  console.log(products)
-
   expect(products).toEqual([
     expect.objectContaining({ name: 'Aproduct' }),
     expect.objectContaining({ name: 'Bproduct' }),
@@ -157,8 +155,6 @@ it('Should be able to pagination products by name and desc order', async () => {
     userId: user.id.toString(),
     orderDirection: 'desc',
   })
-
-  console.log(products)
 
   expect(products).toEqual([
     expect.objectContaining({ name: 'Bproduct' }),
@@ -190,8 +186,6 @@ it('Should be able to pagination products by name date asc order', async () => {
     userId: user.id.toString(),
     orderBy: 'date',
   })
-
-  console.log(products)
 
   expect(products).toEqual([
     expect.objectContaining({ name: 'Aproduct' }),
@@ -225,8 +219,6 @@ it('Should be able to pagination products by name date desc order', async () => 
     orderDirection: 'desc',
   })
 
-  console.log(products)
-
   expect(products).toEqual([
     expect.objectContaining({ name: 'Bproduct' }),
     expect.objectContaining({ name: 'Aproduct' }),
@@ -257,8 +249,6 @@ it('Should be able to pagination products by sale price asc order', async () => 
     userId: user.id.toString(),
     orderBy: 'salePrice',
   })
-
-  console.log(products)
 
   expect(products).toEqual([
     expect.objectContaining({ name: 'Aproduct' }),
@@ -291,8 +281,6 @@ it('Should be able to pagination products by sale price desc order', async () =>
     orderDirection: 'desc',
   })
 
-  console.log(products)
-
   expect(products).toEqual([
     expect.objectContaining({ name: 'Bproduct' }),
     expect.objectContaining({ name: 'Aproduct' }),
@@ -323,8 +311,6 @@ it('Should be able to pagination products by quantity asc order', async () => {
     userId: user.id.toString(),
     orderBy: 'quantity',
   })
-
-  console.log(products)
 
   expect(products).toEqual([
     expect.objectContaining({ name: 'Aproduct' }),
@@ -357,8 +343,6 @@ it('Should be able to pagination products by quantity desc order', async () => {
     orderBy: 'quantity',
     orderDirection: 'desc',
   })
-
-  console.log(products)
 
   expect(products).toEqual([
     expect.objectContaining({ name: 'Bproduct' }),

@@ -55,23 +55,16 @@ export class InMemoryProductRepository implements ProductRepository {
     return product ?? null
   }
 
-  async delete(
-    userId: UniqueEntityId,
-    productId: UniqueEntityId,
-  ): Promise<void> {
-    const index = this.items.findIndex(
-      (item) => item.userId.equals(userId) && item.id.equals(productId),
-    )
+  async delete(productId: UniqueEntityId): Promise<void> {
+    const index = this.items.findIndex((item) => item.id.equals(productId))
 
     if (index !== -1) {
       this.items.splice(index, 1)
     }
   }
 
-  async update(product: Product, userId: UniqueEntityId): Promise<void> {
-    const index = this.items.findIndex(
-      (item) => item.id.equals(product.id) && item.userId.equals(userId),
-    )
+  async update(product: Product): Promise<void> {
+    const index = this.items.findIndex((item) => item.id.equals(product.id))
 
     if (index !== -1) {
       this.items[index] = product

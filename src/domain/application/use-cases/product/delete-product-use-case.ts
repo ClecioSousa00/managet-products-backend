@@ -35,7 +35,7 @@ export class DeleteProductUseCase implements UseCase<InputDto, OutputDto> {
       throw new ResourceNotFoundError()
     }
 
-    await this.productRepository.delete(product.userId, product.id)
+    await this.productRepository.delete(product.id)
 
     return {}
   }

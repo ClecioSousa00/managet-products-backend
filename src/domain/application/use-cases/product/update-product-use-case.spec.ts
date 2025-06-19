@@ -28,8 +28,11 @@ describe('Update Product Use Case', () => {
   it('Should be able to updated a product', async () => {
     const user = makeUser()
 
-    const category = makeCategory({ name: 'category-A' })
-    const categoryOnUpdated = makeCategory({ name: 'category-B' })
+    const category = makeCategory({ name: 'category-A', userId: user.id })
+    const categoryOnUpdated = makeCategory({
+      name: 'category-B',
+      userId: user.id,
+    })
 
     inMemoryUserRepository.items.push(user)
     inMemoryCategoryRepository.items.push(category, categoryOnUpdated)
@@ -69,7 +72,7 @@ describe('Update Product Use Case', () => {
 
   it('Should throw if product does not exist', async () => {
     const user = makeUser()
-    const category = makeCategory()
+    const category = makeCategory({ userId: user.id })
 
     inMemoryUserRepository.items.push(user)
     inMemoryCategoryRepository.items.push(category)
