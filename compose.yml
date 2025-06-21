@@ -1,0 +1,13 @@
+services:
+  db:
+    image: postgres
+    ports: 
+      - 5432:5432
+    restart: always
+    environment:
+      POSTGRES_PASSWORD: docker
+      POSTGRES_USER: docker
+      POSTGRES_DB: db-manager-products
+    volumes:
+      - ./data:/var/lib/postgresql/data 
+  
