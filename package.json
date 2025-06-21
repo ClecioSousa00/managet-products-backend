@@ -16,11 +16,13 @@
     "@types/node": "^22.15.29",
     "bcryptjs": "^3.0.2",
     "dotenv": "^16.5.0",
-    "express": "^5.1.0"
+    "express": "^5.1.0",
+    "http-status-codes": "^2.3.0",
+    "zod": "^3.25.67"
   },
   "devDependencies": {
     "@rocketseat/eslint-config": "^2.2.2",
-    "@types/express": "^5.0.2",
+    "@types/express": "^5.0.3",
     "eslint": "^8.57.1",
     "prisma": "^6.10.1",
     "ts-node-dev": "^2.0.0",
