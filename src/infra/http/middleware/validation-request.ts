@@ -1,13 +1,14 @@
-import { Request, Response, NextFunction, RequestHandler } from 'express'
+import { RequestHandler } from 'express'
 import { ZodError, ZodTypeAny } from 'zod'
 import { StatusCodes } from 'http-status-codes'
+import { env } from '@/env'
 
 type Fields = 'body' | 'header' | 'params' | 'query'
 
 type Validation = (field: Fields, schema: ZodTypeAny) => RequestHandler
 
-export const validationData: Validation = (field, schema) => {
-  return (req: Request, res: Response, next: NextFunction) => {
+export const validateRequest: Validation = (field, schema) => {
+  return (req, res, next) => {
     try {
       schema.parse(req[field])
       next()
@@ -21,6 +22,7 @@ export const validationData: Validation = (field, schema) => {
           .status(StatusCodes.BAD_REQUEST)
           .json({ error: 'Invalid data', details: errorMessages })
       } else {
+        if (env.NODE_ENV !== 'production') console.error(error)
         res
           .status(StatusCodes.INTERNAL_SERVER_ERROR)
           .json({ error: 'Internal Server Error' })

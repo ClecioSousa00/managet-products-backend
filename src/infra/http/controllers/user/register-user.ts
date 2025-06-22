@@ -4,7 +4,7 @@ import { z } from 'zod'
 import { UserPrismaRepository } from '@/infra/database/prisma/repositories/user-prisma-repository'
 import { UserAlreadyExistsError } from '@/shared/errors/user-already-exists-error'
 import { RegisterUserUseCase } from '@/domain/application/use-cases/user/register-user-use-case'
-import { validationData } from '../../middleware/validationData'
+import { validateRequest } from '../../middleware/validation-request'
 
 const registerBodySchema = z.object({
   username: z.string().min(3),
@@ -12,7 +12,7 @@ const registerBodySchema = z.object({
   password: z.string().min(8),
 })
 
-export const registerValidation = validationData('body', registerBodySchema)
+export const registerValidation = validateRequest('body', registerBodySchema)
 
 export async function RegisterUser(req: Request, res: Response) {
   const { email, password, username } = registerBodySchema.parse(req.body)

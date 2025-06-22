@@ -2,7 +2,7 @@ import { Router } from 'express'
 
 import { UserController } from '../controllers/user'
 import { CategoryController } from '../controllers/category'
-import { validation } from '../middleware/validation'
+import { ensureAuthenticated } from '../middleware/ensure-authenticated'
 
 const routes = Router()
 
@@ -17,6 +17,10 @@ routes.post(
   UserController.AuthenticateUser,
 )
 
-routes.post('/category/create', validation, CategoryController.CreateCategory)
+routes.post(
+  '/category/create',
+  ensureAuthenticated,
+  CategoryController.CreateCategory,
+)
 
 export { routes }

@@ -1,12 +1,9 @@
+import { JWTService } from '@/infra/auth/jwt'
 import { RequestHandler } from 'express'
 import { StatusCodes } from 'http-status-codes'
-import * as jwt from 'jsonwebtoken'
 
-export const validation: RequestHandler = (req, res, next) => {
+export const ensureAuthenticated: RequestHandler = (req, res, next) => {
   const { authorization } = req.headers
-
-  console.log('authori', authorization)
-  console.log('HEADER', req.headers)
 
   if (!authorization) {
     res.status(StatusCodes.UNAUTHORIZED).json({
@@ -24,20 +21,9 @@ export const validation: RequestHandler = (req, res, next) => {
     return
   }
 
-  if (!process.env.JWT_SECRET) {
-    res.status(StatusCodes.INTERNAL_SERVER_ERROR)
-    return
-  }
-
   try {
-    const decodedToken = jwt.verify(token, process.env.JWT_SECRET)
-
-    if (typeof decodedToken === 'string') {
-      res.status(StatusCodes.UNAUTHORIZED).json({
-        message: 'Unauthorized.',
-      })
-      return
-    }
+    const jwtData = JWTService.verify(token)
+    req.userId = jwtData.sub
   } catch (error) {
     res.status(StatusCodes.UNAUTHORIZED).json({
       message: 'Unauthorized.',
