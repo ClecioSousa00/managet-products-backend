@@ -6,7 +6,7 @@ type Fields = 'body' | 'header' | 'params' | 'query'
 
 type Validation = (field: Fields, schema: ZodTypeAny) => RequestHandler
 
-export const validateData: Validation = (field, schema) => {
+export const validationData: Validation = (field, schema) => {
   return (req: Request, res: Response, next: NextFunction) => {
     try {
       schema.parse(req[field])

@@ -28,12 +28,12 @@ describe('Authenticate User Use Case', () => {
 
     inMemoryUserRepository.create(user)
 
-    const { accessToken } = await authenticateUserUseCase.execute({
+    const { id } = await authenticateUserUseCase.execute({
       email: user.email,
       password: '12345678',
     })
 
-    expect(accessToken).toEqual(expect.any(String))
+    expect(id).toEqual(expect.any(String))
   })
   it('Should  not be able to authenticate if not exists user', async () => {
     await expect(() =>

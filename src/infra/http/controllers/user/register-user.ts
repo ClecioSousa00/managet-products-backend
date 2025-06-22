@@ -1,10 +1,10 @@
 import { Request, Response } from 'express'
 import { StatusCodes } from 'http-status-codes'
 import { z } from 'zod'
-import { validateData } from '../../middleware/validationMiddleware'
 import { UserPrismaRepository } from '@/infra/database/prisma/repositories/user-prisma-repository'
 import { UserAlreadyExistsError } from '@/shared/errors/user-already-exists-error'
 import { RegisterUserUseCase } from '@/domain/application/use-cases/user/register-user-use-case'
+import { validationData } from '../../middleware/validationData'
 
 const registerBodySchema = z.object({
   username: z.string().min(3),
@@ -12,9 +12,9 @@ const registerBodySchema = z.object({
   password: z.string().min(8),
 })
 
-export const registerValidation = validateData('body', registerBodySchema)
+export const registerValidation = validationData('body', registerBodySchema)
 
-export async function RegisterUserController(req: Request, res: Response) {
+export async function RegisterUser(req: Request, res: Response) {
   const { email, password, username } = registerBodySchema.parse(req.body)
 
   try {
@@ -24,7 +24,7 @@ export async function RegisterUserController(req: Request, res: Response) {
     await registerUseCase.execute({ email, password, username })
   } catch (error) {
     if (error instanceof UserAlreadyExistsError) {
-      res.status(StatusCodes.CONFLICT).send({
+      res.status(StatusCodes.CONFLICT).json({
         message: error.message,
       })
     }

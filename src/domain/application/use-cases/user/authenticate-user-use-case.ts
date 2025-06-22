@@ -8,9 +8,8 @@ interface InputDto {
   password: string
 }
 
-// inverter a dependencia da lib para criar o token
 interface OutputDto {
-  accessToken: string
+  id: string
 }
 
 export class AuthenticateUserUseCase implements UseCase<InputDto, OutputDto> {
@@ -30,7 +29,7 @@ export class AuthenticateUserUseCase implements UseCase<InputDto, OutputDto> {
     }
 
     return {
-      accessToken: user.id.toString(),
+      id: user.id.toString(),
     }
   }
 }
