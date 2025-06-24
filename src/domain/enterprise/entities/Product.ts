@@ -20,24 +20,13 @@ const MIN_QUANTITY = 0
 export class Product extends Entity<ProductProps> {
   private constructor(props: ProductProps, id?: UniqueEntityId) {
     super(props, id)
+    this.validate()
   }
 
   static create(
     props: Optional<ProductProps, 'createdAt'>,
     id?: UniqueEntityId,
   ) {
-    if (!props.name || !props.name.trim().length) {
-      throw new InvalidNameError()
-    }
-
-    if (props.quantity < MIN_QUANTITY) {
-      throw new Error(`quantity cannot be less than ${MIN_QUANTITY}`)
-    }
-
-    if (props.salePrice < 0 || props.purchasePrice < 0) {
-      throw new InvalidPriceError()
-    }
-
     const product = new Product(
       {
         ...props,
@@ -46,6 +35,20 @@ export class Product extends Entity<ProductProps> {
       id,
     )
     return product
+  }
+
+  private validate() {
+    if (!this.props.name || !this.props.name.trim().length) {
+      throw new InvalidNameError()
+    }
+
+    if (this.props.quantity < MIN_QUANTITY) {
+      throw new Error(`quantity cannot be less than ${MIN_QUANTITY}`)
+    }
+
+    if (this.props.salePrice < 0 || this.props.purchasePrice < 0) {
+      throw new InvalidPriceError()
+    }
   }
 
   updateName(name: string) {

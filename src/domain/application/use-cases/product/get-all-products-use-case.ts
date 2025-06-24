@@ -58,7 +58,6 @@ export class GetAllProductsUseCase implements UseCase<InputDto, OutputDto> {
     const orderField: OrderBy = orderBy ?? 'name'
     const orderDir: OrderDirection = orderDirection ?? 'asc'
 
-    // TODO: ADICIONAR ORDENAÇÃO
     const products = await this.productRepository.findMany(
       { limit, offset },
       user.id,

@@ -5,9 +5,9 @@ import { AuthenticateUserUseCase } from '@/domain/application/use-cases/user/aut
 import { WrongCredentialsError } from '@/shared/errors/wrong-credentials-error'
 import { StatusCodes } from 'http-status-codes'
 
-import { validateRequest } from '../../middleware/validation-request'
 import { JWTService } from '@/infra/auth/jwt'
 import { InvalidTokenError } from '@/shared/errors/invalid-token-error'
+import { validateRequest } from '@/infra/http/middleware/validation-request'
 
 const authenticateBodySchema = z.object({
   email: z.string().email(),
