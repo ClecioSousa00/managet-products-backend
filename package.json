@@ -4,8 +4,13 @@
   "main": "index.js",
   "scripts": {
     "dev": "ts-node-dev --require tsconfig-paths/register --transpile-only --ignore-watch node_modules src/server.ts",
-    "test:watch": "vitest",
-    "test": "vitest run"
+    "test:create-prisma-environment": "npm link ./prisma/vitest-environment-prisma",
+    "test:install-prisma-environment": "npm link vitest-environment-prisma",
+    "pretest:e2e": "run-s test:create-prisma-environment test:install-prisma-environment",
+    "test": "vitest run -c vitest.unit.config.ts",
+    "test:watch": "vitest -c vitest.unit.config.ts",
+    "test:e2e": "vitest run -c vitest.e2e.config.ts",
+    "test:e2e:watch": "vitest -c vitest.e2e.config.ts"
   },
   "keywords": [],
   "author": "",
@@ -25,8 +30,11 @@
     "@rocketseat/eslint-config": "^2.2.2",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/supertest": "^6.0.3",
     "eslint": "^8.57.1",
+    "npm-run-all": "^4.1.5",
     "prisma": "^6.10.1",
+    "supertest": "^7.1.1",
     "ts-node-dev": "^2.0.0",
     "tsconfig-paths": "^4.2.0",
     "typescript": "^5.8.3",
