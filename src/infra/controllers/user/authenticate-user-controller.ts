@@ -9,7 +9,10 @@ import { JWTService } from '@/infra/auth/jwt'
 type AuthenticateRequest = HttpRequest<AuthenticateUserBody>
 
 export class AuthenticateUserController implements Controller {
-  constructor(private authenticateUserUseCase: AuthenticateUserUseCase) {}
+  constructor(
+    private authenticateUserUseCase: AuthenticateUserUseCase,
+    private jwtService: JWTService,
+  ) {}
 
   async handle(request: AuthenticateRequest): Promise<HttpResponse> {
     const { email, password } = request.body
@@ -23,7 +26,7 @@ export class AuthenticateUserController implements Controller {
         sub: id,
       }
 
-      const token = JWTService.sign(payload)
+      const token = this.jwtService.sign(payload)
 
       return {
         status: StatusCodes.OK,
@@ -47,40 +50,3 @@ export class AuthenticateUserController implements Controller {
     }
   }
 }
-
-// const authenticateBodySchema = z.object({
-//   email: z.string().email(),
-//   password: z.string().min(8),
-// })
-
-// export const authenticateValidation = validateRequest(
-//   'body',
-//   authenticateBodySchema,
-// )
-
-// export async function AuthenticateUser(req: Request, res: Response) {
-//   const { email, password } = authenticateBodySchema.parse(req.body)
-
-//   try {
-//     const userRepository = new UserPrismaRepository()
-//     const authenticateUseCase = new AuthenticateUserUseCase(userRepository)
-
-//     const { id } = await authenticateUseCase.execute({ email, password })
-
-//     const payload = {
-//       sub: id,
-//     }
-
-//     const token = JWTService.sign(payload)
-
-//     res.status(StatusCodes.OK).json({ accessToken: token })
-//   } catch (error) {
-//     if (
-//       error instanceof WrongCredentialsError ||
-//       error instanceof InvalidTokenError
-//     ) {
-//       res.status(StatusCodes.UNAUTHORIZED).json({
-//         message: error.message,
-//       })
-//     }
-//   }

@@ -8,8 +8,7 @@ import { RegisterUserController } from '@/infra/controllers/user/register-user-c
 import { ExpressAdapter } from '../adapters/express-adapter'
 import { registerValidationUser } from '../validation/register-validation-user'
 import { authenticateValidationUser } from '../validation/authenticate-validation-user'
-import { AuthenticateUserController } from '@/infra/controllers/user/authenticate-user-controller'
-import { AuthenticateUserUseCase } from '@/domain/application/use-cases/user/authenticate-user-use-case'
+import { makeAuthenticateUserController } from '../factories/controllers/make-authenticate-user.controller'
 
 const routes = Router()
 
@@ -17,11 +16,6 @@ const userRepository = new UserPrismaRepository()
 
 const registerUserUseCase = new RegisterUserUseCase(userRepository)
 const registerUserController = new RegisterUserController(registerUserUseCase)
-
-const authenticateUserUseCase = new AuthenticateUserUseCase(userRepository)
-const authenticateUserController = new AuthenticateUserController(
-  authenticateUserUseCase,
-)
 
 routes.post(
   '/users',
@@ -31,7 +25,7 @@ routes.post(
 routes.post(
   '/authenticate',
   authenticateValidationUser,
-  ExpressAdapter(authenticateUserController),
+  ExpressAdapter(makeAuthenticateUserController()),
 )
 
 routes.post(

@@ -22,7 +22,8 @@ export const ensureAuthenticated: RequestHandler = (req, res, next) => {
   }
 
   try {
-    const jwtData = JWTService.verify(token)
+    const jwtService = new JWTService()
+    const jwtData = jwtService.verify(token)
     req.userId = jwtData.sub
   } catch (error) {
     res.status(StatusCodes.UNAUTHORIZED).json({
