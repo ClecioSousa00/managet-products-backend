@@ -3,8 +3,8 @@ import { WrongCredentialsError } from '@/shared/errors/wrong-credentials-error'
 import { StatusCodes } from 'http-status-codes'
 
 import { Controller, HttpRequest, HttpResponse } from '@/shared/controller'
-import { AuthenticateUserBody } from '@/infra/http/validation/authenticate-validation-user'
 import { JWTService } from '@/infra/auth/jwt'
+import { AuthenticateUserBody } from '@/infra/http/validation/users/authenticate-validation-user'
 
 type AuthenticateRequest = HttpRequest<AuthenticateUserBody>
 

@@ -1,7 +1,9 @@
 import { env } from '@/env'
+
+import * as jwt from 'jsonwebtoken'
+
 import { InvalidTokenError } from '@/shared/errors/invalid-token-error'
 import { IJwtData, IJWTService } from '@/shared/jwt-service'
-import * as jwt from 'jsonwebtoken'
 
 export class JWTService implements IJWTService {
   sign(data: IJwtData): string {

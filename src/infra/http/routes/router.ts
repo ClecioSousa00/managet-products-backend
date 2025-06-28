@@ -1,26 +1,23 @@
 import { Router } from 'express'
 
 import { ensureAuthenticated } from '../middleware/ensure-authenticated'
-import { CategoryController } from '@/infra/controllers/category'
-import { UserPrismaRepository } from '@/infra/database/prisma/repositories/user-prisma-repository'
-import { RegisterUserUseCase } from '@/domain/application/use-cases/user/register-user-use-case'
-import { RegisterUserController } from '@/infra/controllers/user/register-user-controller'
+
 import { ExpressAdapter } from '../adapters/express-adapter'
-import { registerValidationUser } from '../validation/register-validation-user'
-import { authenticateValidationUser } from '../validation/authenticate-validation-user'
+
 import { makeAuthenticateUserController } from '../factories/controllers/make-authenticate-user.controller'
+import { makeRegisterUserController } from '../factories/controllers/make-register-user-controller'
+import { makeCreateCategoryController } from '../factories/controllers/make-create-category-controller'
+
+import { createCategoryValidation } from '../validation/categories/create-category-validation'
+import { registerValidationUser } from '../validation/users/register-validation-user'
+import { authenticateValidationUser } from '../validation/users/authenticate-validation-user'
 
 const routes = Router()
-
-const userRepository = new UserPrismaRepository()
-
-const registerUserUseCase = new RegisterUserUseCase(userRepository)
-const registerUserController = new RegisterUserController(registerUserUseCase)
 
 routes.post(
   '/users',
   registerValidationUser,
-  ExpressAdapter(registerUserController),
+  ExpressAdapter(makeRegisterUserController()),
 )
 routes.post(
   '/authenticate',
@@ -31,7 +28,8 @@ routes.post(
 routes.post(
   '/category/create',
   ensureAuthenticated,
-  CategoryController.CreateCategory,
+  createCategoryValidation,
+  ExpressAdapter(makeCreateCategoryController()),
 )
 
 export { routes }

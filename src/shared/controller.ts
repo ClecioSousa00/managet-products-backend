@@ -14,3 +14,7 @@ export interface HttpResponse {
 export interface Controller {
   handle(request: HttpRequest): Promise<HttpResponse>
 }
+
+export interface AuthenticatedHttpRequest<T = any> extends HttpRequest<T> {
+  userId: string
+}
