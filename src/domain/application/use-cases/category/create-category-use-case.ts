@@ -7,7 +7,7 @@ import { Category } from '@/domain/enterprise/entities/Category'
 import { CategoryAlreadyExistsError } from '@/shared/errors/category-already-exists-error'
 
 interface InputDto {
-  categoryName: string
+  name: string
   userId: string
 }
 
@@ -19,7 +19,7 @@ export class CreateCategoryUseCase implements UseCase<InputDto, OutputDto> {
     private userRepository: UserRepository,
   ) {}
 
-  async execute({ categoryName, userId }: InputDto): Promise<OutputDto> {
+  async execute({ name, userId }: InputDto): Promise<OutputDto> {
     const user = await this.userRepository.findById(new UniqueEntityId(userId))
 
     if (!user) {
@@ -27,7 +27,7 @@ export class CreateCategoryUseCase implements UseCase<InputDto, OutputDto> {
     }
 
     const categoryAlreadyExists = await this.categoryRepository.findByName(
-      categoryName,
+      name,
       user.id,
     )
 
@@ -36,7 +36,7 @@ export class CreateCategoryUseCase implements UseCase<InputDto, OutputDto> {
     }
 
     const category = Category.create({
-      name: categoryName.trim(),
+      name: name.trim(),
       userId: user.id,
     })
 

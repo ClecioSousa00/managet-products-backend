@@ -1,6 +1,5 @@
 import { RegisterUserUseCase } from '@/domain/application/use-cases/user/register-user-use-case'
-
-import { RegisterBodyUser } from '@/infra/http/validation/register-validation-user'
+import { RegisterBodyUser } from '@/infra/http/validation/users/register-validation-user'
 
 import { Controller, HttpRequest, HttpResponse } from '@/shared/controller'
 import { UserAlreadyExistsError } from '@/shared/errors/user-already-exists-error'
@@ -15,7 +14,11 @@ export class RegisterUserController implements Controller {
   async handle(request: RegisterRequest): Promise<HttpResponse> {
     const { email, password, username } = request.body
     try {
-      await this.registerUseCase.execute({ email, password, username })
+      await this.registerUseCase.execute({
+        email,
+        password,
+        username,
+      })
 
       return {
         status: StatusCodes.CREATED,

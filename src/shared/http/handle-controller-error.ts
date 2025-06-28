@@ -2,8 +2,16 @@ import { StatusCodes } from 'http-status-codes'
 import { HttpResponse } from '../controller'
 import { UserNotFoundError } from '../errors/user-not-found-error'
 import { CategoryAlreadyExistsError } from '../errors/category-already-exists-error'
+import { WrongCredentialsError } from '../errors/wrong-credentials-error'
 
 export const handleControllerError = (error: unknown): HttpResponse => {
+  if (error instanceof WrongCredentialsError) {
+    return {
+      status: StatusCodes.UNAUTHORIZED,
+      body: error.message,
+    }
+  }
+
   if (error instanceof UserNotFoundError) {
     return {
       status: StatusCodes.NOT_FOUND,

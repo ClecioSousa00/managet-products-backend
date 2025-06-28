@@ -9,12 +9,10 @@ describe('Authenticate User e2e', () => {
       email: 'johndoe@gmail.com',
       password: '12345678',
     })
-
     const response = await request(app).post('/authenticate').send({
       email: 'johndoe@gmail.com',
       password: '12345678',
     })
-
     expect(response.statusCode).toEqual(200)
     expect(response.body).toEqual(
       expect.objectContaining({

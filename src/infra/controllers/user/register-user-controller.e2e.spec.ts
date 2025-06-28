@@ -1,6 +1,5 @@
 import app from '@/app'
 import request from 'supertest'
-import { describe, expect, it } from 'vitest'
 
 describe('Register (e2e)', () => {
   it('should be able to register a user', async () => {
@@ -9,7 +8,6 @@ describe('Register (e2e)', () => {
       email: 'jonhdoe@gmail.com',
       password: '12345678',
     })
-
     expect(response.statusCode).toEqual(201)
   })
 })

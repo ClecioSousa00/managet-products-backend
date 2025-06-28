@@ -25,7 +25,7 @@ describe('Create Category Use Case', () => {
     inMemoryUserRepository.items.push(user)
 
     await createCategoryUseCase.execute({
-      categoryName: 'New Category',
+      name: 'New Category',
       userId: user.id.toString(),
     })
 
@@ -44,13 +44,13 @@ describe('Create Category Use Case', () => {
     inMemoryUserRepository.items.push(user)
 
     await createCategoryUseCase.execute({
-      categoryName: 'New Category',
+      name: 'New Category',
       userId: user.id.toString(),
     })
 
     await expect(() =>
       createCategoryUseCase.execute({
-        categoryName: 'new Category',
+        name: 'new Category',
         userId: user.id.toString(),
       }),
     ).rejects.toBeInstanceOf(CategoryAlreadyExistsError)
@@ -61,7 +61,7 @@ describe('Create Category Use Case', () => {
   it('Should not be able to create a category if user not exists', async () => {
     await expect(() =>
       createCategoryUseCase.execute({
-        categoryName: 'New Category',
+        name: 'New Category',
         userId: 'user-id-not-exists',
       }),
     ).rejects.toBeInstanceOf(UserNotFoundError)

@@ -26,7 +26,7 @@ routes.post(
 )
 
 routes.post(
-  '/category/create',
+  '/category',
   ensureAuthenticated,
   createCategoryValidation,
   ExpressAdapter(makeCreateCategoryController()),

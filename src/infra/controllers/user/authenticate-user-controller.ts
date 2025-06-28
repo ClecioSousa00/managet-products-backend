@@ -32,6 +32,7 @@ export class AuthenticateUserController implements Controller {
         status: StatusCodes.OK,
         body: {
           accessToken: token,
+          id,
         },
       }
     } catch (error) {

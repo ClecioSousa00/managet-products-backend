@@ -54,7 +54,6 @@ export class UserPrismaRepository implements UserRepository {
       },
       new UniqueEntityId(data.id),
     )
-
     return user
   }
 }

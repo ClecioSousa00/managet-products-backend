@@ -16,10 +16,11 @@ export class CreateCategoryController implements Controller {
   constructor(private createCategoryUseCase: CreateCategoryUseCase) {}
 
   async handle(request: CreateCategoryRequest): Promise<HttpResponse> {
-    const { categoryName } = request.body
+    const { name } = request.body
     const userId = request.userId
+
     try {
-      await this.createCategoryUseCase.execute({ categoryName, userId })
+      await this.createCategoryUseCase.execute({ name, userId })
 
       return {
         status: StatusCodes.CREATED,

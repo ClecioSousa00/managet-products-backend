@@ -1,17 +1,23 @@
 // infra/http/adapters/express-adapter.ts
-import { Controller, HttpRequest } from '@/shared/controller'
+import { Controller, HttpRequestBase, HttpResponse } from '@/shared/controller'
 import { Request, Response } from 'express'
 
 export const ExpressAdapter = (controller: Controller) => {
   return async (req: Request, res: Response) => {
-    const httpRequest: HttpRequest = {
+    const httpRequest: HttpRequestBase = {
       body: req.body,
       params: req.params,
       query: req.query,
       headers: req.headers,
     }
 
-    const httpResponse = await controller.handle(httpRequest)
+    // Se o middleware adicionou userId, inclui dinamicamente
+    if (req.userId) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      ;(httpRequest as any).userId = req.userId
+    }
+
+    const httpResponse: HttpResponse = await controller.handle(httpRequest)
 
     if (httpResponse.body) {
       res.status(httpResponse.status).json(httpResponse.body)
