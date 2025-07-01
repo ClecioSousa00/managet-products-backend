@@ -10,7 +10,7 @@ export class UserPrismaRepository implements UserRepository {
       data: {
         email: user.email,
         password: user.password,
-        username: user.password,
+        username: user.username,
         id: user.id.toString(),
       },
     })
@@ -29,7 +29,7 @@ export class UserPrismaRepository implements UserRepository {
       {
         email: new Email(data.email),
         password: data.password,
-        username: data.password,
+        username: data.username,
       },
       new UniqueEntityId(data.id),
     )

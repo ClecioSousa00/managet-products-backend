@@ -1,10 +1,26 @@
+import { z } from 'zod'
+
 import { AuthenticateUserUseCase } from '@/domain/application/use-cases/user/authenticate-user-use-case'
-import { WrongCredentialsError } from '@/shared/errors/wrong-credentials-error'
+
 import { StatusCodes } from 'http-status-codes'
 
+import { WrongCredentialsError } from '@/shared/errors/wrong-credentials-error'
 import { Controller, HttpRequest, HttpResponse } from '@/shared/controller'
+
 import { JWTService } from '@/infra/auth/jwt'
-import { AuthenticateUserBody } from '@/infra/http/validation/users/authenticate-validation-user'
+import { validateRequest } from '@/infra/http/middleware/validation-request'
+
+const authenticateUserBodySchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8),
+})
+
+type AuthenticateUserBody = z.infer<typeof authenticateUserBodySchema>
+
+export const authenticateValidationUser = validateRequest(
+  'body',
+  authenticateUserBodySchema,
+)
 
 type AuthenticateRequest = HttpRequest<AuthenticateUserBody>
 

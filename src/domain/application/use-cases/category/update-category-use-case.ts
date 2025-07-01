@@ -8,9 +8,9 @@ import { CategoryRepository } from '../../repositories/category-repository'
 import { UserRepository } from '../../repositories/user-repository'
 
 interface InputDto {
-  categoryName: string
+  name: string
   userId: string
-  categoryId: string
+  id: string
 }
 
 interface OutputDto {}
@@ -21,11 +21,7 @@ export class UpdateCategoryUseCase implements UseCase<InputDto, OutputDto> {
     private userRepository: UserRepository,
   ) {}
 
-  async execute({
-    categoryName,
-    userId,
-    categoryId,
-  }: InputDto): Promise<OutputDto> {
+  async execute({ name, userId, id }: InputDto): Promise<OutputDto> {
     const user = await this.userRepository.findById(new UniqueEntityId(userId))
 
     if (!user) {
@@ -33,7 +29,7 @@ export class UpdateCategoryUseCase implements UseCase<InputDto, OutputDto> {
     }
 
     const category = await this.categoryRepository.findById(
-      new UniqueEntityId(categoryId),
+      new UniqueEntityId(id),
       new UniqueEntityId(userId),
     )
 
@@ -41,12 +37,12 @@ export class UpdateCategoryUseCase implements UseCase<InputDto, OutputDto> {
       throw new CategoryNotFoundError()
     }
 
-    if (category.name === categoryName.trim()) {
+    if (category.name === name.trim()) {
       return {}
     }
 
     const categoryNameAlreadyExists = await this.categoryRepository.findByName(
-      categoryName,
+      name,
       new UniqueEntityId(userId),
     )
 
@@ -54,7 +50,7 @@ export class UpdateCategoryUseCase implements UseCase<InputDto, OutputDto> {
       throw new CategoryAlreadyExistsError()
     }
 
-    category.updateName(categoryName)
+    category.updateName(name)
     await this.categoryRepository.update(category)
 
     return {}

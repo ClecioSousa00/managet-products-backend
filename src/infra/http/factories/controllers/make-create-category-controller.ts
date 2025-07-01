@@ -3,7 +3,7 @@ import { makeUserRepository } from '../repositories/user-repository-factory'
 
 import { CreateCategoryUseCase } from '@/domain/application/use-cases/category/create-category-use-case'
 
-import { CreateCategoryController } from '@/infra/controllers/category/create-category'
+import { CreateCategoryController } from '@/infra/controllers/category/create-category-controller'
 
 export const makeCreateCategoryController = () => {
   const userRepository = makeUserRepository()

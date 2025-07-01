@@ -35,12 +35,12 @@ describe('Update Category Use Case', () => {
     inMemoryCategoryRepository.items.push(category)
 
     const userId = user.id.toString()
-    const categoryId = category.id.toString()
+    const id = category.id.toString()
 
     await updateCategoryUseCase.execute({
       userId,
-      categoryId,
-      categoryName: 'new category name',
+      id,
+      name: 'new category name',
     })
 
     expect(inMemoryCategoryRepository.items[0].toJson()).toEqual(
@@ -56,13 +56,13 @@ describe('Update Category Use Case', () => {
 
     inMemoryCategoryRepository.items.push(category)
 
-    const categoryId = category.id.toString()
+    const id = category.id.toString()
 
     await expect(() =>
       updateCategoryUseCase.execute({
         userId: 'user-id-not-found',
-        categoryId,
-        categoryName: 'new category name',
+        id,
+        name: 'new category name',
       }),
     ).rejects.toBeInstanceOf(UserNotFoundError)
 
@@ -89,8 +89,8 @@ describe('Update Category Use Case', () => {
     await expect(() =>
       updateCategoryUseCase.execute({
         userId,
-        categoryId: 'category-id-not-found',
-        categoryName: 'new category name',
+        id: 'category-id-not-found',
+        name: 'new category name',
       }),
     ).rejects.toBeInstanceOf(CategoryNotFoundError)
 
@@ -118,13 +118,13 @@ describe('Update Category Use Case', () => {
     inMemoryCategoryRepository.items.push(categoryA, categoryB)
 
     const userId = user.id.toString()
-    const categoryId = categoryA.id.toString()
+    const id = categoryA.id.toString()
 
     await expect(() =>
       updateCategoryUseCase.execute({
         userId,
-        categoryId,
-        categoryName: 'category-B',
+        id,
+        name: 'category-B',
       }),
     ).rejects.toBeInstanceOf(CategoryAlreadyExistsError)
 
@@ -152,13 +152,13 @@ describe('Update Category Use Case', () => {
     inMemoryCategoryRepository.items.push(categoryA, categoryB)
 
     const anotherUserId = anotherUser.id.toString()
-    const categoryId = categoryA.id.toString()
+    const id = categoryA.id.toString()
 
     await expect(() =>
       updateCategoryUseCase.execute({
         userId: anotherUserId,
-        categoryId,
-        categoryName: 'category-B',
+        id,
+        name: 'category-B',
       }),
     ).rejects.toBeInstanceOf(CategoryNotFoundError)
 

@@ -41,4 +41,11 @@ export class User extends Entity<UserProps> {
   get username() {
     return this.props.username
   }
+
+  toJson() {
+    return {
+      id: this.id.toString(),
+      ...this.props,
+    }
+  }
 }

@@ -1,10 +1,26 @@
+import { z } from 'zod'
+
 import { RegisterUserUseCase } from '@/domain/application/use-cases/user/register-user-use-case'
-import { RegisterBodyUser } from '@/infra/http/validation/users/register-validation-user'
 
 import { Controller, HttpRequest, HttpResponse } from '@/shared/controller'
 import { UserAlreadyExistsError } from '@/shared/errors/user-already-exists-error'
 
 import { StatusCodes } from 'http-status-codes'
+
+import { validateRequest } from '@/infra/http/middleware/validation-request'
+
+const registerBodySchema = z.object({
+  username: z.string().min(3),
+  email: z.string().email(),
+  password: z.string().min(8),
+})
+
+type RegisterBodyUser = z.infer<typeof registerBodySchema>
+
+export const registerValidationUser = validateRequest(
+  'body',
+  registerBodySchema,
+)
 
 type RegisterRequest = HttpRequest<RegisterBodyUser>
 
