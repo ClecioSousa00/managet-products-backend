@@ -15,6 +15,13 @@ import { registerValidationUser } from '@/infra/controllers/user/register-user-c
 import { authenticateValidationUser } from '@/infra/controllers/user/authenticate-user-controller'
 import { deleteCategoryValidation } from '@/infra/controllers/category/delete-category-controller'
 import { createCategoryValidation } from '@/infra/controllers/category/create-category-controller'
+import {
+  updateCategoryBodyValidation,
+  updateCategoryParamsValidation,
+} from '@/infra/controllers/category/update-category-controller'
+import { makeUpdateCategoryController } from '../factories/controllers/make-update-category-controller'
+import { GetByIdCategoryValidation } from '@/infra/controllers/category/get-by-id-category-controller'
+import { makeGetByIdCategoryController } from '../factories/controllers/make-get-by-id-category-controller'
 
 const routes = Router()
 
@@ -48,11 +55,25 @@ routes.get(
   ExpressAdapter(makeGetAllCategoriesController()),
 )
 
+routes.get(
+  '/category/:id',
+  ensureAuthenticated,
+  GetByIdCategoryValidation,
+  ExpressAdapter(makeGetByIdCategoryController()),
+)
+
 routes.delete(
   '/category/:id',
   ensureAuthenticated,
   deleteCategoryValidation,
   ExpressAdapter(makeDeleteCategoryController()),
+)
+routes.put(
+  '/category/:id',
+  ensureAuthenticated,
+  updateCategoryParamsValidation,
+  updateCategoryBodyValidation,
+  ExpressAdapter(makeUpdateCategoryController()),
 )
 
 export { routes }
