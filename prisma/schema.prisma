@@ -20,15 +20,35 @@ model User {
   username   String
   password   String
   categories Category[]
+  product    Product[]
 
   @@map("users")
 }
 
 model Category {
-  id     String @id @default(uuid())
-  name   String
+  id      String    @id @default(uuid())
+  name    String
+  user    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId  String    @map("user_id")
+  product Product[]
+
+  @@map("categories")
+}
+
+model Product {
+  id            String    @id @default(uuid())
+  name          String
+  quantity      Int
+  salePrice     Decimal   @map("sale_price") @db.Decimal(12, 2)
+  purchasePrice Decimal   @map("purchase_price") @db.Decimal(12, 2)
+  createdAt     DateTime  @default(now()) @map("created_at")
+  updatedAt     DateTime? @map("updated_at")
+
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @map("user_id")
 
-  @@map("categories")
+  category   Category @relation(fields: [categoryId], references: [id])
+  categoryId String   @map("category_id")
+
+  @@map("products")
 }

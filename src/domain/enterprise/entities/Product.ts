@@ -56,7 +56,7 @@ export class Product extends Entity<ProductProps> {
       throw new InvalidNameError()
     }
     this.props.name = name
-    this.updatedAt()
+    this.markAsUpdated()
   }
 
   changeQuantity(quantity: number) {
@@ -65,7 +65,7 @@ export class Product extends Entity<ProductProps> {
     }
 
     this.props.quantity = quantity
-    this.updatedAt()
+    this.markAsUpdated()
   }
 
   changeSalePrice(salePrice: number) {
@@ -74,7 +74,7 @@ export class Product extends Entity<ProductProps> {
     }
 
     this.props.salePrice = salePrice
-    this.updatedAt()
+    this.markAsUpdated()
   }
 
   changePurchasePrice(purchasePrice: number) {
@@ -83,15 +83,15 @@ export class Product extends Entity<ProductProps> {
     }
 
     this.props.purchasePrice = purchasePrice
-    this.updatedAt()
+    this.markAsUpdated()
   }
 
   reclassifyCategory(categoryId: UniqueEntityId) {
     this.props.categoryId = categoryId.toString()
-    this.updatedAt()
+    this.markAsUpdated()
   }
 
-  updatedAt() {
+  markAsUpdated() {
     this.props.updatedAt = new Date()
   }
 
@@ -107,12 +107,20 @@ export class Product extends Entity<ProductProps> {
     return this.props.createdAt
   }
 
+  get updatedAt() {
+    return this.props.updatedAt
+  }
+
   get categoryId() {
     return this.props.categoryId
   }
 
   get salePrice() {
     return this.props.salePrice
+  }
+
+  get purchasePrice() {
+    return this.props.purchasePrice
   }
 
   get userId() {
