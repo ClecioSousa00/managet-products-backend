@@ -32,17 +32,40 @@ export class ProductPrismaRepository implements ProductRepository {
     return product
   }
 
-  findMany(
+  async findMany(
     pagination: Pagination,
     userId: UniqueEntityId,
     orderBy?: OrderBy,
     orderDirection?: OrderDirection,
   ): Promise<Product[]> {
-    throw new Error('Method not implemented.')
+    const fieldOrderBy: OrderBy = orderBy ?? 'name'
+    const fieldOrderDirection: OrderDirection = orderDirection ?? 'asc'
+
+    const prismaOrderByFieldMap: Record<OrderBy, string> = {
+      name: 'name',
+      date: 'createdAt',
+      salePrice: 'salePrice',
+      quantity: 'quantity',
+    }
+
+    const orderField = prismaOrderByFieldMap[fieldOrderBy]
+
+    const products = await prisma.product.findMany({
+      where: {
+        userId: userId.toString(),
+      },
+      skip: pagination.offset,
+      take: pagination.limit,
+      orderBy: {
+        [orderField]: fieldOrderDirection,
+      },
+    })
+
+    return products.map(ProductPrismaMapper.toDomain)
   }
 
-  count(): Promise<number> {
-    throw new Error('Method not implemented.')
+  async count(): Promise<number> {
+    return await prisma.product.count()
   }
 
   async delete(id: UniqueEntityId): Promise<void> {
@@ -53,7 +76,13 @@ export class ProductPrismaRepository implements ProductRepository {
     })
   }
 
-  update(product: Product): Promise<void> {
-    throw new Error('Method not implemented.')
+  async update(product: Product): Promise<void> {
+    const data = ProductPrismaMapper.toModel(product)
+    await prisma.product.update({
+      where: {
+        id: product.id.toString(),
+      },
+      data,
+    })
   }
 }

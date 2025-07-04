@@ -47,7 +47,7 @@ export class CreateProductController implements Controller {
       })
 
       return {
-        status: StatusCodes.OK,
+        status: StatusCodes.CREATED,
       }
     } catch (error) {
       return handleControllerError(error)

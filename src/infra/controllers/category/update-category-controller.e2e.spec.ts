@@ -74,8 +74,6 @@ describe('Update Category E2E', () => {
       .get('/category')
       .set('Authorization', `Bearer ${accessToken}`)
 
-    console.log(responseGetAllCategories.body)
-
     expect(responseGetAllCategories.body.categories).toHaveLength(1)
 
     const category = responseGetAllCategories.body.categories[0]

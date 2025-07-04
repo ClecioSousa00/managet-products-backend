@@ -1,19 +1,19 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-export interface HttpRequestBase<B = any, P = any> {
+export interface HttpRequestBase<B = any, P = any, Q = any> {
   body: B
   params: P
-  query: any
+  query: Q
   headers: any
 }
 
-export interface AuthenticatedHttpRequest<B = any, P = any>
-  extends HttpRequestBase<B, P> {
+export interface AuthenticatedHttpRequest<B = any, P = any, Q = any>
+  extends HttpRequestBase<B, P, Q> {
   userId: string
 }
 
-export type HttpRequest<B = any, P = any> =
-  | HttpRequestBase<B, P>
-  | AuthenticatedHttpRequest<B, P>
+export type HttpRequest<B = any, P = any, Q = any> =
+  | HttpRequestBase<B, P, Q>
+  | AuthenticatedHttpRequest<B, P, Q>
 
 export interface HttpResponse {
   status: number

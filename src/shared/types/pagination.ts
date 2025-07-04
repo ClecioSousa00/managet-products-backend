@@ -11,6 +11,8 @@ export interface PaginationProducts {
   totalProducts: number
 }
 
-export type OrderBy = 'name' | 'date' | 'salePrice' | 'quantity'
+export const orderByValues = ['name', 'date', 'salePrice', 'quantity'] as const
+export type OrderBy = (typeof orderByValues)[number]
 
-export type OrderDirection = 'asc' | 'desc'
+export const orderDirectionValues = ['asc', 'desc'] as const
+export type OrderDirection = (typeof orderDirectionValues)[number]
