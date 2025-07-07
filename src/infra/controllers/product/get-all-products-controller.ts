@@ -1,37 +1,10 @@
-import { z } from 'zod'
 import { StatusCodes } from 'http-status-codes'
 
 import { GetAllProductsUseCase } from '@/domain/application/use-cases/product/get-all-products-use-case'
 
-import { validateRequest } from '@/infra/http/middleware/validation-request'
-
-import {
-  AuthenticatedHttpRequest,
-  Controller,
-  HttpResponse,
-} from '@/shared/controller'
+import { Controller, HttpResponse } from '@/shared/controller'
 import { handleControllerError } from '@/shared/http/handle-controller-error'
-import { orderByValues, orderDirectionValues } from '@/shared/types/pagination'
-
-const getAllProductsQuerySchema = z.object({
-  limit: z.coerce.number(),
-  page: z.coerce.number(),
-  orderBy: z.enum(orderByValues).optional(),
-  orderDirection: z.enum(orderDirectionValues).optional(),
-})
-
-type GetAllProductQuery = z.infer<typeof getAllProductsQuerySchema>
-
-export const getAllProductsQueryValidation = validateRequest(
-  'query',
-  getAllProductsQuerySchema,
-)
-
-type GetAllProductRequest = AuthenticatedHttpRequest<
-  Record<string, never>,
-  Record<string, never>,
-  GetAllProductQuery
->
+import { GetAllProductRequest } from '@/infra/http/schema-validations/products/get-all-products-validation'
 
 export class GetAllProductsController implements Controller {
   constructor(private getAllProductsUseCase: GetAllProductsUseCase) {}

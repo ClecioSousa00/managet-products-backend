@@ -13,21 +13,23 @@ import { makeDeleteCategoryController } from '../factories/controllers/make-dele
 import { makeGetByIdCategoryController } from '../factories/controllers/make-get-by-id-category-controller'
 import { makeCreateProductController } from '../factories/controllers/make-create-product-controller'
 import { makeUpdateCategoryController } from '../factories/controllers/make-update-category-controller'
+import { makeGetAllProductsController } from '../factories/controllers/make-get-all-products-controller'
+import { makeGetProductByIdController } from '../factories/controllers/make-get-by-id-products-controller'
+import { makeDeleteProductController } from '../factories/controllers/make-delete-products-controller'
 
-import { registerValidationUser } from '@/infra/controllers/user/register-user-controller'
-import { authenticateValidationUser } from '@/infra/controllers/user/authenticate-user-controller'
-import { deleteCategoryValidation } from '@/infra/controllers/category/delete-category-controller'
-import { createCategoryValidation } from '@/infra/controllers/category/create-category-controller'
+import { CreateProductBodyValidation } from '../schema-validations/products/create-produtc-validation'
+import { getAllProductsQueryValidation } from '../schema-validations/products/get-all-products-validation'
+import { getProductByIdValidation } from '../schema-validations/products/get-product-by-id-validation'
+import { createCategoryValidation } from '../schema-validations/categories/create-category-validation'
+import { deleteCategoryValidation } from '../schema-validations/categories/delete-category-validation'
+import { GetByIdCategoryValidation } from '../schema-validations/categories/get-category-by-id-validation'
 import {
   updateCategoryBodyValidation,
   updateCategoryParamsValidation,
-} from '@/infra/controllers/category/update-category-controller'
-import { GetByIdCategoryValidation } from '@/infra/controllers/category/get-by-id-category-controller'
-import { CreateProductBodyValidation } from '@/infra/controllers/product/create-product-controller'
-import { getAllProductsQueryValidation } from '@/infra/controllers/product/get-all-products-controller'
-import { makeGetAllProductsController } from '../factories/controllers/make-get-all-products-controller'
-import { getProductByIdValidation } from '@/infra/controllers/product/get-product-by-id-controller'
-import { makeGetProductByIdController } from '../factories/controllers/make-get-by-id-products-controller'
+} from '../schema-validations/categories/update-category-validation'
+import { registerValidationUser } from '../schema-validations/user/register-validation'
+import { authenticateValidationUser } from '../schema-validations/user/authenticate-validation'
+import { deleteProductValidation } from '../schema-validations/products/delete-product-validation'
 
 const routes = Router()
 
@@ -101,6 +103,13 @@ routes.get(
   ensureAuthenticated,
   getProductByIdValidation,
   ExpressAdapter(makeGetProductByIdController()),
+)
+
+routes.delete(
+  '/product/:id',
+  ensureAuthenticated,
+  deleteProductValidation,
+  ExpressAdapter(makeDeleteProductController()),
 )
 
 export { routes }

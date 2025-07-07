@@ -1,33 +1,11 @@
-import { z } from 'zod'
-
 import { DeleteCategoryUseCase } from '@/domain/application/use-cases/category/delete-category-user-case'
 
 import { StatusCodes } from 'http-status-codes'
 
-import {
-  AuthenticatedHttpRequest,
-  Controller,
-  HttpResponse,
-} from '@/shared/controller'
+import { Controller, HttpResponse } from '@/shared/controller'
 import { handleControllerError } from '@/shared/http/handle-controller-error'
 
-import { validateRequest } from '@/infra/http/middleware/validation-request'
-
-const deleteCategoryParamsSchema = z.object({
-  id: z.string(),
-})
-
-type DeleteCategoryParams = z.infer<typeof deleteCategoryParamsSchema>
-
-export const deleteCategoryValidation = validateRequest(
-  'params',
-  deleteCategoryParamsSchema,
-)
-
-type DeleteCategoryRequest = AuthenticatedHttpRequest<
-  Record<string, never>,
-  DeleteCategoryParams
->
+import { DeleteCategoryRequest } from '@/infra/http/schema-validations/categories/delete-category-validation'
 
 export class DeleteCategoryController implements Controller {
   constructor(private deleteCategoryUseCase: DeleteCategoryUseCase) {}

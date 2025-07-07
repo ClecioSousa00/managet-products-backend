@@ -1,32 +1,10 @@
-import { z } from 'zod'
 import { StatusCodes } from 'http-status-codes'
 
 import { GetProductByIdUseCase } from '@/domain/application/use-cases/product/get-product-by-id-use-case'
 
-import { validateRequest } from '@/infra/http/middleware/validation-request'
-
-import {
-  AuthenticatedHttpRequest,
-  Controller,
-  HttpResponse,
-} from '@/shared/controller'
+import { Controller, HttpResponse } from '@/shared/controller'
 import { handleControllerError } from '@/shared/http/handle-controller-error'
-
-const getProductParamsSchema = z.object({
-  id: z.string(),
-})
-
-type GetProductParams = z.infer<typeof getProductParamsSchema>
-
-export const getProductByIdValidation = validateRequest(
-  'params',
-  getProductParamsSchema,
-)
-
-type GetProductRequest = AuthenticatedHttpRequest<
-  Record<string, never>,
-  GetProductParams
->
+import { GetProductRequest } from '@/infra/http/schema-validations/products/get-product-by-id-validation'
 
 export class GetProductByIdController implements Controller {
   constructor(private getProductByIdUseCase: GetProductByIdUseCase) {}

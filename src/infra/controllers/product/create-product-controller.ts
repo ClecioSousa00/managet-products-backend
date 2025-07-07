@@ -1,33 +1,10 @@
-import { z } from 'zod'
 import { StatusCodes } from 'http-status-codes'
 
 import { CreateProductUseCase } from '@/domain/application/use-cases/product/create-product-use-case'
 
-import { validateRequest } from '@/infra/http/middleware/validation-request'
-
-import {
-  AuthenticatedHttpRequest,
-  Controller,
-  HttpResponse,
-} from '@/shared/controller'
+import { Controller, HttpResponse } from '@/shared/controller'
 import { handleControllerError } from '@/shared/http/handle-controller-error'
-
-const createProductBodySchema = z.object({
-  categoryId: z.string(),
-  name: z.string().min(3),
-  quantity: z.number(),
-  salePrice: z.number(),
-  purchasePrice: z.number(),
-})
-
-type CreateProductBody = z.infer<typeof createProductBodySchema>
-
-export const CreateProductBodyValidation = validateRequest(
-  'body',
-  createProductBodySchema,
-)
-
-type CreateProductRequest = AuthenticatedHttpRequest<CreateProductBody>
+import { CreateProductRequest } from '@/infra/http/schema-validations/products/create-produtc-validation'
 
 export class CreateProductController implements Controller {
   constructor(private createProductUseCase: CreateProductUseCase) {}
