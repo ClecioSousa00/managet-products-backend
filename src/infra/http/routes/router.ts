@@ -30,6 +30,11 @@ import {
 import { registerValidationUser } from '../schema-validations/user/register-validation'
 import { authenticateValidationUser } from '../schema-validations/user/authenticate-validation'
 import { deleteProductValidation } from '../schema-validations/products/delete-product-validation'
+import {
+  updateProductBodyValidation,
+  updateProductParamsValidation,
+} from '../schema-validations/products/update-product-validation'
+import { makeUpdateProductController } from '../factories/controllers/make-update-product-controller'
 
 const routes = Router()
 
@@ -110,6 +115,14 @@ routes.delete(
   ensureAuthenticated,
   deleteProductValidation,
   ExpressAdapter(makeDeleteProductController()),
+)
+
+routes.put(
+  '/product/:id',
+  ensureAuthenticated,
+  updateProductParamsValidation,
+  updateProductBodyValidation,
+  ExpressAdapter(makeUpdateProductController()),
 )
 
 export { routes }
