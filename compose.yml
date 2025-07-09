@@ -11,3 +11,15 @@ services:
     volumes:
       - ./data:/var/lib/postgresql/data 
   
+  app:
+    env_file:
+      - .env.docker
+    depends_on:
+      - db
+    container_name: app
+    restart: unless-stopped
+    build: 
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3333:3333
