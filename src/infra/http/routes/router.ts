@@ -43,16 +43,17 @@ routes.post(
   registerValidationUser,
   ExpressAdapter(makeRegisterUserController()),
 )
-routes.post(
-  '/authenticate',
-  authenticateValidationUser,
-  ExpressAdapter(makeAuthenticateUserController()),
-)
 
 routes.get(
-  '/profile',
+  '/users/me',
   ensureAuthenticated,
   ExpressAdapter(makeGetProfileUserController()),
+)
+
+routes.post(
+  '/auth/login',
+  authenticateValidationUser,
+  ExpressAdapter(makeAuthenticateUserController()),
 )
 
 routes.post(

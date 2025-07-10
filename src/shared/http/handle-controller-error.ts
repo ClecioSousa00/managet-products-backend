@@ -41,9 +41,9 @@ export const handleControllerError = (error: unknown): HttpResponse => {
       body: { message: error.message },
     }
   }
-
+  console.error('Erro ao criar usuário:', error)
   return {
     status: StatusCodes.INTERNAL_SERVER_ERROR,
-    body: { message: 'Internal server error' },
+    body: { message: 'Internal server error ??' },
   }
 }

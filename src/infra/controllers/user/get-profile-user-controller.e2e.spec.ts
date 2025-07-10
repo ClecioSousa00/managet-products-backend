@@ -11,7 +11,7 @@ describe('Get User Profile (E2E)', () => {
     })
 
     const response = await request(app)
-      .get('/profile')
+      .get('/users/me')
       .set('Authorization', `Bearer ${accessToken}`)
 
     expect(response.statusCode).toBe(200)

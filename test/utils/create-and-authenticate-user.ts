@@ -20,7 +20,7 @@ export const createAndAuthenticateUser = async (
       ...userProps,
     })
   const responseAuthenticate = await request(app)
-    .post('/authenticate')
+    .post('/auth/login')
     .send({
       email: 'jonhdoe@gmail.com',
       password: '12345678',

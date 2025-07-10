@@ -9,7 +9,7 @@ describe('Authenticate User e2e', () => {
       email: 'johndoe@gmail.com',
       password: '12345678',
     })
-    const response = await request(app).post('/authenticate').send({
+    const response = await request(app).post('/auth/login').send({
       email: 'johndoe@gmail.com',
       password: '12345678',
     })
@@ -28,7 +28,7 @@ describe('Authenticate User e2e', () => {
       password: '12345678',
     })
 
-    const response = await request(app).post('/authenticate').send({
+    const response = await request(app).post('/auth/login').send({
       email: 'fakeemail@gmail.com',
       password: '12345678',
     })
@@ -47,7 +47,7 @@ describe('Authenticate User e2e', () => {
       password: '12345678',
     })
 
-    const response = await request(app).post('/authenticate').send({
+    const response = await request(app).post('/auth/login').send({
       email: 'johndoe@hmail.com',
       password: '123456780',
     })
