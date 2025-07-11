@@ -2,8 +2,10 @@ import express from 'express'
 import { routes } from './infra/http/routes/router'
 import swaggerJsdoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
+import { env } from './env'
 
 const app = express()
+app.use(express.json())
 
 const swaggerDocs = swaggerJsdoc({
   definition: {
@@ -11,14 +13,18 @@ const swaggerDocs = swaggerJsdoc({
     info: {
       title: 'Manager Products',
       version: '1.0.0',
+      servers: [
+        {
+          url: `http://localhost:${env.PORT}`,
+        },
+      ],
     },
   },
-  apis: ['./src/infra/http/routes/router.ts'],
+  apis: ['src/infra/http/routes/router.ts'],
 })
 
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs))
 
-app.use(express.json())
 app.use(routes)
 
 export default app
