@@ -38,6 +38,34 @@ import { makeUpdateProductController } from '../factories/controllers/make-updat
 
 const routes = Router()
 
+/**
+ * @openapi
+ * /users:
+ *   post:
+ *     tags:
+ *      - Users
+ *     summary: Criar usuário
+ *     requestBody:
+ *      required: true
+ *      content:
+ *        application/json:
+ *          schema:
+ *            type: object
+ *            required:
+ *              - username
+ *              - email
+ *              - password
+ *            properties:
+ *              username:
+ *                type: string
+ *              email:
+ *                type: string
+ *              password:
+ *                type: string
+ *     responses:
+ *       201:
+ *         description: Usuário criado com sucesso.
+ */
 routes.post(
   '/users',
   registerValidationUser,

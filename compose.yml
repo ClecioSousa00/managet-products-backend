@@ -3,7 +3,6 @@ services:
     image: postgres
     ports: 
       - 5432:5432
-    restart: always
     environment:
       POSTGRES_PASSWORD: docker
       POSTGRES_USER: docker
@@ -17,7 +16,6 @@ services:
     depends_on:
       - db
     container_name: app
-    restart: unless-stopped
     build: 
       context: .
       dockerfile: Dockerfile

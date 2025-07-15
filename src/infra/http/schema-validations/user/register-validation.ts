@@ -1,18 +1,26 @@
 import { z } from 'zod'
-import { validateRequest } from '../../middleware/validation-request'
+
+import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi'
+
 import { HttpRequest } from '@/shared/controller'
 
-const registerBodySchema = z.object({
-  username: z.string().min(3),
-  email: z.string().email(),
-  password: z.string().min(8),
-})
+import { validateRequest } from '../../middleware/validation-request'
 
-type RegisterBodyUser = z.infer<typeof registerBodySchema>
+extendZodWithOpenApi(z)
+
+export const RegisterUserBodySchema = z
+  .object({
+    username: z.string().min(3).openapi({}),
+    email: z.string().email().openapi({}),
+    password: z.string().min(8).openapi({}),
+  })
+  .openapi({ description: 'Register User Schema' })
+
+type RegisterUserBody = z.infer<typeof RegisterUserBodySchema>
 
 export const registerValidationUser = validateRequest(
   'body',
-  registerBodySchema,
+  RegisterUserBodySchema,
 )
 
-export type RegisterRequest = HttpRequest<RegisterBodyUser>
+export type RegisterRequest = HttpRequest<RegisterUserBody>
