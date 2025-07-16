@@ -15,7 +15,7 @@ import { CategoryRepository } from '../../repositories/category-repository'
 interface ProductProps {
   id: string
   name: string
-  categoryName: string
+  categoryName: string | null
   createdAt: Date
   salePrice: number
   quantity: number
@@ -69,17 +69,21 @@ export class GetAllProductsUseCase implements UseCase<InputDto, OutputDto> {
 
     const categories = await this.categoryRepository.findMany(user.id)
 
-    const productsDto: ProductProps[] = products.map((product) => ({
-      id: product.id.toString(),
-      name: product.name,
-      quantity: product.quantity,
-      salePrice: product.salePrice,
-      categoryName: this.getNameCategory(
-        new UniqueEntityId(product.categoryId),
-        categories,
-      ),
-      createdAt: product.createdAt,
-    }))
+    const productsDto: ProductProps[] = products.map((product) => {
+      return {
+        id: product.id.toString(),
+        name: product.name,
+        quantity: product.quantity,
+        salePrice: product.salePrice,
+        categoryName: product?.categoryId
+          ? this.getNameCategory(
+              categories,
+              new UniqueEntityId(product.categoryId),
+            )
+          : null,
+        createdAt: product.createdAt,
+      }
+    })
 
     const totalPages = Math.ceil(totalProducts / limit)
 
@@ -97,11 +101,11 @@ export class GetAllProductsUseCase implements UseCase<InputDto, OutputDto> {
     }
   }
 
-  private getNameCategory(categoryId: UniqueEntityId, categories: Category[]) {
+  private getNameCategory(categories: Category[], categoryId: UniqueEntityId) {
     const category = categories.find((category) =>
       category.id.equals(categoryId),
     )
 
-    return category ? category.name : ''
+    return category ? category.name : null
   }
 }

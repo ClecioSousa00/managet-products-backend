@@ -9,7 +9,7 @@ export interface ProductProps {
   quantity: number
   salePrice: number
   purchasePrice: number
-  categoryId: string
+  categoryId: string | null
   createdAt: Date
   updatedAt?: Date
   userId: UniqueEntityId

@@ -7,7 +7,6 @@ import { ResourceNotFoundError } from '@/shared/errors/resource-not-found-error'
 import { ProductRepository } from '../../repositories/product-repository'
 import { UserRepository } from '../../repositories/user-repository'
 import { CategoryRepository } from '../../repositories/category-repository'
-import { CategoryNotFoundError } from '@/shared/errors/category-not-found-error'
 
 interface InputDto {
   userId: string
@@ -17,7 +16,7 @@ interface InputDto {
 interface OutputDto {
   id: string
   name: string
-  categoryName: string
+  categoryName: string | null
   createdAt: Date
   salePrice: number
   quantity: number
@@ -46,19 +45,23 @@ export class GetProductByIdUseCase implements UseCase<InputDto, OutputDto> {
       throw new ResourceNotFoundError()
     }
 
-    const category = await this.categoryRepository.findById(
-      new UniqueEntityId(product.categoryId),
-      user.id,
-    )
+    let categoryName: string | null = null
 
-    if (!category) {
-      throw new CategoryNotFoundError()
+    if (product.categoryId) {
+      const category = await this.categoryRepository.findById(
+        new UniqueEntityId(product.categoryId),
+        user.id,
+      )
+
+      if (category) {
+        categoryName = category.name
+      }
     }
 
     const productDto: OutputDto = {
       id: product.id.toString(),
       name: product.name,
-      categoryName: category.name,
+      categoryName,
       salePrice: product.salePrice,
       quantity: product.quantity,
       createdAt: product.createdAt,

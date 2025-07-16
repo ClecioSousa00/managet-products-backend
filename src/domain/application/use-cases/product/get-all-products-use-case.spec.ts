@@ -63,7 +63,7 @@ describe('Get All Products Use Case', () => {
     ).rejects.toBeInstanceOf(UserNotFoundError)
   })
 
-  it('Should return empty string for categoryName if category not found', async () => {
+  it('Should return null for categoryName if category not found', async () => {
     const user = makeUser()
 
     inMemoryUserRepository.items.push(user)
@@ -81,7 +81,7 @@ describe('Get All Products Use Case', () => {
     })
 
     expect(products).toHaveLength(1)
-    expect(products).toEqual([expect.objectContaining({ categoryName: '' })])
+    expect(products).toEqual([expect.objectContaining({ categoryName: null })])
   })
 
   it('Should return empty list if paga is out of range', async () => {
