@@ -2,11 +2,11 @@ import { z } from 'zod'
 import { validateRequest } from '../../middleware/validation-request'
 import { AuthenticatedHttpRequest } from '@/shared/controller'
 
-const updateProductParamsSchema = z.object({
+export const UpdateProductParamsSchema = z.object({
   id: z.string(),
 })
 
-const updateProductBodySchema = z.object({
+export const UpdateProductBodySchema = z.object({
   categoryId: z.string().optional(),
   name: z.string().optional(),
   quantity: z.number().optional(),
@@ -14,16 +14,16 @@ const updateProductBodySchema = z.object({
   purchasePrice: z.number().optional(),
 })
 
-type UpdateProductParams = z.infer<typeof updateProductParamsSchema>
-type UpdateProductBody = z.infer<typeof updateProductBodySchema>
+type UpdateProductParams = z.infer<typeof UpdateProductParamsSchema>
+type UpdateProductBody = z.infer<typeof UpdateProductBodySchema>
 
 export const updateProductParamsValidation = validateRequest(
   'params',
-  updateProductParamsSchema,
+  UpdateProductParamsSchema,
 )
 export const updateProductBodyValidation = validateRequest(
   'body',
-  updateProductBodySchema,
+  UpdateProductBodySchema,
 )
 
 export type UpdateProductRequest = AuthenticatedHttpRequest<

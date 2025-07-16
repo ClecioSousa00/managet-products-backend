@@ -2,15 +2,15 @@ import { z } from 'zod'
 import { validateRequest } from '../../middleware/validation-request'
 import { AuthenticatedHttpRequest } from '@/shared/controller'
 
-const getProductParamsSchema = z.object({
+export const GetProductParamsSchema = z.object({
   id: z.string(),
 })
 
-type GetProductParams = z.infer<typeof getProductParamsSchema>
+type GetProductParams = z.infer<typeof GetProductParamsSchema>
 
 export const getProductByIdValidation = validateRequest(
   'params',
-  getProductParamsSchema,
+  GetProductParamsSchema,
 )
 
 export type GetProductRequest = AuthenticatedHttpRequest<

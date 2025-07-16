@@ -3,18 +3,18 @@ import { z } from 'zod'
 import { validateRequest } from '../../middleware/validation-request'
 import { AuthenticatedHttpRequest } from '@/shared/controller'
 
-const getAllProductsQuerySchema = z.object({
+export const GetAllProductsQuerySchema = z.object({
   limit: z.coerce.number(),
   page: z.coerce.number(),
   orderBy: z.enum(orderByValues).optional(),
   orderDirection: z.enum(orderDirectionValues).optional(),
 })
 
-type GetAllProductQuery = z.infer<typeof getAllProductsQuerySchema>
+type GetAllProductQuery = z.infer<typeof GetAllProductsQuerySchema>
 
 export const getAllProductsQueryValidation = validateRequest(
   'query',
-  getAllProductsQuerySchema,
+  GetAllProductsQuerySchema,
 )
 
 export type GetAllProductRequest = AuthenticatedHttpRequest<

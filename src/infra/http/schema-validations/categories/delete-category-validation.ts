@@ -2,15 +2,15 @@ import { z } from 'zod'
 import { validateRequest } from '../../middleware/validation-request'
 import { AuthenticatedHttpRequest } from '@/shared/controller'
 
-const deleteCategoryParamsSchema = z.object({
+export const DeleteCategoryParamsSchema = z.object({
   id: z.string(),
 })
 
-type DeleteCategoryParams = z.infer<typeof deleteCategoryParamsSchema>
+type DeleteCategoryParams = z.infer<typeof DeleteCategoryParamsSchema>
 
 export const deleteCategoryValidation = validateRequest(
   'params',
-  deleteCategoryParamsSchema,
+  DeleteCategoryParamsSchema,
 )
 
 export type DeleteCategoryRequest = AuthenticatedHttpRequest<

@@ -2,7 +2,7 @@ import { z } from 'zod'
 import { validateRequest } from '../../middleware/validation-request'
 import { AuthenticatedHttpRequest } from '@/shared/controller'
 
-const createProductBodySchema = z.object({
+export const CreateProductBodySchema = z.object({
   categoryId: z.string(),
   name: z.string().min(3),
   quantity: z.number(),
@@ -10,11 +10,11 @@ const createProductBodySchema = z.object({
   purchasePrice: z.number(),
 })
 
-type CreateProductBody = z.infer<typeof createProductBodySchema>
+type CreateProductBody = z.infer<typeof CreateProductBodySchema>
 
 export const CreateProductBodyValidation = validateRequest(
   'body',
-  createProductBodySchema,
+  CreateProductBodySchema,
 )
 
 export type CreateProductRequest = AuthenticatedHttpRequest<CreateProductBody>
