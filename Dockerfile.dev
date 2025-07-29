@@ -1,0 +1,14 @@
+FROM node:lts-alpine
+
+WORKDIR /app
+
+COPY package*.json ./
+RUN npm install
+
+COPY . .
+
+# expõe a porta
+EXPOSE 3333
+
+# executa em modo dev com TSX (sem compilar)
+CMD ["npx", "tsx", "--watch", "src/server.ts"]

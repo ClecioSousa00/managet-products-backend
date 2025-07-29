@@ -1,6 +1,6 @@
 import { OrderBy, OrderDirection, Pagination } from '@/shared/types/pagination'
-import { Product } from '@/domain/enterprise/entities/Product'
 import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
+import { Product } from '@/domain/enterprise/entities/product'
 
 export interface ProductRepository {
   create(product: Product): Promise<void>
