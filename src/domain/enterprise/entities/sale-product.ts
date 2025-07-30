@@ -3,7 +3,7 @@ import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
 import { InvalidPriceError } from '@/shared/errors/invalid-price-error'
 import { Optional } from '@/shared/types/optional'
 
-type SaleProductProps = {
+export type SaleProductProps = {
   productId: UniqueEntityId
   quantity: number
   salePriceAtTime: number
@@ -79,10 +79,14 @@ export class SaleProduct extends Entity<SaleProductProps> {
   }
 
   get userId() {
-    return this.props.userId.toString()
+    return this.props.userId
   }
 
   get productId() {
-    return this.props.productId.toString()
+    return this.props.productId
+  }
+
+  get soldAt() {
+    return this.props.soldAt
   }
 }

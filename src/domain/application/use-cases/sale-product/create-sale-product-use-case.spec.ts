@@ -56,7 +56,7 @@ describe('Create Sale Product Use Case', () => {
     expect(saleProduct.quantity).toBe(9)
     expect(saleProduct.salePriceAtTime).toBe(1000)
     expect(saleProduct.userId.toString()).toBe(userId)
-    expect(saleProduct.productId).toBe(productId)
+    expect(saleProduct.productId.toString()).toBe(productId)
   })
 
   it('Should not be able to sale product if insufficient quantity', async () => {
