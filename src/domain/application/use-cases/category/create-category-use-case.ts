@@ -3,8 +3,8 @@ import { CategoryRepository } from '../../repositories/category-repository'
 import { UserRepository } from '../../repositories/user-repository'
 import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
 import { UserNotFoundError } from '@/shared/errors/user-not-found-error'
-import { Category } from '@/domain/enterprise/entities/Category'
 import { CategoryAlreadyExistsError } from '@/shared/errors/category-already-exists-error'
+import { Category } from '@/domain/enterprise/entities/category'
 
 interface InputDto {
   name: string

@@ -1,9 +1,9 @@
 import { ProductRepository } from '@/domain/application/repositories/product-repository'
-import { Product } from '@/domain/enterprise/entities/Product'
 import { prisma } from '@/lib/prisma-client'
 import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
 import { Pagination, OrderBy, OrderDirection } from '@/shared/types/pagination'
 import { ProductPrismaMapper } from '../mappers/product-prisma-mapper'
+import { Product } from '@/domain/enterprise/entities/product'
 
 export class ProductPrismaRepository implements ProductRepository {
   async create(product: Product): Promise<void> {

@@ -1,5 +1,4 @@
 import { UseCase } from '@/shared/use-case'
-import { Category } from '@/domain/enterprise/entities/Category'
 import {
   OrderBy,
   OrderDirection,
@@ -11,6 +10,7 @@ import { UserNotFoundError } from '@/shared/errors/user-not-found-error'
 import { ProductRepository } from '../../repositories/product-repository'
 import { UserRepository } from '../../repositories/user-repository'
 import { CategoryRepository } from '../../repositories/category-repository'
+import { Category } from '@/domain/enterprise/entities/category'
 
 interface ProductProps {
   id: string

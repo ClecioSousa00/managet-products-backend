@@ -1,8 +1,8 @@
 import { CategoryRepository } from '@/domain/application/repositories/category-repository'
-import { Category } from '@/domain/enterprise/entities/Category'
 import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
 import { CategoryPrismaMapper } from '../mappers/category-prisma-mapper'
 import { prisma } from '@/lib/prisma-client'
+import { Category } from '@/domain/enterprise/entities/category'
 
 export class CategoryPrismaRepository implements CategoryRepository {
   async create(category: Category): Promise<void> {

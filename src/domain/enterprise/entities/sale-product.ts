@@ -69,4 +69,20 @@ export class SaleProduct extends Entity<SaleProductProps> {
       userId: this.props.userId.toString(),
     }
   }
+
+  get quantity() {
+    return this.props.quantity
+  }
+
+  get salePriceAtTime() {
+    return this.props.salePriceAtTime
+  }
+
+  get userId() {
+    return this.props.userId.toString()
+  }
+
+  get productId() {
+    return this.props.productId.toString()
+  }
 }

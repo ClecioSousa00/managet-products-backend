@@ -1,4 +1,4 @@
-import { Product } from '@/domain/enterprise/entities/Product'
+import { Product } from '@/domain/enterprise/entities/product'
 import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
 import { Prisma, Product as PrismaProduct } from '@prisma/client'
 

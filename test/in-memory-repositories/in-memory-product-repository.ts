@@ -1,7 +1,7 @@
 import { OrderBy, OrderDirection, Pagination } from '@/shared/types/pagination'
 import { ProductRepository } from '@/domain/application/repositories/product-repository'
-import { Product } from '@/domain/enterprise/entities/Product'
 import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
+import { Product } from '@/domain/enterprise/entities/product'
 
 export class InMemoryProductRepository implements ProductRepository {
   items: Product[] = []

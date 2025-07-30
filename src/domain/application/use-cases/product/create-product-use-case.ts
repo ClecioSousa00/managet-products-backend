@@ -1,6 +1,5 @@
 import { UseCase } from '@/shared/use-case'
 import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
-import { Product } from '@/domain/enterprise/entities/Product'
 
 import { ProductRepository } from '../../repositories/product-repository'
 import { UserRepository } from '../../repositories/user-repository'
@@ -8,6 +7,7 @@ import { UserRepository } from '../../repositories/user-repository'
 import { CategoryRepository } from '../../repositories/category-repository'
 import { UserNotFoundError } from '@/shared/errors/user-not-found-error'
 import { CategoryNotFoundError } from '@/shared/errors/category-not-found-error'
+import { Product } from '@/domain/enterprise/entities/product'
 
 interface InputDto {
   categoryId: string

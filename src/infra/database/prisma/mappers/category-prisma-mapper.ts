@@ -1,4 +1,4 @@
-import { Category } from '@/domain/enterprise/entities/Category'
+import { Category } from '@/domain/enterprise/entities/category'
 import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
 import { Category as PrismaCategory } from '@prisma/client'
 
