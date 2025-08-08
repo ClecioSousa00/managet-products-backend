@@ -1,8 +1,13 @@
 import { SaleProductRepository } from '@/domain/application/repositories/sale-product-repository'
 import { SaleProduct } from '@/domain/enterprise/entities/sale-product'
+
+
 import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
 
-export class InMemorySaleProductRepository implements SaleProductRepository {
+export class InMemorySaleProductRepository implements SaleProductRepository   {
+
+
+
   items: SaleProduct[] = []
 
   async create(saleProduct: SaleProduct): Promise<void> {
@@ -19,4 +24,32 @@ export class InMemorySaleProductRepository implements SaleProductRepository {
 
     return saleProduct ?? null
   }
+
+  findManyWithProduct(userId: UniqueEntityId): Promise<(SaleProduct & { id: string; name: string })[]> {
+    throw new Error('Method not implemented.')
+  }
+
+
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
