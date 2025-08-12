@@ -1,4 +1,9 @@
 import type { UniqueEntityId } from '@/shared/entities/unique-entity-id';
+import type {
+  OrderBy,
+  OrderDirection,
+  Pagination,
+} from '@/shared/types/pagination';
 
 type SaleProductWithProductInfos = {
   id: string;
@@ -13,6 +18,9 @@ type SaleProductWithProductInfos = {
 
 export interface SaleProductQueryService {
   findManyWithProductInfos(
-    userId: UniqueEntityId
+    pagination: Pagination,
+    userId: UniqueEntityId,
+    orderBy?: OrderBy,
+    orderDirection?: OrderDirection
   ): Promise<SaleProductWithProductInfos[]>;
 }
