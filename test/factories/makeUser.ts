@@ -1,10 +1,10 @@
-import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
-import { User, UserProps } from '@/domain/enterprise/entities/user'
-import { Email } from '@/domain/enterprise/value-objects/Email'
+import { User, type UserProps } from '@/domain/enterprise/entities/user';
+import { Email } from '@/domain/enterprise/value-objects/Email';
+import type { UniqueEntityId } from '@/shared/entities/unique-entity-id';
 
 export const makeUser = (
   override: Partial<UserProps> = {},
-  id?: UniqueEntityId,
+  id?: UniqueEntityId
 ): User => {
   const user = User.create(
     {
@@ -13,8 +13,8 @@ export const makeUser = (
       password: '123456789',
       ...override,
     },
-    id,
-  )
+    id
+  );
 
-  return user
-}
+  return user;
+};

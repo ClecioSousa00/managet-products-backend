@@ -1,19 +1,17 @@
-import { z } from 'zod'
-import { validateRequest } from '../../middleware/validation-request'
-import { HttpRequest } from '@/shared/controller'
+import { z } from 'zod';
+import type { HttpRequest } from '@/shared/controller';
+import { validateRequest } from '../../middleware/validation-request';
 
-export const AuthenticateUserBodySchema = z
-  .object({
-    email: z.string().email().openapi({}),
-    password: z.string().min(8).openapi({}),
-  })
-  .openapi({ description: 'Authenticate User' })
+export const AuthenticateUserBodySchema = z.object({
+  email: z.string().email(),
+  password: z.string().min(8),
+});
 
-type AuthenticateUserBody = z.infer<typeof AuthenticateUserBodySchema>
+type AuthenticateUserBody = z.infer<typeof AuthenticateUserBodySchema>;
 
 export const authenticateValidationUser = validateRequest(
   'body',
-  AuthenticateUserBodySchema,
-)
+  AuthenticateUserBodySchema
+);
 
-export type AuthenticateRequest = HttpRequest<AuthenticateUserBody>
+export type AuthenticateRequest = HttpRequest<AuthenticateUserBody>;

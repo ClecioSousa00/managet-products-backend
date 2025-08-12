@@ -1,19 +1,19 @@
-import { z } from 'zod'
-import { validateRequest } from '../../middleware/validation-request'
-import { AuthenticatedHttpRequest } from '@/shared/controller'
+import { z } from 'zod';
+import type { AuthenticatedHttpRequest } from '@/shared/controller';
+import { validateRequest } from '../../middleware/validation-request';
 
 export const DeleteProductParamsSchema = z.object({
   id: z.string(),
-})
+});
 
-type DeleteProductParams = z.infer<typeof DeleteProductParamsSchema>
+type DeleteProductParams = z.infer<typeof DeleteProductParamsSchema>;
 
 export const deleteProductValidation = validateRequest(
   'params',
-  DeleteProductParamsSchema,
-)
+  DeleteProductParamsSchema
+);
 
 export type DeleteProductRequest = AuthenticatedHttpRequest<
   Record<string, never>,
   DeleteProductParams
->
+>;

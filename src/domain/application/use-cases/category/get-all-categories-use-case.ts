@@ -1,44 +1,44 @@
-import { UseCase } from '@/shared/use-case'
-import { CategoryRepository } from '../../repositories/category-repository'
-import { UserRepository } from '../../repositories/user-repository'
-import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
-import { UserNotFoundError } from '@/shared/errors/user-not-found-error'
+import { UniqueEntityId } from '@/shared/entities/unique-entity-id';
+import { UserNotFoundError } from '@/shared/errors/user-not-found-error';
+import type { UseCase } from '@/shared/use-case';
+import type { CategoryRepository } from '../../repositories/category-repository';
+import type { UserRepository } from '../../repositories/user-repository';
 
 interface InputDto {
-  userId: string
+  userId: string;
 }
 
 interface OutputDto {
   categories: {
-    id: string
-    name: string
-  }[]
+    id: string;
+    name: string;
+  }[];
 }
 
 export class GetAllCategoriesUseCase implements UseCase<InputDto, OutputDto> {
   constructor(
     private categoryRepository: CategoryRepository,
-    private userRepository: UserRepository,
+    private userRepository: UserRepository
   ) {}
 
   async execute({ userId }: InputDto): Promise<OutputDto> {
-    const user = await this.userRepository.findById(new UniqueEntityId(userId))
+    const user = await this.userRepository.findById(new UniqueEntityId(userId));
 
     if (!user) {
-      throw new UserNotFoundError()
+      throw new UserNotFoundError();
     }
 
     const categories = await this.categoryRepository.findMany(
-      new UniqueEntityId(userId),
-    )
+      new UniqueEntityId(userId)
+    );
 
     const categoriesDto = categories.map((item) => ({
       id: item.id.toString(),
       name: item.name,
-    }))
+    }));
 
     return {
       categories: categoriesDto,
-    }
+    };
   }
 }

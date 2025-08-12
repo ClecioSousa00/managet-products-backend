@@ -1,9 +1,12 @@
-import { Category, CategoryProps } from '@/domain/enterprise/entities/category'
-import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
+import {
+  Category,
+  type CategoryProps,
+} from '@/domain/enterprise/entities/category';
+import { UniqueEntityId } from '@/shared/entities/unique-entity-id';
 
 export const makeCategory = (
   override: Partial<CategoryProps> = {},
-  id?: UniqueEntityId,
+  id?: UniqueEntityId
 ): Category => {
   const user = Category.create(
     {
@@ -11,8 +14,8 @@ export const makeCategory = (
       userId: new UniqueEntityId(),
       ...override,
     },
-    id,
-  )
+    id
+  );
 
-  return user
-}
+  return user;
+};

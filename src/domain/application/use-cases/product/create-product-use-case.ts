@@ -1,48 +1,46 @@
-import { UseCase } from '@/shared/use-case'
-import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
-
-import { ProductRepository } from '../../repositories/product-repository'
-import { UserRepository } from '../../repositories/user-repository'
-
-import { CategoryRepository } from '../../repositories/category-repository'
-import { UserNotFoundError } from '@/shared/errors/user-not-found-error'
-import { CategoryNotFoundError } from '@/shared/errors/category-not-found-error'
-import { Product } from '@/domain/enterprise/entities/product'
+import { Product } from '@/domain/enterprise/entities/product';
+import { UniqueEntityId } from '@/shared/entities/unique-entity-id';
+import { CategoryNotFoundError } from '@/shared/errors/category-not-found-error';
+import { UserNotFoundError } from '@/shared/errors/user-not-found-error';
+import type { UseCase } from '@/shared/use-case';
+import type { CategoryRepository } from '../../repositories/category-repository';
+import type { ProductRepository } from '../../repositories/product-repository';
+import type { UserRepository } from '../../repositories/user-repository';
 
 interface InputDto {
-  categoryId: string
-  name: string
-  quantity: number
-  salePrice: number
-  purchasePrice: number
-  userId: string
+  categoryId: string;
+  name: string;
+  quantity: number;
+  salePrice: number;
+  purchasePrice: number;
+  userId: string;
 }
 
-interface OutputDto {}
+type OutputDto = {};
 
 export class CreateProductUseCase implements UseCase<InputDto, OutputDto> {
   constructor(
     private productRepository: ProductRepository,
     private userRepository: UserRepository,
-    private categoryRepository: CategoryRepository,
+    private categoryRepository: CategoryRepository
   ) {}
 
   async execute(input: InputDto): Promise<OutputDto> {
     const user = await this.userRepository.findById(
-      new UniqueEntityId(input.userId),
-    )
+      new UniqueEntityId(input.userId)
+    );
 
     if (!user) {
-      throw new UserNotFoundError()
+      throw new UserNotFoundError();
     }
 
     const isCategoryExists = await this.categoryRepository.findById(
       new UniqueEntityId(input.categoryId),
-      user.id,
-    )
+      user.id
+    );
 
     if (!isCategoryExists) {
-      throw new CategoryNotFoundError()
+      throw new CategoryNotFoundError();
     }
 
     const product = Product.create({
@@ -52,10 +50,10 @@ export class CreateProductUseCase implements UseCase<InputDto, OutputDto> {
       quantity: input.quantity,
       salePrice: input.salePrice,
       userId: new UniqueEntityId(input.userId),
-    })
+    });
 
-    await this.productRepository.create(product)
+    await this.productRepository.create(product);
 
-    return {}
+    return {};
   }
 }

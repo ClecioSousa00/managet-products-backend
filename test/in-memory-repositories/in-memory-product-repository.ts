@@ -1,73 +1,79 @@
-import { OrderBy, OrderDirection, Pagination } from '@/shared/types/pagination'
-import { ProductRepository } from '@/domain/application/repositories/product-repository'
-import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
-import { Product } from '@/domain/enterprise/entities/product'
+import type { ProductRepository } from '@/domain/application/repositories/product-repository';
+import type { Product } from '@/domain/enterprise/entities/product';
+import type { UniqueEntityId } from '@/shared/entities/unique-entity-id';
+import type {
+  OrderBy,
+  OrderDirection,
+  Pagination,
+} from '@/shared/types/pagination';
 
 export class InMemoryProductRepository implements ProductRepository {
-  items: Product[] = []
+  items: Product[] = [];
 
   async create(product: Product) {
-    this.items.push(product)
+    this.items.push(product);
   }
 
   async findMany(
     { limit, offset }: Pagination,
     userId: UniqueEntityId,
     orderBy: OrderBy,
-    orderDirection: OrderDirection,
+    orderDirection: OrderDirection
   ) {
-    const products = this.items.filter((item) => item.userId.equals(userId))
+    const products = this.items.filter((item) => item.userId.equals(userId));
 
     const sorted = [...products].sort((a, b) => {
-      let comparison = 0
+      let comparison = 0;
 
       switch (orderBy) {
         case 'name':
-          comparison = a.name.localeCompare(b.name)
-          break
+          comparison = a.name.localeCompare(b.name);
+          break;
         case 'date':
-          comparison = a.createdAt.getTime() - b.createdAt.getTime()
-          break
+          comparison = a.createdAt.getTime() - b.createdAt.getTime();
+          break;
         case 'salePrice':
-          comparison = a.salePrice - b.salePrice
-          break
+          comparison = a.salePrice - b.salePrice;
+          break;
         case 'quantity':
-          comparison = a.quantity - b.quantity
-          break
+          comparison = a.quantity - b.quantity;
+          break;
+        default:
+          comparison = a.name.localeCompare(b.name);
       }
 
-      return orderDirection === 'asc' ? comparison : -comparison
-    })
+      return orderDirection === 'asc' ? comparison : -comparison;
+    });
 
-    const paginated = sorted.slice(offset, offset + limit)
-    return paginated
+    const paginated = sorted.slice(offset, offset + limit);
+    return paginated;
   }
 
   async count() {
-    return this.items.length
+    return this.items.length;
   }
 
   async findById(id: UniqueEntityId, userId: UniqueEntityId) {
     const product = this.items.find(
-      (item) => item.id.equals(id) && item.userId.equals(userId),
-    )
+      (item) => item.id.equals(id) && item.userId.equals(userId)
+    );
 
-    return product ?? null
+    return product ?? null;
   }
 
   async delete(productId: UniqueEntityId): Promise<void> {
-    const index = this.items.findIndex((item) => item.id.equals(productId))
+    const index = this.items.findIndex((item) => item.id.equals(productId));
 
     if (index !== -1) {
-      this.items.splice(index, 1)
+      this.items.splice(index, 1);
     }
   }
 
   async update(product: Product): Promise<void> {
-    const index = this.items.findIndex((item) => item.id.equals(product.id))
+    const index = this.items.findIndex((item) => item.id.equals(product.id));
 
     if (index !== -1) {
-      this.items[index] = product
+      this.items[index] = product;
     }
   }
 }

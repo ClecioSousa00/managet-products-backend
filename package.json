@@ -34,7 +34,7 @@
     "zod": "^3.25.67"
   },
   "devDependencies": {
-    "@rocketseat/eslint-config": "^2.2.2",
+    "@biomejs/biome": "2.1.2",
     "@types/express": "^5.0.3",
     "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.0.10",
@@ -50,6 +50,7 @@
     "tsup": "^8.5.0",
     "tsx": "^4.20.3",
     "typescript": "^5.8.3",
+    "ultracite": "5.1.2",
     "vite-tsconfig-paths": "^5.1.4",
     "vitest": "^3.2.1"
   }

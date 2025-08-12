@@ -1,28 +1,28 @@
-import { z } from 'zod'
-import { validateRequest } from '../../middleware/validation-request'
-import { AuthenticatedHttpRequest } from '@/shared/controller'
+import { z } from 'zod';
+import type { AuthenticatedHttpRequest } from '@/shared/controller';
+import { validateRequest } from '../../middleware/validation-request';
 
 export const UpdateCategoryParamsSchema = z.object({
   id: z.string(),
-})
+});
 
 export const UpdateCategoryBodySchema = z.object({
   name: z.string().min(3),
-})
+});
 
-type UpdateCategoryParamsSchema = z.infer<typeof UpdateCategoryParamsSchema>
-type UpdateCategoryBodySchema = z.infer<typeof UpdateCategoryBodySchema>
+type UpdateCategoryParamsSchema = z.infer<typeof UpdateCategoryParamsSchema>;
+type UpdateCategoryBodySchema = z.infer<typeof UpdateCategoryBodySchema>;
 
 export const updateCategoryParamsValidation = validateRequest(
   'params',
-  UpdateCategoryParamsSchema,
-)
+  UpdateCategoryParamsSchema
+);
 export const updateCategoryBodyValidation = validateRequest(
   'body',
-  UpdateCategoryBodySchema,
-)
+  UpdateCategoryBodySchema
+);
 
 export type UpdateCategoryRequest = AuthenticatedHttpRequest<
   UpdateCategoryBodySchema,
   UpdateCategoryParamsSchema
->
+>;

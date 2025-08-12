@@ -1,18 +1,18 @@
-import { UniqueEntityId } from "@/shared/entities/unique-entity-id"
+import type { UniqueEntityId } from '@/shared/entities/unique-entity-id';
 
 type SaleProductWithProductInfos = {
-  id: string
-  quantity: number
-  salePriceAtTime: number
-  soldAt: Date
-  product:{
-    id:string,
-    name: string
-  }
-}
+  id: string;
+  quantity: number;
+  salePriceAtTime: number;
+  soldAt: Date;
+  product: {
+    id: string;
+    name: string;
+  };
+};
 
 export interface SaleProductQueryService {
-  findManyWithProductInfos(userId: UniqueEntityId): Promise<SaleProductWithProductInfos[]>
+  findManyWithProductInfos(
+    userId: UniqueEntityId
+  ): Promise<SaleProductWithProductInfos[]>;
 }
-
-

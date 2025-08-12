@@ -1,8 +1,8 @@
-import { UserRepository } from '@/domain/application/repositories/user-repository'
-import { User } from '@/domain/enterprise/entities/user'
-import { Email } from '@/domain/enterprise/value-objects/Email'
-import { prisma } from '@/lib/prisma-client'
-import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
+import type { UserRepository } from '@/domain/application/repositories/user-repository';
+import { User } from '@/domain/enterprise/entities/user';
+import { Email } from '@/domain/enterprise/value-objects/Email';
+import { prisma } from '@/lib/prisma-client';
+import { UniqueEntityId } from '@/shared/entities/unique-entity-id';
 
 export class UserPrismaRepository implements UserRepository {
   async create(user: User): Promise<void> {
@@ -13,7 +13,7 @@ export class UserPrismaRepository implements UserRepository {
         username: user.username,
         id: user.id.toString(),
       },
-    })
+    });
   }
 
   async findByEmail(email: string) {
@@ -21,9 +21,11 @@ export class UserPrismaRepository implements UserRepository {
       where: {
         email,
       },
-    })
+    });
 
-    if (!data) return null
+    if (!data) {
+      return null;
+    }
 
     const user = User.create(
       {
@@ -31,10 +33,10 @@ export class UserPrismaRepository implements UserRepository {
         password: data.password,
         username: data.username,
       },
-      new UniqueEntityId(data.id),
-    )
+      new UniqueEntityId(data.id)
+    );
 
-    return user
+    return user;
   }
 
   async findById(id: UniqueEntityId) {
@@ -42,9 +44,11 @@ export class UserPrismaRepository implements UserRepository {
       where: {
         id: id.toString(),
       },
-    })
+    });
 
-    if (!data) return null
+    if (!data) {
+      return null;
+    }
 
     const user = User.create(
       {
@@ -52,8 +56,8 @@ export class UserPrismaRepository implements UserRepository {
         password: data.password,
         username: data.username,
       },
-      new UniqueEntityId(data.id),
-    )
-    return user
+      new UniqueEntityId(data.id)
+    );
+    return user;
   }
 }

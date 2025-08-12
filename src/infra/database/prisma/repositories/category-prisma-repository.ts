@@ -1,20 +1,20 @@
-import { CategoryRepository } from '@/domain/application/repositories/category-repository'
-import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
-import { CategoryPrismaMapper } from '../mappers/category-prisma-mapper'
-import { prisma } from '@/lib/prisma-client'
-import { Category } from '@/domain/enterprise/entities/category'
+import type { CategoryRepository } from '@/domain/application/repositories/category-repository';
+import type { Category } from '@/domain/enterprise/entities/category';
+import { prisma } from '@/lib/prisma-client';
+import type { UniqueEntityId } from '@/shared/entities/unique-entity-id';
+import { CategoryPrismaMapper } from '../mappers/category-prisma-mapper';
 
 export class CategoryPrismaRepository implements CategoryRepository {
   async create(category: Category): Promise<void> {
-    const data = CategoryPrismaMapper.toPrisma(category)
+    const data = CategoryPrismaMapper.toPrisma(category);
     await prisma.category.create({
       data,
-    })
+    });
   }
 
   async findById(
     id: UniqueEntityId,
-    userId: UniqueEntityId,
+    userId: UniqueEntityId
   ): Promise<Category | null> {
     const data = await prisma.category.findUnique({
       where: {
@@ -23,13 +23,15 @@ export class CategoryPrismaRepository implements CategoryRepository {
           userId: userId.toString(),
         },
       },
-    })
+    });
 
-    if (!data) return null
+    if (!data) {
+      return null;
+    }
 
-    const category = CategoryPrismaMapper.toDomain(data)
+    const category = CategoryPrismaMapper.toDomain(data);
 
-    return category
+    return category;
   }
 
   async findMany(userId: UniqueEntityId): Promise<Category[]> {
@@ -37,17 +39,17 @@ export class CategoryPrismaRepository implements CategoryRepository {
       where: {
         userId: userId.toString(),
       },
-    })
+    });
     const categories: Category[] = data.map((item) => {
-      const category = CategoryPrismaMapper.toDomain(item)
-      return category
-    })
-    return categories
+      const category = CategoryPrismaMapper.toDomain(item);
+      return category;
+    });
+    return categories;
   }
 
   async findByName(
     name: string,
-    userId: UniqueEntityId,
+    userId: UniqueEntityId
   ): Promise<Category | null> {
     const data = await prisma.category.findFirst({
       where: {
@@ -56,11 +58,13 @@ export class CategoryPrismaRepository implements CategoryRepository {
           userId: userId.toString(),
         },
       },
-    })
+    });
 
-    if (!data) return null
+    if (!data) {
+      return null;
+    }
 
-    return CategoryPrismaMapper.toDomain(data)
+    return CategoryPrismaMapper.toDomain(data);
   }
 
   async delete(id: UniqueEntityId): Promise<void> {
@@ -68,16 +72,16 @@ export class CategoryPrismaRepository implements CategoryRepository {
       where: {
         id: id.toString(),
       },
-    })
+    });
   }
 
   async update(category: Category): Promise<void> {
-    const data = CategoryPrismaMapper.toPrisma(category)
+    const data = CategoryPrismaMapper.toPrisma(category);
     await prisma.category.update({
       where: {
         id: category.id.toString(),
       },
       data,
-    })
+    });
   }
 }

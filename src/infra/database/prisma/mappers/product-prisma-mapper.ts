@@ -1,6 +1,6 @@
-import { Product } from '@/domain/enterprise/entities/product'
-import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
-import { Prisma, Product as PrismaProduct } from '@prisma/client'
+import { Prisma, type Product as PrismaProduct } from '@prisma/client';
+import { Product } from '@/domain/enterprise/entities/product';
+import { UniqueEntityId } from '@/shared/entities/unique-entity-id';
 
 export class ProductPrismaMapper {
   static toDomain(data: PrismaProduct): Product {
@@ -15,8 +15,8 @@ export class ProductPrismaMapper {
         createdAt: data.createdAt,
         updatedAt: data?.updatedAt ? data.updatedAt : undefined,
       },
-      new UniqueEntityId(data.id),
-    )
+      new UniqueEntityId(data.id)
+    );
   }
 
   static toModel(product: Product): PrismaProduct {
@@ -30,6 +30,6 @@ export class ProductPrismaMapper {
       quantity: product.quantity,
       createdAt: product.createdAt,
       updatedAt: product.updatedAt ?? null,
-    }
+    };
   }
 }

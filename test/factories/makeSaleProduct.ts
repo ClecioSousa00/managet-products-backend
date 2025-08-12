@@ -1,12 +1,12 @@
 import {
   SaleProduct,
-  SaleProductProps,
-} from '@/domain/enterprise/entities/sale-product'
-import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
+  type SaleProductProps,
+} from '@/domain/enterprise/entities/sale-product';
+import { UniqueEntityId } from '@/shared/entities/unique-entity-id';
 
 export const makeSaleProduct = (
   override: Partial<SaleProductProps> = {},
-  id?: UniqueEntityId,
+  id?: UniqueEntityId
 ): SaleProduct => {
   const product = SaleProduct.create(
     {
@@ -16,8 +16,8 @@ export const makeSaleProduct = (
       salePriceAtTime: 1000,
       ...override,
     },
-    id,
-  )
+    id
+  );
 
-  return product
-}
+  return product;
+};

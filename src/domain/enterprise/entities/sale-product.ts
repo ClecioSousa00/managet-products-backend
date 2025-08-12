@@ -1,65 +1,65 @@
-import { Entity } from '@/shared/entities/entity'
-import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
-import { InvalidPriceError } from '@/shared/errors/invalid-price-error'
-import { Optional } from '@/shared/types/optional'
+import { Entity } from '@/shared/entities/entity';
+import type { UniqueEntityId } from '@/shared/entities/unique-entity-id';
+import { InvalidPriceError } from '@/shared/errors/invalid-price-error';
+import type { Optional } from '@/shared/types/optional';
 
 export type SaleProductProps = {
-  productId: UniqueEntityId
-  quantity: number
-  salePriceAtTime: number
-  soldAt: Date
-  userId: UniqueEntityId
-  updatedAt?: Date
-}
-const MIN_QUANTITY = 0
+  productId: UniqueEntityId;
+  quantity: number;
+  salePriceAtTime: number;
+  soldAt: Date;
+  userId: UniqueEntityId;
+  updatedAt?: Date;
+};
+const MIN_QUANTITY = 0;
 
 export class SaleProduct extends Entity<SaleProductProps> {
   private constructor(props: SaleProductProps, id?: UniqueEntityId) {
-    super(props, id)
-    this.validate()
+    super(props, id);
+    this.validate();
   }
 
   static create(
     props: Optional<SaleProductProps, 'soldAt'>,
-    id?: UniqueEntityId,
+    id?: UniqueEntityId
   ) {
     const saleProduct = new SaleProduct(
       { ...props, soldAt: props.soldAt ?? new Date() },
-      id,
-    )
-    return saleProduct
+      id
+    );
+    return saleProduct;
   }
 
   private validate() {
     if (this.props.quantity < MIN_QUANTITY) {
-      throw new Error(`quantity cannot be less than ${MIN_QUANTITY}`)
+      throw new Error(`quantity cannot be less than ${MIN_QUANTITY}`);
     }
 
     if (this.props.salePriceAtTime < 0) {
-      throw new InvalidPriceError()
+      throw new InvalidPriceError();
     }
   }
 
   changeQuantity(quantity: number) {
     if (quantity < MIN_QUANTITY) {
-      throw new Error(`quantity cannot be less than ${MIN_QUANTITY}`)
+      throw new Error(`quantity cannot be less than ${MIN_QUANTITY}`);
     }
 
-    this.props.quantity = quantity
-    this.markAsUpdated()
+    this.props.quantity = quantity;
+    this.markAsUpdated();
   }
 
   changeSalePrice(salePrice: number) {
     if (salePrice < 0) {
-      throw new InvalidPriceError()
+      throw new InvalidPriceError();
     }
 
-    this.props.salePriceAtTime = salePrice
-    this.markAsUpdated()
+    this.props.salePriceAtTime = salePrice;
+    this.markAsUpdated();
   }
 
   markAsUpdated() {
-    this.props.updatedAt = new Date()
+    this.props.updatedAt = new Date();
   }
 
   toJSON() {
@@ -67,26 +67,26 @@ export class SaleProduct extends Entity<SaleProductProps> {
       id: this.id.toString(),
       ...this.props,
       userId: this.props.userId.toString(),
-    }
+    };
   }
 
   get quantity() {
-    return this.props.quantity
+    return this.props.quantity;
   }
 
   get salePriceAtTime() {
-    return this.props.salePriceAtTime
+    return this.props.salePriceAtTime;
   }
 
   get userId() {
-    return this.props.userId
+    return this.props.userId;
   }
 
   get productId() {
-    return this.props.productId
+    return this.props.productId;
   }
 
   get soldAt() {
-    return this.props.soldAt
+    return this.props.soldAt;
   }
 }

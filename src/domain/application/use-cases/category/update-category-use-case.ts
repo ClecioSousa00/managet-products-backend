@@ -1,58 +1,58 @@
-import { UseCase } from '@/shared/use-case'
-import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
-import { UserNotFoundError } from '@/shared/errors/user-not-found-error'
-import { CategoryAlreadyExistsError } from '@/shared/errors/category-already-exists-error'
-import { CategoryNotFoundError } from '@/shared/errors/category-not-found-error'
+import { UniqueEntityId } from '@/shared/entities/unique-entity-id';
+import { CategoryAlreadyExistsError } from '@/shared/errors/category-already-exists-error';
+import { CategoryNotFoundError } from '@/shared/errors/category-not-found-error';
+import { UserNotFoundError } from '@/shared/errors/user-not-found-error';
+import type { UseCase } from '@/shared/use-case';
 
-import { CategoryRepository } from '../../repositories/category-repository'
-import { UserRepository } from '../../repositories/user-repository'
+import type { CategoryRepository } from '../../repositories/category-repository';
+import type { UserRepository } from '../../repositories/user-repository';
 
 interface InputDto {
-  name: string
-  userId: string
-  id: string
+  name: string;
+  userId: string;
+  id: string;
 }
 
-interface OutputDto {}
+type OutputDto = {};
 
 export class UpdateCategoryUseCase implements UseCase<InputDto, OutputDto> {
   constructor(
     private categoryRepository: CategoryRepository,
-    private userRepository: UserRepository,
+    private userRepository: UserRepository
   ) {}
 
   async execute({ name, userId, id }: InputDto): Promise<OutputDto> {
-    const user = await this.userRepository.findById(new UniqueEntityId(userId))
+    const user = await this.userRepository.findById(new UniqueEntityId(userId));
 
     if (!user) {
-      throw new UserNotFoundError()
+      throw new UserNotFoundError();
     }
 
     const category = await this.categoryRepository.findById(
       new UniqueEntityId(id),
-      new UniqueEntityId(userId),
-    )
+      new UniqueEntityId(userId)
+    );
 
     if (!category) {
-      throw new CategoryNotFoundError()
+      throw new CategoryNotFoundError();
     }
 
     if (category.name === name.trim()) {
-      return {}
+      return {};
     }
 
     const categoryNameAlreadyExists = await this.categoryRepository.findByName(
       name,
-      new UniqueEntityId(userId),
-    )
+      new UniqueEntityId(userId)
+    );
 
     if (categoryNameAlreadyExists) {
-      throw new CategoryAlreadyExistsError()
+      throw new CategoryAlreadyExistsError();
     }
 
-    category.updateName(name)
-    await this.categoryRepository.update(category)
+    category.updateName(name);
+    await this.categoryRepository.update(category);
 
-    return {}
+    return {};
   }
 }

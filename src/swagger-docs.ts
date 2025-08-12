@@ -1,26 +1,25 @@
-import { OpenAPIRegistry } from '@asteasolutions/zod-to-openapi'
+import { OpenAPIRegistry } from '@asteasolutions/zod-to-openapi';
 
-import { z } from 'zod'
-
-import { RegisterUserBodySchema } from './infra/http/schema-validations/user/register-validation'
-import { AuthenticateUserBodySchema } from './infra/http/schema-validations/user/authenticate-validation'
-import { CreateCategoryBodySchema } from './infra/http/schema-validations/categories/create-category-validation'
-import { CategoryParamsSchema } from './infra/http/schema-validations/categories/get-category-by-id-validation'
-import { DeleteCategoryParamsSchema } from './infra/http/schema-validations/categories/delete-category-validation'
+import { z } from 'zod';
+import { CreateCategoryBodySchema } from './infra/http/schema-validations/categories/create-category-validation';
+import { DeleteCategoryParamsSchema } from './infra/http/schema-validations/categories/delete-category-validation';
+import { CategoryParamsSchema } from './infra/http/schema-validations/categories/get-category-by-id-validation';
 import {
   UpdateCategoryBodySchema,
   UpdateCategoryParamsSchema,
-} from './infra/http/schema-validations/categories/update-category-validation'
-import { CreateProductBodySchema } from './infra/http/schema-validations/products/create-produtc-validation'
-import { GetProductParamsSchema } from './infra/http/schema-validations/products/get-product-by-id-validation'
+} from './infra/http/schema-validations/categories/update-category-validation';
+import { CreateProductBodySchema } from './infra/http/schema-validations/products/create-produtc-validation';
+import { DeleteProductParamsSchema } from './infra/http/schema-validations/products/delete-product-validation';
+import { GetAllProductsQuerySchema } from './infra/http/schema-validations/products/get-all-products-validation';
+import { GetProductParamsSchema } from './infra/http/schema-validations/products/get-product-by-id-validation';
 import {
   UpdateProductBodySchema,
   UpdateProductParamsSchema,
-} from './infra/http/schema-validations/products/update-product-validation'
-import { DeleteProductParamsSchema } from './infra/http/schema-validations/products/delete-product-validation'
-import { GetAllProductsQuerySchema } from './infra/http/schema-validations/products/get-all-products-validation'
+} from './infra/http/schema-validations/products/update-product-validation';
+import { AuthenticateUserBodySchema } from './infra/http/schema-validations/user/authenticate-validation';
+import { RegisterUserBodySchema } from './infra/http/schema-validations/user/register-validation';
 
-const registry = new OpenAPIRegistry()
+const registry = new OpenAPIRegistry();
 
 registry.registerPath({
   method: 'post',
@@ -41,7 +40,7 @@ registry.registerPath({
       description: 'Creates a new user account',
     },
   },
-})
+});
 
 registry.registerPath({
   method: 'get',
@@ -62,7 +61,7 @@ registry.registerPath({
       },
     },
   },
-})
+});
 
 registry.registerPath({
   method: 'post',
@@ -90,7 +89,7 @@ registry.registerPath({
       },
     },
   },
-})
+});
 
 registry.registerPath({
   method: 'post',
@@ -112,7 +111,7 @@ registry.registerPath({
       description: 'Creates a new product category',
     },
   },
-})
+});
 
 registry.registerPath({
   method: 'get',
@@ -136,7 +135,7 @@ registry.registerPath({
       },
     },
   },
-})
+});
 
 registry.registerPath({
   method: 'get',
@@ -153,13 +152,13 @@ registry.registerPath({
             z.object({
               id: z.string().uuid(),
               name: z.string(),
-            }),
+            })
           ),
         },
       },
     },
   },
-})
+});
 
 registry.registerPath({
   method: 'delete',
@@ -175,7 +174,7 @@ registry.registerPath({
       description: 'Successful response with delete a category',
     },
   },
-})
+});
 
 registry.registerPath({
   method: 'put',
@@ -198,7 +197,7 @@ registry.registerPath({
       description: 'Successful response with updated a category',
     },
   },
-})
+});
 
 registry.registerPath({
   method: 'post',
@@ -220,7 +219,7 @@ registry.registerPath({
       description: 'Creates a new product',
     },
   },
-})
+});
 
 registry.registerPath({
   method: 'get',
@@ -248,7 +247,7 @@ registry.registerPath({
       },
     },
   },
-})
+});
 
 registry.registerPath({
   method: 'get',
@@ -272,13 +271,13 @@ registry.registerPath({
               salePrice: z.number(),
               quantity: z.number(),
               createdAt: z.string().datetime(),
-            }),
+            })
           ),
         },
       },
     },
   },
-})
+});
 
 registry.registerPath({
   method: 'put',
@@ -301,7 +300,7 @@ registry.registerPath({
       description: 'Successful response with updated a product',
     },
   },
-})
+});
 
 registry.registerPath({
   method: 'delete',
@@ -317,12 +316,12 @@ registry.registerPath({
       description: 'Successful response with delete a product',
     },
   },
-})
+});
 
 registry.registerComponent('securitySchemes', 'bearerAuth', {
   type: 'http',
   scheme: 'bearer',
   bearerFormat: 'JWT',
-})
+});
 
-export { registry }
+export { registry };

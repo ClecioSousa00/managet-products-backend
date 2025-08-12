@@ -1,12 +1,11 @@
-import { z } from 'zod'
+import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi';
+import { z } from 'zod';
 
-import { extendZodWithOpenApi } from '@asteasolutions/zod-to-openapi'
+import type { HttpRequest } from '@/shared/controller';
 
-import { HttpRequest } from '@/shared/controller'
+import { validateRequest } from '../../middleware/validation-request';
 
-import { validateRequest } from '../../middleware/validation-request'
-
-extendZodWithOpenApi(z)
+extendZodWithOpenApi(z);
 
 export const RegisterUserBodySchema = z
   .object({
@@ -14,13 +13,13 @@ export const RegisterUserBodySchema = z
     email: z.string().email().openapi({}),
     password: z.string().min(8).openapi({}),
   })
-  .openapi({ description: 'Register User Schema' })
+  .openapi({ description: 'Register User Schema' });
 
-type RegisterUserBody = z.infer<typeof RegisterUserBodySchema>
+type RegisterUserBody = z.infer<typeof RegisterUserBodySchema>;
 
 export const registerValidationUser = validateRequest(
   'body',
-  RegisterUserBodySchema,
-)
+  RegisterUserBodySchema
+);
 
-export type RegisterRequest = HttpRequest<RegisterUserBody>
+export type RegisterRequest = HttpRequest<RegisterUserBody>;

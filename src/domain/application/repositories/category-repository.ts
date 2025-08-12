@@ -1,11 +1,14 @@
-import { Category } from '@/domain/enterprise/entities/category'
-import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
+import type { Category } from '@/domain/enterprise/entities/category';
+import type { UniqueEntityId } from '@/shared/entities/unique-entity-id';
 
 export interface CategoryRepository {
-  create(category: Category): Promise<void>
-  findById(id: UniqueEntityId, userId: UniqueEntityId): Promise<Category | null>
-  findMany(userId: UniqueEntityId): Promise<Category[]>
-  findByName(name: string, userId: UniqueEntityId): Promise<Category | null>
-  delete(id: UniqueEntityId): Promise<void>
-  update(category: Category): Promise<void>
+  create(category: Category): Promise<void>;
+  findById(
+    id: UniqueEntityId,
+    userId: UniqueEntityId
+  ): Promise<Category | null>;
+  findMany(userId: UniqueEntityId): Promise<Category[]>;
+  findByName(name: string, userId: UniqueEntityId): Promise<Category | null>;
+  delete(id: UniqueEntityId): Promise<void>;
+  update(category: Category): Promise<void>;
 }

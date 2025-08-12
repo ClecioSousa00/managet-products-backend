@@ -1,6 +1,6 @@
-import { Category } from '@/domain/enterprise/entities/category'
-import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
-import { Category as PrismaCategory } from '@prisma/client'
+import type { Category as PrismaCategory } from '@prisma/client';
+import { Category } from '@/domain/enterprise/entities/category';
+import { UniqueEntityId } from '@/shared/entities/unique-entity-id';
 
 export class CategoryPrismaMapper {
   static toDomain(data: PrismaCategory): Category {
@@ -9,8 +9,8 @@ export class CategoryPrismaMapper {
         userId: new UniqueEntityId(data.userId),
         name: data.name,
       },
-      new UniqueEntityId(data.id),
-    )
+      new UniqueEntityId(data.id)
+    );
   }
 
   static toPrisma(category: Category): PrismaCategory {
@@ -18,6 +18,6 @@ export class CategoryPrismaMapper {
       id: category.id.toString(),
       userId: category.userId.toString(),
       name: category.name,
-    }
+    };
   }
 }

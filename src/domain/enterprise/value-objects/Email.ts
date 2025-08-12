@@ -1,23 +1,23 @@
-import { InvalidEmailError } from '@/shared/errors/invalid-email-error'
+import { InvalidEmailError } from '@/shared/errors/invalid-email-error';
 
+const regex = /^[^\s]+@[^\s]+\.[^\s]+$/;
 export class Email {
-  value: string
+  value: string;
 
   constructor(value: string) {
-    this.validade(value)
-    this.value = value
+    this.validade(value);
+    this.value = value;
   }
 
   private validade(value: string) {
-    const regex = /^[^\s]+@[^\s]+\.[^\s]+$/
-    const isValidEmail = regex.test(value)
+    const isValidEmail = regex.test(value);
 
     if (!isValidEmail) {
-      throw new InvalidEmailError()
+      throw new InvalidEmailError();
     }
   }
 
   toValue() {
-    return this.value
+    return this.value;
   }
 }

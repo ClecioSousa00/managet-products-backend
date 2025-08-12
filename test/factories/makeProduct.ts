@@ -1,10 +1,13 @@
-import { Product, ProductProps } from '@/domain/enterprise/entities/product'
-import { UniqueEntityId } from '@/shared/entities/unique-entity-id'
-import { randomUUID } from 'node:crypto'
+import { randomUUID } from 'node:crypto';
+import {
+  Product,
+  type ProductProps,
+} from '@/domain/enterprise/entities/product';
+import { UniqueEntityId } from '@/shared/entities/unique-entity-id';
 
 export const makeProduct = (
   override: Partial<ProductProps> = {},
-  id?: UniqueEntityId,
+  id?: UniqueEntityId
 ): Product => {
   const product = Product.create(
     {
@@ -16,8 +19,8 @@ export const makeProduct = (
       userId: new UniqueEntityId(),
       ...override,
     },
-    id,
-  )
+    id
+  );
 
-  return product
-}
+  return product;
+};
