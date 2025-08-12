@@ -20,4 +20,14 @@ export class InMemorySaleProductRepository implements SaleProductRepository {
 
     return saleProduct ?? null;
   }
+
+  async update(saleProduct: SaleProduct): Promise<void> {
+    const index = this.items.findIndex((item) =>
+      item.id.equals(saleProduct.id)
+    );
+
+    if (index !== -1) {
+      this.items[index] = saleProduct;
+    }
+  }
 }

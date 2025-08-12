@@ -68,6 +68,8 @@ export class UpdateSaleProductUseCase implements UseCase<InputDto, OutputDto> {
       saleProduct.changeQuantity(quantity);
       product.changeQuantity(newQuantityProduct);
     }
+    await this.saleProductRepository.update(saleProduct);
+    await this.productRepository.update(product);
     return {};
   }
 }
