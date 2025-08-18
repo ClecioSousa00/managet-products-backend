@@ -9,24 +9,17 @@ import type { UserRepository } from '../../repositories/user-repository';
 interface InputDto {
   userId: string;
   saleProductId: string;
-  quantity?: number;
-  salePriceAtTime?: number;
 }
 
 type OutputDto = {};
 
-export class UpdateSaleProductUseCase implements UseCase<InputDto, OutputDto> {
+export class DeleteSaleProductUseCase implements UseCase<InputDto, OutputDto> {
   constructor(
     private userRepository: UserRepository,
     private saleProductRepository: SaleProductRepository,
     private productRepository: ProductRepository
   ) {}
-  async execute({
-    saleProductId,
-    userId,
-    quantity,
-    salePriceAtTime,
-  }: InputDto): Promise<OutputDto> {
+  async execute({ saleProductId, userId }: InputDto): Promise<OutputDto> {
     const user = await this.userRepository.findById(new UniqueEntityId(userId));
 
     if (!user) {
@@ -51,19 +44,11 @@ export class UpdateSaleProductUseCase implements UseCase<InputDto, OutputDto> {
       throw new ResourceNotFoundError();
     }
 
-    if (typeof salePriceAtTime === 'number' && salePriceAtTime >= 0) {
-      saleProduct.changeSalePrice(salePriceAtTime);
-    }
+    const newQuantityProduct = product.quantity + saleProduct.quantity;
 
-    if (typeof quantity === 'number' && quantity !== saleProduct.quantity) {
-      const diff = quantity - saleProduct.quantity;
-      const newQuantityProduct = product.quantity - diff;
+    product.changeQuantity(newQuantityProduct);
 
-      saleProduct.changeQuantity(quantity);
-      product.changeQuantity(newQuantityProduct);
-    }
-
-    await this.saleProductRepository.update(saleProduct);
+    await this.saleProductRepository.delete(saleProduct.id);
     await this.productRepository.update(product);
     return {};
   }

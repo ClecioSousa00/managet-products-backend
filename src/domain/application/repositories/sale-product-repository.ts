@@ -8,4 +8,5 @@ export interface SaleProductRepository {
     userId: UniqueEntityId
   ): Promise<SaleProduct | null>;
   update(saleProduct: SaleProduct): Promise<void>;
+  delete(id: UniqueEntityId): Promise<void>;
 }

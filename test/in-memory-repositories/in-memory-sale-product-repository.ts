@@ -30,4 +30,9 @@ export class InMemorySaleProductRepository implements SaleProductRepository {
       this.items[index] = saleProduct;
     }
   }
+
+  async delete(id: UniqueEntityId): Promise<void> {
+    const filteredItems = this.items.filter((item) => !item.id.equals(id));
+    this.items = filteredItems;
+  }
 }
