@@ -89,4 +89,8 @@ export class SaleProduct extends Entity<SaleProductProps> {
   get soldAt() {
     return this.props.soldAt;
   }
+
+  get updatedAt() {
+    return this.props.updatedAt;
+  }
 }

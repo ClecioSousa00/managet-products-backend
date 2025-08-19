@@ -15,21 +15,23 @@ datasource db {
 }
 
 model User {
-  id         String     @id @default(uuid())
-  email      String     @unique
-  username   String
-  password   String
-  categories Category[]
-  product    Product[]
+  id          String        @id @default(uuid())
+  email       String        @unique
+  username    String
+  password    String
+  categories  Category[]
+  product     Product[]
+  saleProduct SaleProduct[]
 
   @@map("users")
 }
 
 model Category {
-  id      String    @id @default(uuid())
-  name    String
-  user    User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId  String    @map("user_id")
+  id     String @id @default(uuid())
+  name   String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
+
   product Product[]
 
   @@map("categories")
@@ -50,5 +52,23 @@ model Product {
   category   Category? @relation(fields: [categoryId], references: [id], onDelete: SetNull)
   categoryId String?   @map("category_id")
 
+  saleProduct SaleProduct[]
+
   @@map("products")
+}
+
+model SaleProduct {
+  id              String    @id @default(uuid())
+  quantity        Int
+  salePriceAtTime Decimal   @map("sale_price_at_time") @db.Decimal(12, 2)
+  soldAt          DateTime  @default(now()) @map("sold_at")
+  updatedAt       DateTime? @map("updated_at")
+
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId String @map("user_id")
+
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+  productId String  @map("product_id")
+
+  @@map("sale_products")
 }

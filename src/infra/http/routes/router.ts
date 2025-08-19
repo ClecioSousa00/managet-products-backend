@@ -11,6 +11,7 @@ import { makeGetByIdCategoryController } from '../factories/controllers/make-get
 import { makeGetProductByIdController } from '../factories/controllers/make-get-by-id-products-controller';
 import { makeGetProfileUserController } from '../factories/controllers/make-get-profile-user-controller';
 import { makeRegisterUserController } from '../factories/controllers/make-register-user-controller';
+import { makeCreateSaleProductController } from '../factories/controllers/make-sale-product-controller';
 import { makeUpdateCategoryController } from '../factories/controllers/make-update-category-controller';
 import { makeUpdateProductController } from '../factories/controllers/make-update-product-controller';
 import { ensureAuthenticated } from '../middleware/ensure-authenticated';
@@ -29,6 +30,7 @@ import {
   updateProductBodyValidation,
   updateProductParamsValidation,
 } from '../schema-validations/products/update-product-validation';
+import { CreateSaleProductValidation } from '../schema-validations/sale-products/create-sale-product-validation';
 import { authenticateValidationUser } from '../schema-validations/user/authenticate-validation';
 import { registerValidationUser } from '../schema-validations/user/register-validation';
 
@@ -120,6 +122,13 @@ routes.put(
   updateProductParamsValidation,
   updateProductBodyValidation,
   ExpressAdapter(makeUpdateProductController())
+);
+
+routes.post(
+  '/sale-products',
+  ensureAuthenticated,
+  CreateSaleProductValidation,
+  ExpressAdapter(makeCreateSaleProductController())
 );
 
 export { routes };
