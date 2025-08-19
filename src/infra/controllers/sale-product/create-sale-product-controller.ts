@@ -11,7 +11,7 @@ export class CreateSaleProductController implements Controller {
     const userId = request.userId;
     const { productId, quantity, salePriceAtTime } = request.body;
     try {
-      await this.createSaleProductUseCase.execute({
+      const { id } = await this.createSaleProductUseCase.execute({
         productId,
         userId,
         quantity,
@@ -20,6 +20,7 @@ export class CreateSaleProductController implements Controller {
 
       return {
         status: StatusCodes.CREATED,
+        body: { id },
       };
     } catch (error) {
       return handleControllerError(error);

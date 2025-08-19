@@ -15,7 +15,7 @@ interface InputDto {
   salePriceAtTime: number;
 }
 
-type OutputDto = {};
+type OutputDto = { id: string };
 
 export class CreateSaleProductUseCase implements UseCase<InputDto, OutputDto> {
   constructor(
@@ -65,6 +65,6 @@ export class CreateSaleProductUseCase implements UseCase<InputDto, OutputDto> {
 
     await this.productRepository.update(product);
 
-    return {};
+    return { id: saleProduct.id.toString() };
   }
 }

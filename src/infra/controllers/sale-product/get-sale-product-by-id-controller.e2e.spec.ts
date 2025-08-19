@@ -2,8 +2,8 @@ import request from 'supertest';
 import { createAndAuthenticateUser } from 'test/utils/create-and-authenticate-user';
 import app from '@/app';
 
-describe('Create Sale Product Controller (E2E)', () => {
-  it('Should be able do create a sale product', async () => {
+describe('Get Sale Product By Id Controller (E2E)', () => {
+  it('Should be able to get a sale product', async () => {
     const { accessToken } = await createAndAuthenticateUser(app);
 
     await request(app)
@@ -29,7 +29,6 @@ describe('Create Sale Product Controller (E2E)', () => {
         salePrice: 3000,
         purchasePrice: 1000,
       });
-
     const getProductsResponse = await request(app)
       .get('/product?limit=10&page=1')
       .set('Authorization', `Bearer ${accessToken}`);
@@ -45,7 +44,18 @@ describe('Create Sale Product Controller (E2E)', () => {
         salePriceAtTime: 2000,
       });
 
-    expect(saleProductResponse.statusCode).toBe(201);
-    expect(saleProductResponse.body.id).toBeTruthy();
+    const getSaleProduct = await request(app)
+      .post(`/sale-products/${saleProductResponse.body.id}`)
+      .set('Authorization', `Bearer ${accessToken}`);
+
+    expect(getProductsResponse.statusCode).toBe(200);
+
+    expect(getSaleProduct.body.saleProduct).toEqual(
+      expect.objectContaining({
+        quantity: 4,
+        salePriceAtTime: 2000,
+        nameProduct: 'new product',
+      })
+    );
   });
 });
