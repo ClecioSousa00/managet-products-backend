@@ -2,6 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import type { HttpResponse } from '../controller';
 import { CategoryAlreadyExistsError } from '../errors/category-already-exists-error';
 import { CategoryNotFoundError } from '../errors/category-not-found-error';
+import { InvalidQuantityProductError } from '../errors/invalid-quantity-product-error';
 import { ResourceNotFoundError } from '../errors/resource-not-found-error';
 import { UserNotFoundError } from '../errors/user-not-found-error';
 import { WrongCredentialsError } from '../errors/wrong-credentials-error';
@@ -38,6 +39,12 @@ export const handleControllerError = (error: unknown): HttpResponse => {
   if (error instanceof CategoryNotFoundError) {
     return {
       status: StatusCodes.NOT_FOUND,
+      body: { message: error.message },
+    };
+  }
+  if (error instanceof InvalidQuantityProductError) {
+    return {
+      status: StatusCodes.BAD_REQUEST,
       body: { message: error.message },
     };
   }

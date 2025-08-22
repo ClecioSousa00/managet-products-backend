@@ -4,6 +4,7 @@ import { makeUser } from 'test/factories/makeUser';
 import { InMemoryProductRepository } from 'test/in-memory-repositories/in-memory-product-repository';
 import { InMemorySaleProductRepository } from 'test/in-memory-repositories/in-memory-sale-product-repository';
 import { InMemoryUserRepository } from 'test/in-memory-repositories/in-memory-user-repository';
+import { InvalidQuantityProductError } from '@/shared/errors/invalid-quantity-product-error';
 import { UpdateSaleProductUseCase } from './update-sale-product-use-case';
 
 let inMemoryUserRepository: InMemoryUserRepository;
@@ -68,6 +69,27 @@ describe('Update Sale Product Use Case', () => {
 
     expect(inMemorySaleProductRepository.items[0].quantity).toEqual(3);
     expect(inMemoryProductRepository.items[0].quantity).toEqual(6);
+  });
+  it('Should not be able to update a sale product if insufficient product quantity', async () => {
+    const user = makeUser();
+    const product = makeProduct({ userId: user.id, quantity: 5 });
+    const saleProduct = makeSaleProduct({
+      productId: product.id,
+      userId: user.id,
+      quantity: 4,
+    });
+
+    inMemoryUserRepository.items.push(user);
+    inMemoryProductRepository.items.push(product);
+    inMemorySaleProductRepository.items.push(saleProduct);
+
+    await expect(() =>
+      updateSaleProductUseCase.execute({
+        saleProductId: saleProduct.id.toString(),
+        userId: user.id.toString(),
+        quantity: 10,
+      })
+    ).rejects.toBeInstanceOf(InvalidQuantityProductError);
   });
   it('Should be able to update a sale product', async () => {
     const user = makeUser();

@@ -2,6 +2,7 @@ import { Entity } from '@/shared/entities/entity';
 import type { UniqueEntityId } from '@/shared/entities/unique-entity-id';
 import { InvalidNameError } from '@/shared/errors/invalid-name-error';
 import { InvalidPriceError } from '@/shared/errors/invalid-price-error';
+import { InvalidQuantityProductError } from '@/shared/errors/invalid-quantity-product-error';
 import type { Optional } from '@/shared/types/optional';
 
 export interface ProductProps {
@@ -45,7 +46,7 @@ export class Product extends Entity<ProductProps> {
     }
 
     if (this.props.quantity < MIN_QUANTITY) {
-      throw new Error(`quantity cannot be less than ${MIN_QUANTITY}`);
+      throw new InvalidQuantityProductError();
     }
 
     if (this.props.salePrice < 0 || this.props.purchasePrice < 0) {
@@ -64,7 +65,7 @@ export class Product extends Entity<ProductProps> {
 
   changeQuantity(quantity: number) {
     if (quantity < MIN_QUANTITY) {
-      throw new Error(`quantity cannot be less than ${MIN_QUANTITY}`);
+      throw new InvalidQuantityProductError();
     }
 
     this.props.quantity = quantity;

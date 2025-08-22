@@ -15,6 +15,7 @@ import { makeRegisterUserController } from '../factories/controllers/make-regist
 import { makeCreateSaleProductController } from '../factories/controllers/make-sale-product-controller';
 import { makeUpdateCategoryController } from '../factories/controllers/make-update-category-controller';
 import { makeUpdateProductController } from '../factories/controllers/make-update-product-controller';
+import { makeUpdateSaleProductController } from '../factories/controllers/make-update-sale-product-controller';
 import { ensureAuthenticated } from '../middleware/ensure-authenticated';
 import { createCategoryValidation } from '../schema-validations/categories/create-category-validation';
 import { deleteCategoryValidation } from '../schema-validations/categories/delete-category-validation';
@@ -33,6 +34,10 @@ import {
 } from '../schema-validations/products/update-product-validation';
 import { CreateSaleProductValidation } from '../schema-validations/sale-products/create-sale-product-validation';
 import { getSaleProductByIdValidation } from '../schema-validations/sale-products/get-sale-product-by-id-validation';
+import {
+  updateSaleProductBodyValidation,
+  updateSaleProductParamsValidation,
+} from '../schema-validations/sale-products/update-sale-product-validation';
 import { authenticateValidationUser } from '../schema-validations/user/authenticate-validation';
 import { registerValidationUser } from '../schema-validations/user/register-validation';
 
@@ -133,11 +138,19 @@ routes.post(
   ExpressAdapter(makeCreateSaleProductController())
 );
 
-routes.post(
+routes.get(
   '/sale-products/:id',
   ensureAuthenticated,
   getSaleProductByIdValidation,
   ExpressAdapter(makeGetSaleProductByIdController())
+);
+
+routes.put(
+  '/sale-products/:id',
+  ensureAuthenticated,
+  updateSaleProductParamsValidation,
+  updateSaleProductBodyValidation,
+  ExpressAdapter(makeUpdateSaleProductController())
 );
 
 export { routes };
