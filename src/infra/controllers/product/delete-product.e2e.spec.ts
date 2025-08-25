@@ -7,20 +7,20 @@ describe('Delete Product (E2E)', () => {
     const { accessToken } = await createAndAuthenticateUser(app);
 
     await request(app)
-      .post('/category')
+      .post('/categories')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         name: 'new category',
       });
 
     const categoryResponse = await request(app)
-      .get('/category')
+      .get('/categories')
       .set('Authorization', `Bearer ${accessToken}`);
 
     const category = categoryResponse.body.categories[0];
 
     await request(app)
-      .post('/product')
+      .post('/products')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         categoryId: category.id,
@@ -31,7 +31,7 @@ describe('Delete Product (E2E)', () => {
       });
 
     await request(app)
-      .post('/product')
+      .post('/products')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         categoryId: category.id,
@@ -42,19 +42,19 @@ describe('Delete Product (E2E)', () => {
       });
 
     const productsResponse = await request(app)
-      .get('/product?limit=10&page=1')
+      .get('/products?limit=10&page=1')
       .set('Authorization', `Bearer ${accessToken}`);
 
     const product = productsResponse.body.products[0];
 
     const getProductByIdResponse = await request(app)
-      .delete(`/product/${product.id}`)
+      .delete(`/products/${product.id}`)
       .set('Authorization', `Bearer ${accessToken}`);
 
     expect(getProductByIdResponse.statusCode).toBe(204);
 
     const newProductsResponse = await request(app)
-      .get('/product?limit=10&page=1')
+      .get('/products?limit=10&page=1')
       .set('Authorization', `Bearer ${accessToken}`);
 
     expect(newProductsResponse.body.products).toHaveLength(1);

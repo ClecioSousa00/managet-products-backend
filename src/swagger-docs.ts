@@ -16,6 +16,13 @@ import {
   UpdateProductBodySchema,
   UpdateProductParamsSchema,
 } from './infra/http/schema-validations/products/update-product-validation';
+import { CreateSaleProductBodySchema } from './infra/http/schema-validations/sale-products/create-sale-product-validation';
+import { DeleteSaleProductParamsSchema } from './infra/http/schema-validations/sale-products/delete-sale-product-by-id-validation';
+import { GetSaleProductParamsSchema } from './infra/http/schema-validations/sale-products/get-sale-product-by-id-validation';
+import {
+  UpdateSaleProductBodySchema,
+  UpdateSaleProductParamsSchema,
+} from './infra/http/schema-validations/sale-products/update-sale-product-validation';
 import { AuthenticateUserBodySchema } from './infra/http/schema-validations/user/authenticate-validation';
 import { RegisterUserBodySchema } from './infra/http/schema-validations/user/register-validation';
 
@@ -314,6 +321,94 @@ registry.registerPath({
   responses: {
     204: {
       description: 'Successful response with delete a product',
+    },
+  },
+});
+
+registry.registerPath({
+  method: 'post',
+  path: '/sale-products',
+  summary: 'Create Sale Product',
+  tags: ['Sale Products'],
+  security: [{ bearerAuth: [] }],
+  request: {
+    body: {
+      content: {
+        'application/json': {
+          schema: CreateSaleProductBodySchema,
+        },
+      },
+    },
+  },
+  responses: {
+    201: {
+      description: 'Creates a new sale product',
+    },
+  },
+});
+
+registry.registerPath({
+  method: 'get',
+  path: '/sale-products/{id}',
+  summary: 'Get Sale Product by ID',
+  tags: ['Sale Products'],
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: GetSaleProductParamsSchema,
+  },
+  responses: {
+    200: {
+      description: 'Returns details of a specific sale product by its ID',
+      content: {
+        'application/json': {
+          schema: z.object({
+            productId: z.string().uuid(),
+            nameProduct: z.string(),
+            quantity: z.number(),
+            salePriceAtTime: z.number(),
+            soldAt: z.string().datetime(),
+          }),
+        },
+      },
+    },
+  },
+});
+
+registry.registerPath({
+  method: 'put',
+  path: '/sale-products/{id}',
+  summary: 'Update a Sale Product',
+  tags: ['Sale Products'],
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: UpdateSaleProductParamsSchema,
+    body: {
+      content: {
+        'application/json': {
+          schema: UpdateSaleProductBodySchema,
+        },
+      },
+    },
+  },
+  responses: {
+    200: {
+      description: 'Successful response with updated a sale product',
+    },
+  },
+});
+
+registry.registerPath({
+  method: 'delete',
+  path: '/sale-products/{id}',
+  summary: 'Delete a Sale Product',
+  tags: ['Sale Products'],
+  security: [{ bearerAuth: [] }],
+  request: {
+    params: DeleteSaleProductParamsSchema,
+  },
+  responses: {
+    204: {
+      description: 'Successful response with delete a sale product',
     },
   },
 });

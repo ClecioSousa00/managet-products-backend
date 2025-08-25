@@ -6,7 +6,7 @@ describe('Create Category (E2E)', () => {
   it('Should be able to create a category', async () => {
     const { accessToken } = await createAndAuthenticateUser(app);
     const response = await request(app)
-      .post('/category')
+      .post('/categories')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         name: 'new category',

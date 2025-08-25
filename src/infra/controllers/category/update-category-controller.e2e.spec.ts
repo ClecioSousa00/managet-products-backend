@@ -7,27 +7,27 @@ describe('Update Category E2E', () => {
     const { accessToken } = await createAndAuthenticateUser(app);
 
     await request(app)
-      .post('/category')
+      .post('/categories')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         name: 'category 1',
       });
 
     await request(app)
-      .post('/category')
+      .post('/categories')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         name: 'category 2',
       });
 
     const responseGetAllCategories = await request(app)
-      .get('/category')
+      .get('/categories')
       .set('Authorization', `Bearer ${accessToken}`);
 
     const category = responseGetAllCategories.body.categories[0];
 
     const responseUpdateCategory = await request(app)
-      .put(`/category/${category.id}`)
+      .put(`/categories/${category.id}`)
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         name: 'update category 1',
@@ -36,7 +36,7 @@ describe('Update Category E2E', () => {
     expect(responseUpdateCategory.statusCode).toBe(200);
 
     const responseGetByIdCategory = await request(app)
-      .get(`/category/${category.id}`)
+      .get(`/categories/${category.id}`)
       .set('Authorization', `Bearer ${accessToken}`);
 
     const newCategory = responseGetByIdCategory.body;
@@ -55,14 +55,14 @@ describe('Update Category E2E', () => {
     });
 
     await request(app)
-      .post('/category')
+      .post('/categories')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         name: 'category 1',
       });
 
     const responseUpdateCategory = await request(app)
-      .put('/category/fake-id-category')
+      .put('/categories/fake-id-category')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         name: 'update category 1',
@@ -71,7 +71,7 @@ describe('Update Category E2E', () => {
     expect(responseUpdateCategory.statusCode).toBe(404);
 
     const responseGetAllCategories = await request(app)
-      .get('/category')
+      .get('/categories')
       .set('Authorization', `Bearer ${accessToken}`);
 
     expect(responseGetAllCategories.body.categories).toHaveLength(1);

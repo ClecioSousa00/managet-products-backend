@@ -8,20 +8,20 @@ describe('Create Product Controller (E2E)', () => {
     const { accessToken } = await createAndAuthenticateUser(app);
 
     await request(app)
-      .post('/category')
+      .post('/categories')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         name: 'category 1',
       });
 
     const categoryResponse = await request(app)
-      .get('/category')
+      .get('/categories')
       .set('Authorization', `Bearer ${accessToken}`);
 
     const category = categoryResponse.body.categories[0];
 
     const productResponse = await request(app)
-      .post('/product')
+      .post('/products')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         categoryId: category.id,
@@ -37,7 +37,7 @@ describe('Create Product Controller (E2E)', () => {
     const { accessToken } = await createAndAuthenticateUser(app);
 
     const productResponse = await request(app)
-      .post('/product')
+      .post('/products')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         categoryId: 'fake-category-id',

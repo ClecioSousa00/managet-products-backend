@@ -7,20 +7,20 @@ describe('Get Product By Id Controller (E2e)', () => {
     const { accessToken } = await createAndAuthenticateUser(app);
 
     await request(app)
-      .post('/category')
+      .post('/categories')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         name: 'new category',
       });
 
     const categoryResponse = await request(app)
-      .get('/category')
+      .get('/categories')
       .set('Authorization', `Bearer ${accessToken}`);
 
     const category = categoryResponse.body.categories[0];
 
     await request(app)
-      .post('/product')
+      .post('/products')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         categoryId: category.id,
@@ -31,7 +31,7 @@ describe('Get Product By Id Controller (E2e)', () => {
       });
 
     await request(app)
-      .post('/product')
+      .post('/products')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         categoryId: category.id,
@@ -42,13 +42,13 @@ describe('Get Product By Id Controller (E2e)', () => {
       });
 
     const productsResponse = await request(app)
-      .get('/product?limit=10&page=1')
+      .get('/products?limit=10&page=1')
       .set('Authorization', `Bearer ${accessToken}`);
 
     const product = productsResponse.body.products[0];
 
     const getProductByIdResponse = await request(app)
-      .get(`/product/${product.id}`)
+      .get(`/products/${product.id}`)
       .set('Authorization', `Bearer ${accessToken}`);
 
     expect(getProductByIdResponse.statusCode).toBe(200);

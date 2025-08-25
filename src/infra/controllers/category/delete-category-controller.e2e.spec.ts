@@ -7,33 +7,33 @@ describe('Delete Category Controller (E2E)', () => {
     const { accessToken } = await createAndAuthenticateUser(app);
 
     await request(app)
-      .post('/category')
+      .post('/categories')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         name: 'new category 1',
       });
 
     await request(app)
-      .post('/category')
+      .post('/categories')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         name: 'new category 2',
       });
 
     const categoriesResponse = await request(app)
-      .get('/category')
+      .get('/categories')
       .set('Authorization', `Bearer ${accessToken}`);
 
     const category = categoriesResponse.body.categories[0];
 
     const deleteResponse = await request(app)
-      .delete(`/category/${category.id}`)
+      .delete(`/categories/${category.id}`)
       .set('Authorization', `Bearer ${accessToken}`);
 
     expect(deleteResponse.statusCode).toBe(204);
 
     const newCategoryResponse = await request(app)
-      .get('/category')
+      .get('/categories')
       .set('Authorization', `Bearer ${accessToken}`);
 
     expect(newCategoryResponse.body.categories).toHaveLength(1);

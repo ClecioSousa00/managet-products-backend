@@ -64,33 +64,33 @@ routes.post(
 );
 
 routes.post(
-  '/category',
+  '/categories',
   ensureAuthenticated,
   createCategoryValidation,
   ExpressAdapter(makeCreateCategoryController())
 );
 
 routes.get(
-  '/category',
+  '/categories',
   ensureAuthenticated,
   ExpressAdapter(makeGetAllCategoriesController())
 );
 
 routes.get(
-  '/category/:id',
+  '/categories/:id',
   ensureAuthenticated,
   GetByIdCategoryValidation,
   ExpressAdapter(makeGetByIdCategoryController())
 );
 
 routes.delete(
-  '/category/:id',
+  '/categories/:id',
   ensureAuthenticated,
   deleteCategoryValidation,
   ExpressAdapter(makeDeleteCategoryController())
 );
 routes.put(
-  '/category/:id',
+  '/categories/:id',
   ensureAuthenticated,
   updateCategoryParamsValidation,
   updateCategoryBodyValidation,
@@ -98,35 +98,35 @@ routes.put(
 );
 
 routes.post(
-  '/product',
+  '/products',
   ensureAuthenticated,
   CreateProductBodyValidation,
   ExpressAdapter(makeCreateProductController())
 );
 
 routes.get(
-  '/product',
+  '/products',
   ensureAuthenticated,
   getAllProductsQueryValidation,
   ExpressAdapter(makeGetAllProductsController())
 );
 
 routes.get(
-  '/product/:id',
+  '/products/:id',
   ensureAuthenticated,
   getProductByIdValidation,
   ExpressAdapter(makeGetProductByIdController())
 );
 
 routes.delete(
-  '/product/:id',
+  '/products/:id',
   ensureAuthenticated,
   deleteProductValidation,
   ExpressAdapter(makeDeleteProductController())
 );
 
 routes.put(
-  '/product/:id',
+  '/products/:id',
   ensureAuthenticated,
   updateProductParamsValidation,
   updateProductBodyValidation,

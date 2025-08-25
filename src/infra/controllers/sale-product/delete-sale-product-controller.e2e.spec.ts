@@ -7,20 +7,20 @@ describe('Delete Sale Product Controller (E2E)', () => {
     const { accessToken } = await createAndAuthenticateUser(app);
 
     await request(app)
-      .post('/category')
+      .post('/categories')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         name: 'new category',
       });
 
     const categoryResponse = await request(app)
-      .get('/category')
+      .get('/categories')
       .set('Authorization', `Bearer ${accessToken}`);
 
     const category = categoryResponse.body.categories[0];
 
     await request(app)
-      .post('/product')
+      .post('/products')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         categoryId: category.id,
@@ -30,7 +30,7 @@ describe('Delete Sale Product Controller (E2E)', () => {
         purchasePrice: 1000,
       });
     const getProductsResponse = await request(app)
-      .get('/product?limit=10&page=1')
+      .get('/products?limit=10&page=1')
       .set('Authorization', `Bearer ${accessToken}`);
 
     const product = getProductsResponse.body.products[0];

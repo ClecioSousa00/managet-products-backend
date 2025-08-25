@@ -7,27 +7,27 @@ describe('Get By Id Category E2E', () => {
     const { accessToken } = await createAndAuthenticateUser(app);
 
     await request(app)
-      .post('/category')
+      .post('/categories')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         name: 'category 1',
       });
 
     await request(app)
-      .post('/category')
+      .post('/categories')
       .set('Authorization', `Bearer ${accessToken}`)
       .send({
         name: 'category 2',
       });
 
     const responseGetAllCategories = await request(app)
-      .get('/category')
+      .get('/categories')
       .set('Authorization', `Bearer ${accessToken}`);
 
     const category = responseGetAllCategories.body.categories[0];
 
     const responseUpdateCategory = await request(app)
-      .get(`/category/${category.id}`)
+      .get(`/categories/${category.id}`)
       .set('Authorization', `Bearer ${accessToken}`);
 
     expect(responseUpdateCategory.statusCode).toBe(200);
