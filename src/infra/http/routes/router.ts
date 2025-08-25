@@ -5,6 +5,7 @@ import { makeCreateCategoryController } from '../factories/controllers/make-crea
 import { makeCreateProductController } from '../factories/controllers/make-create-product-controller';
 import { makeDeleteCategoryController } from '../factories/controllers/make-delete-category-controller';
 import { makeDeleteProductController } from '../factories/controllers/make-delete-products-controller';
+import { makeDeleteSaleProductController } from '../factories/controllers/make-delete-sale-product-by-id-controller';
 import { makeGetAllCategoriesController } from '../factories/controllers/make-get-all-categories-controller';
 import { makeGetAllProductsController } from '../factories/controllers/make-get-all-products-controller';
 import { makeGetByIdCategoryController } from '../factories/controllers/make-get-by-id-category-controller';
@@ -33,6 +34,7 @@ import {
   updateProductParamsValidation,
 } from '../schema-validations/products/update-product-validation';
 import { CreateSaleProductValidation } from '../schema-validations/sale-products/create-sale-product-validation';
+import { deleteSaleProductValidation } from '../schema-validations/sale-products/delete-sale-product-by-id-validation';
 import { getSaleProductByIdValidation } from '../schema-validations/sale-products/get-sale-product-by-id-validation';
 import {
   updateSaleProductBodyValidation,
@@ -151,6 +153,13 @@ routes.put(
   updateSaleProductParamsValidation,
   updateSaleProductBodyValidation,
   ExpressAdapter(makeUpdateSaleProductController())
+);
+
+routes.delete(
+  '/sale-products/:id',
+  ensureAuthenticated,
+  deleteSaleProductValidation,
+  ExpressAdapter(makeDeleteSaleProductController())
 );
 
 export { routes };
