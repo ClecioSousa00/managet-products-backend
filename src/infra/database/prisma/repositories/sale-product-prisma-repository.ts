@@ -50,4 +50,12 @@ export class SaleProductPrismaRepository implements SaleProductRepository {
       },
     });
   }
+
+  async count(userId: UniqueEntityId): Promise<number> {
+    return await prisma.saleProduct.count({
+      where: {
+        userId: userId.toString(),
+      },
+    });
+  }
 }

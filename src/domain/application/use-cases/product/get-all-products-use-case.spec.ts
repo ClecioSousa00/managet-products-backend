@@ -49,8 +49,8 @@ describe('Get All Products Use Case', () => {
     });
 
     expect(products).toHaveLength(2);
-    expect(pagination.prevPageUrl).toBe(2);
-    expect(pagination.nextPageUrl).toBe(null);
+    expect(pagination.prevPage).toBe(2);
+    expect(pagination.nextPage).toBe(null);
   });
 
   it('Should throw if user does not exist', async () => {

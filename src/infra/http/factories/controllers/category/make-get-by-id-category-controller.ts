@@ -2,8 +2,8 @@ import { GetByIdCategoryUseCase } from '@/domain/application/use-cases/category/
 
 import { GetByIdCategoryController } from '@/infra/controllers/category/get-by-id-category-controller';
 
-import { makeCategoryRepository } from '../repositories/category-repository-factory';
-import { makeUserRepository } from '../repositories/user-repository-factory';
+import { makeCategoryRepository } from '../../repositories/category-repository-factory';
+import { makeUserRepository } from '../../repositories/user-repository-factory';
 
 export const makeGetByIdCategoryController = () => {
   const userRepository = makeUserRepository();

@@ -2,7 +2,7 @@ import { AuthenticateUserUseCase } from '@/domain/application/use-cases/user/aut
 import { JWTService } from '@/infra/auth/jwt';
 import { AuthenticateUserController } from '@/infra/controllers/user/authenticate-user-controller';
 
-import { makeUserRepository } from '../repositories/user-repository-factory';
+import { makeUserRepository } from '../../repositories/user-repository-factory';
 
 export const makeAuthenticateUserController = () => {
   const jwtService = new JWTService();

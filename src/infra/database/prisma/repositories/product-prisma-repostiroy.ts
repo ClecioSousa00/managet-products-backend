@@ -2,11 +2,8 @@ import type { ProductRepository } from '@/domain/application/repositories/produc
 import type { Product } from '@/domain/enterprise/entities/product';
 import { prisma } from '@/lib/prisma-client';
 import type { UniqueEntityId } from '@/shared/entities/unique-entity-id';
-import type {
-  OrderBy,
-  OrderDirection,
-  Pagination,
-} from '@/shared/types/pagination';
+import type { Pagination } from '@/shared/paginator';
+import type { OrderBy, OrderDirection } from '@/shared/types/search-params';
 import { ProductPrismaMapper } from '../mappers/product-prisma-mapper';
 
 export class ProductPrismaRepository implements ProductRepository {
@@ -69,7 +66,7 @@ export class ProductPrismaRepository implements ProductRepository {
 
     return products.map(ProductPrismaMapper.toDomain);
   }
-
+  //tem que pegar o user id -_-
   async count(): Promise<number> {
     return await prisma.product.count();
   }

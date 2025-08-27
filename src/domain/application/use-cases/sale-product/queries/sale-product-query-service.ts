@@ -1,9 +1,6 @@
 import type { UniqueEntityId } from '@/shared/entities/unique-entity-id';
-import type {
-  OrderBy,
-  OrderDirection,
-  Pagination,
-} from '@/shared/types/pagination';
+import type { Pagination } from '@/shared/paginator';
+import type { OrderBy, OrderDirection } from '@/shared/types/search-params';
 
 type SaleProductWithProductInfos = {
   id: string;

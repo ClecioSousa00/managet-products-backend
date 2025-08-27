@@ -1,11 +1,8 @@
 import type { Category } from '@/domain/enterprise/entities/category';
 import { UniqueEntityId } from '@/shared/entities/unique-entity-id';
 import { UserNotFoundError } from '@/shared/errors/user-not-found-error';
-import type {
-  OrderBy,
-  OrderDirection,
-  PaginationProducts,
-} from '@/shared/types/pagination';
+import { type PaginationResult, Paginator } from '@/shared/paginator';
+import type { OrderBy, OrderDirection } from '@/shared/types/search-params';
 import type { UseCase } from '@/shared/use-case';
 import type { CategoryRepository } from '../../repositories/category-repository';
 import type { ProductRepository } from '../../repositories/product-repository';
@@ -30,7 +27,7 @@ interface InputDto {
 
 interface OutputDto {
   products: ProductProps[];
-  pagination: PaginationProducts;
+  pagination: PaginationResult;
 }
 
 export class GetAllProductsUseCase implements UseCase<InputDto, OutputDto> {
@@ -53,7 +50,7 @@ export class GetAllProductsUseCase implements UseCase<InputDto, OutputDto> {
       throw new UserNotFoundError();
     }
 
-    const offset = (page - 1) * limit;
+    const offset = Paginator.getOffset(page, limit);
     const orderField: OrderBy = orderBy ?? 'name';
     const orderDir: OrderDirection = orderDirection ?? 'asc';
 
@@ -84,15 +81,7 @@ export class GetAllProductsUseCase implements UseCase<InputDto, OutputDto> {
       };
     });
 
-    const totalPages = Math.ceil(totalProducts / limit);
-
-    const pagination: PaginationProducts = {
-      page,
-      prevPageUrl: page - 1 === 0 ? null : page - 1,
-      nextPageUrl: page + 1 > totalPages ? null : page + 1,
-      totalPages,
-      totalProducts,
-    };
+    const pagination = Paginator.build(page, limit, totalProducts);
 
     return {
       products: productsDto,

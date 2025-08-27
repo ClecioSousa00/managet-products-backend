@@ -2,6 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import type { HttpResponse } from '../controller';
 import { CategoryAlreadyExistsError } from '../errors/category-already-exists-error';
 import { CategoryNotFoundError } from '../errors/category-not-found-error';
+import { InsufficientStockError } from '../errors/InsufficientStockError';
 import { InvalidQuantityProductError } from '../errors/invalid-quantity-product-error';
 import { ResourceNotFoundError } from '../errors/resource-not-found-error';
 import { UserNotFoundError } from '../errors/user-not-found-error';
@@ -48,7 +49,15 @@ export const handleControllerError = (error: unknown): HttpResponse => {
       body: { message: error.message },
     };
   }
-  console.error('Erro ao criar usuário:', error);
+
+  if (error instanceof InsufficientStockError) {
+    return {
+      status: StatusCodes.BAD_REQUEST,
+      body: { message: error.message },
+    };
+  }
+  console.log('qual o errro', error);
+
   return {
     status: StatusCodes.INTERNAL_SERVER_ERROR,
     body: { message: 'Internal server error' },

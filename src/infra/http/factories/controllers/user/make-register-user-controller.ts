@@ -2,7 +2,7 @@ import { RegisterUserUseCase } from '@/domain/application/use-cases/user/registe
 
 import { RegisterUserController } from '@/infra/controllers/user/register-user-controller';
 
-import { makeUserRepository } from '../repositories/user-repository-factory';
+import { makeUserRepository } from '../../repositories/user-repository-factory';
 
 export const makeRegisterUserController = () => {
   const userRepository = makeUserRepository();

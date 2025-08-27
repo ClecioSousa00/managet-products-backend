@@ -100,9 +100,9 @@ registry.registerPath({
 
 registry.registerPath({
   method: 'post',
-  path: '/category',
+  path: '/categories',
   summary: 'Create Category',
-  tags: ['Category'],
+  tags: ['Categories'],
   security: [{ bearerAuth: [] }],
   request: {
     body: {
@@ -122,9 +122,9 @@ registry.registerPath({
 
 registry.registerPath({
   method: 'get',
-  path: '/category/{id}',
+  path: '/categories/{id}',
   summary: 'Get Category by ID',
-  tags: ['Category'],
+  tags: ['Categories'],
   security: [{ bearerAuth: [] }],
   request: {
     params: CategoryParamsSchema,
@@ -146,9 +146,9 @@ registry.registerPath({
 
 registry.registerPath({
   method: 'get',
-  path: '/category',
+  path: '/categories',
   summary: 'Get all Categories',
-  tags: ['Category'],
+  tags: ['Categories'],
   security: [{ bearerAuth: [] }],
   responses: {
     200: {
@@ -169,9 +169,9 @@ registry.registerPath({
 
 registry.registerPath({
   method: 'delete',
-  path: '/category/{id}',
+  path: '/categories/{id}',
   summary: 'Delete Category by ID',
-  tags: ['Category'],
+  tags: ['Categories'],
   security: [{ bearerAuth: [] }],
   request: {
     params: DeleteCategoryParamsSchema,
@@ -185,9 +185,9 @@ registry.registerPath({
 
 registry.registerPath({
   method: 'put',
-  path: '/category/{id}',
+  path: '/categories/{id}',
   summary: 'Update Category',
-  tags: ['Category'],
+  tags: ['Categories'],
   security: [{ bearerAuth: [] }],
   request: {
     params: UpdateCategoryParamsSchema,
@@ -208,7 +208,7 @@ registry.registerPath({
 
 registry.registerPath({
   method: 'post',
-  path: '/product',
+  path: '/products',
   summary: 'Create Product',
   tags: ['Products'],
   security: [{ bearerAuth: [] }],
@@ -230,7 +230,7 @@ registry.registerPath({
 
 registry.registerPath({
   method: 'get',
-  path: '/product/{id}',
+  path: '/products/{id}',
   summary: 'Get Product by ID',
   tags: ['Products'],
   security: [{ bearerAuth: [] }],
@@ -258,7 +258,7 @@ registry.registerPath({
 
 registry.registerPath({
   method: 'get',
-  path: '/product',
+  path: '/products',
   summary: 'Get all User Products',
   tags: ['Products'],
   security: [{ bearerAuth: [] }],
@@ -288,7 +288,7 @@ registry.registerPath({
 
 registry.registerPath({
   method: 'put',
-  path: '/product/{id}',
+  path: '/products/{id}',
   summary: 'Update Product',
   tags: ['Products'],
   security: [{ bearerAuth: [] }],
@@ -311,7 +311,7 @@ registry.registerPath({
 
 registry.registerPath({
   method: 'delete',
-  path: '/product/{id}',
+  path: '/products/{id}',
   summary: 'Delete Product',
   tags: ['Products'],
   security: [{ bearerAuth: [] }],

@@ -9,4 +9,5 @@ export interface SaleProductRepository {
   ): Promise<SaleProduct | null>;
   update(saleProduct: SaleProduct): Promise<void>;
   delete(id: UniqueEntityId): Promise<void>;
+  count(userId: UniqueEntityId): Promise<number>;
 }

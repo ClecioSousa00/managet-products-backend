@@ -35,4 +35,12 @@ export class InMemorySaleProductRepository implements SaleProductRepository {
     const filteredItems = this.items.filter((item) => !item.id.equals(id));
     this.items = filteredItems;
   }
+
+  async count(userId: UniqueEntityId): Promise<number> {
+    const filterSaleProducts = this.items.filter((saleProduct) =>
+      saleProduct.userId.equals(userId)
+    );
+
+    return filterSaleProducts.length;
+  }
 }

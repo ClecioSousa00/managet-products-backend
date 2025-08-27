@@ -6,22 +6,22 @@ import {
 } from '@/shared/types/search-params';
 import { validateRequest } from '../../middleware/validation-request';
 
-export const GetAllProductsQuerySchema = z.object({
-  limit: z.coerce.number(),
-  page: z.coerce.number(),
+export const GetAllSaleProductsQuerySchema = z.object({
+  limit: z.coerce.number().default(10),
+  page: z.coerce.number().default(0),
   orderBy: z.enum(orderByValues).optional(),
   orderDirection: z.enum(orderDirectionValues).optional(),
 });
 
-type GetAllProductQuery = z.infer<typeof GetAllProductsQuerySchema>;
+type GetAllSaleProductsQuery = z.infer<typeof GetAllSaleProductsQuerySchema>;
 
-export const getAllProductsQueryValidation = validateRequest(
+export const getAllSaleProductsQueryValidation = validateRequest(
   'query',
-  GetAllProductsQuerySchema
+  GetAllSaleProductsQuerySchema
 );
 
 export type GetAllProductRequest = AuthenticatedHttpRequest<
   Record<string, never>,
   Record<string, never>,
-  GetAllProductQuery
+  GetAllSaleProductsQuery
 >;

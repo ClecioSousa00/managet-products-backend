@@ -1,22 +1,23 @@
 import { Router } from 'express';
 import { ExpressAdapter } from '../adapters/express-adapter';
-import { makeAuthenticateUserController } from '../factories/controllers/make-authenticate-user.controller';
-import { makeCreateCategoryController } from '../factories/controllers/make-create-category-controller';
-import { makeCreateProductController } from '../factories/controllers/make-create-product-controller';
-import { makeDeleteCategoryController } from '../factories/controllers/make-delete-category-controller';
-import { makeDeleteProductController } from '../factories/controllers/make-delete-products-controller';
-import { makeDeleteSaleProductController } from '../factories/controllers/make-delete-sale-product-by-id-controller';
-import { makeGetAllCategoriesController } from '../factories/controllers/make-get-all-categories-controller';
-import { makeGetAllProductsController } from '../factories/controllers/make-get-all-products-controller';
-import { makeGetByIdCategoryController } from '../factories/controllers/make-get-by-id-category-controller';
-import { makeGetProductByIdController } from '../factories/controllers/make-get-by-id-products-controller';
-import { makeGetProfileUserController } from '../factories/controllers/make-get-profile-user-controller';
-import { makeGetSaleProductByIdController } from '../factories/controllers/make-get-sale-product-by-id-controller';
-import { makeRegisterUserController } from '../factories/controllers/make-register-user-controller';
-import { makeCreateSaleProductController } from '../factories/controllers/make-sale-product-controller';
-import { makeUpdateCategoryController } from '../factories/controllers/make-update-category-controller';
-import { makeUpdateProductController } from '../factories/controllers/make-update-product-controller';
-import { makeUpdateSaleProductController } from '../factories/controllers/make-update-sale-product-controller';
+import { makeCreateCategoryController } from '../factories/controllers/category/make-create-category-controller';
+import { makeDeleteCategoryController } from '../factories/controllers/category/make-delete-category-controller';
+import { makeGetAllCategoriesController } from '../factories/controllers/category/make-get-all-categories-controller';
+import { makeGetByIdCategoryController } from '../factories/controllers/category/make-get-by-id-category-controller';
+import { makeUpdateCategoryController } from '../factories/controllers/category/make-update-category-controller';
+import { makeCreateProductController } from '../factories/controllers/product/make-create-product-controller';
+import { makeDeleteProductController } from '../factories/controllers/product/make-delete-products-controller';
+import { makeGetAllProductsController } from '../factories/controllers/product/make-get-all-products-controller';
+import { makeGetProductByIdController } from '../factories/controllers/product/make-get-by-id-products-controller';
+import { makeUpdateProductController } from '../factories/controllers/product/make-update-product-controller';
+import { makeDeleteSaleProductController } from '../factories/controllers/sale-product/make-delete-sale-product-by-id-controller';
+import { makeGetAllSaleProductsController } from '../factories/controllers/sale-product/make-get-all-sale-products-controller';
+import { makeGetSaleProductByIdController } from '../factories/controllers/sale-product/make-get-sale-product-by-id-controller';
+import { makeCreateSaleProductController } from '../factories/controllers/sale-product/make-sale-product-controller';
+import { makeUpdateSaleProductController } from '../factories/controllers/sale-product/make-update-sale-product-controller';
+import { makeAuthenticateUserController } from '../factories/controllers/user/make-authenticate-user.controller';
+import { makeGetProfileUserController } from '../factories/controllers/user/make-get-profile-user-controller';
+import { makeRegisterUserController } from '../factories/controllers/user/make-register-user-controller';
 import { ensureAuthenticated } from '../middleware/ensure-authenticated';
 import { createCategoryValidation } from '../schema-validations/categories/create-category-validation';
 import { deleteCategoryValidation } from '../schema-validations/categories/delete-category-validation';
@@ -35,6 +36,7 @@ import {
 } from '../schema-validations/products/update-product-validation';
 import { CreateSaleProductValidation } from '../schema-validations/sale-products/create-sale-product-validation';
 import { deleteSaleProductValidation } from '../schema-validations/sale-products/delete-sale-product-by-id-validation';
+import { getAllSaleProductsQueryValidation } from '../schema-validations/sale-products/get-all-sale-products-validation';
 import { getSaleProductByIdValidation } from '../schema-validations/sale-products/get-sale-product-by-id-validation';
 import {
   updateSaleProductBodyValidation,
@@ -160,6 +162,13 @@ routes.delete(
   ensureAuthenticated,
   deleteSaleProductValidation,
   ExpressAdapter(makeDeleteSaleProductController())
+);
+
+routes.get(
+  '/sale-products',
+  ensureAuthenticated,
+  getAllSaleProductsQueryValidation,
+  ExpressAdapter(makeGetAllSaleProductsController())
 );
 
 export { routes };
