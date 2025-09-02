@@ -9,17 +9,17 @@ export class CreateProductController implements Controller {
   constructor(private createProductUseCase: CreateProductUseCase) {}
   async handle(request: CreateProductRequest): Promise<HttpResponse> {
     const userId = request.userId;
-    const { categoryId, name, purchasePrice, quantity, salePrice } =
-      request.body;
+    const body = request.body;
 
     try {
       await this.createProductUseCase.execute({
         userId,
-        categoryId,
-        name,
-        purchasePrice,
-        quantity,
-        salePrice,
+        categoryId: body.categoryId,
+        name: body.name,
+        purchasePrice: body.purchasePrice,
+        quantity: body.quantity,
+        salePrice: body.salePrice,
+        imageBase64: body.imageBase64,
       });
 
       return {

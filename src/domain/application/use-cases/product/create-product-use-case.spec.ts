@@ -48,4 +48,36 @@ describe('Create Product Use Case', () => {
       })
     );
   });
+  it('Should be able to create a product with image', async () => {
+    const user = makeUser();
+
+    inMemoryUserRepository.items.push(user);
+    const fakeBase64Image =
+      'iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAQAAAC1HAwCAAAAC0lEQVR42mP8Xw8AAjMBgffzJvUAAAAASUVORK5CYII=';
+
+    const category = makeCategory({ userId: user.id });
+
+    inMemoryCategoryRepository.items.push(category);
+
+    await createProductUseCase.execute({
+      categoryId: category.id.toString(),
+      userId: user.id.toString(),
+      name: 'Notebook',
+      purchasePrice: 2500,
+      salePrice: 3000,
+      quantity: 5,
+      imageBase64: fakeBase64Image,
+    });
+    expect(inMemoryProductRepository.items).toHaveLength(1);
+
+    expect(inMemoryProductRepository.items[0]).toEqual(
+      expect.objectContaining({
+        imageBase64: fakeBase64Image,
+        name: 'Notebook',
+        purchasePrice: 2500,
+        salePrice: 3000,
+        quantity: 5,
+      })
+    );
+  });
 });

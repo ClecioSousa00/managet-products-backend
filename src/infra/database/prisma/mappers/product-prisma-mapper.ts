@@ -14,6 +14,7 @@ export class ProductPrismaMapper {
         quantity: data.quantity,
         createdAt: data.createdAt,
         updatedAt: data?.updatedAt ? data.updatedAt : undefined,
+        imageBase64: data.imageBase64,
       },
       new UniqueEntityId(data.id)
     );
@@ -30,6 +31,7 @@ export class ProductPrismaMapper {
       quantity: product.quantity,
       createdAt: product.createdAt,
       updatedAt: product.updatedAt ?? null,
+      imageBase64: product.imageBase64 ?? null,
     };
   }
 }

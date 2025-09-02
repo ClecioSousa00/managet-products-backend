@@ -14,6 +14,7 @@ export interface ProductProps {
   createdAt: Date;
   updatedAt?: Date;
   userId: UniqueEntityId;
+  imageBase64?: string | null;
 }
 
 const MIN_QUANTITY = 0;
@@ -129,6 +130,10 @@ export class Product extends Entity<ProductProps> {
 
   get userId() {
     return this.props.userId;
+  }
+
+  get imageBase64() {
+    return this.props.imageBase64;
   }
 
   toJSON() {

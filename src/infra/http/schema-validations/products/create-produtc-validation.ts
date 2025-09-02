@@ -8,6 +8,10 @@ export const CreateProductBodySchema = z.object({
   quantity: z.number(),
   salePrice: z.number(),
   purchasePrice: z.number(),
+  imageBase64: z
+    .string()
+    .regex(/^[A-Za-z0-9+/=]+$/, 'Invalid base64 image')
+    .optional(),
 });
 
 type CreateProductBody = z.infer<typeof CreateProductBodySchema>;

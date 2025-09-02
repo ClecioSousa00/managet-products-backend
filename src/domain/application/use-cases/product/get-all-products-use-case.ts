@@ -15,6 +15,7 @@ interface ProductProps {
   createdAt: Date;
   salePrice: number;
   quantity: number;
+  imageBase64?: string | null;
 }
 
 interface InputDto {
@@ -78,6 +79,7 @@ export class GetAllProductsUseCase implements UseCase<InputDto, OutputDto> {
             )
           : null,
         createdAt: product.createdAt,
+        imageBase64: product.imageBase64,
       };
     });
 

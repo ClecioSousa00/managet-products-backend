@@ -14,6 +14,7 @@ interface InputDto {
   salePrice: number;
   purchasePrice: number;
   userId: string;
+  imageBase64?: string;
 }
 
 type OutputDto = {};
@@ -50,6 +51,7 @@ export class CreateProductUseCase implements UseCase<InputDto, OutputDto> {
       quantity: input.quantity,
       salePrice: input.salePrice,
       userId: new UniqueEntityId(input.userId),
+      imageBase64: input.imageBase64,
     });
 
     await this.productRepository.create(product);

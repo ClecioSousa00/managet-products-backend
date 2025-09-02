@@ -45,6 +45,7 @@ model Product {
   purchasePrice Decimal   @map("purchase_price") @db.Decimal(12, 2)
   createdAt     DateTime  @default(now()) @map("created_at")
   updatedAt     DateTime? @map("updated_at")
+  imageBase64   String?
 
   user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
   userId String @map("user_id")
