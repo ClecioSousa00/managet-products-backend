@@ -1,4 +1,5 @@
 import { OpenApiGeneratorV3 } from '@asteasolutions/zod-to-openapi';
+import cors from 'cors';
 import express from 'express';
 import swaggerUi from 'swagger-ui-express';
 import { env } from './env';
@@ -7,6 +8,11 @@ import { registry } from './swagger-docs';
 
 const app = express();
 app.use(express.json());
+app.use(
+  cors({
+    origin: 'http://localhost:3000',
+  })
+);
 
 const generator = new OpenApiGeneratorV3(registry.definitions);
 const openApiSpec = generator.generateDocument({

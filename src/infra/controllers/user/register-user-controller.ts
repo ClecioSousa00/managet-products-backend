@@ -2,7 +2,7 @@ import { StatusCodes } from 'http-status-codes';
 import type { RegisterUserUseCase } from '@/domain/application/use-cases/user/register-user-use-case';
 import type { RegisterRequest } from '@/infra/http/schema-validations/user/register-validation';
 import type { Controller, HttpResponse } from '@/shared/controller';
-import { UserAlreadyExistsError } from '@/shared/errors/user-already-exists-error';
+import { handleControllerError } from '@/shared/http/handle-controller-error';
 
 export class RegisterUserController implements Controller {
   constructor(private registerUseCase: RegisterUserUseCase) {}
@@ -18,19 +18,10 @@ export class RegisterUserController implements Controller {
 
       return {
         status: StatusCodes.CREATED,
+        body: { message: 'User created successfully' },
       };
     } catch (error) {
-      if (error instanceof UserAlreadyExistsError) {
-        return {
-          status: StatusCodes.CONFLICT,
-          body: { message: error.message },
-        };
-      }
-
-      return {
-        status: StatusCodes.INTERNAL_SERVER_ERROR,
-        body: { message: 'Internal server error' },
-      };
+      return handleControllerError(error);
     }
   }
 }

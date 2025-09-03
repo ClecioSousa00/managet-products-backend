@@ -5,6 +5,7 @@ import { CategoryNotFoundError } from '../errors/category-not-found-error';
 import { InsufficientStockError } from '../errors/InsufficientStockError';
 import { InvalidQuantityProductError } from '../errors/invalid-quantity-product-error';
 import { ResourceNotFoundError } from '../errors/resource-not-found-error';
+import { UserAlreadyExistsError } from '../errors/user-already-exists-error';
 import { UserNotFoundError } from '../errors/user-not-found-error';
 import { WrongCredentialsError } from '../errors/wrong-credentials-error';
 
@@ -56,7 +57,12 @@ export const handleControllerError = (error: unknown): HttpResponse => {
       body: { message: error.message },
     };
   }
-  console.log('qual o errro', error);
+  if (error instanceof UserAlreadyExistsError) {
+    return {
+      status: StatusCodes.CONFLICT,
+      body: { message: error.message },
+    };
+  }
 
   return {
     status: StatusCodes.INTERNAL_SERVER_ERROR,
